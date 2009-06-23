@@ -9,8 +9,7 @@
   <![CDATA[ 
     <script type="text/javascript"
       src="http://wave-api.appspot.com/public/wave.js"></script>
-<link rel="stylesheet" type="text/css"
-  href="http://danvk.org/lmnowave/crossword.css"/>
+<link rel="stylesheet" type="text/css" href="crossword.css"/>
 <style type='text/css'>
 body {
   margin: 0ex 1ex;
@@ -34,13 +33,13 @@ h3 {
 }
 </style>
 
-<script src='http://danvk.org/lmnowave/common.js'></script>
-<script src='http://danvk.org/lmnowave/console.js'></script>
-<script src='http://danvk.org/lmnowave/crosswordui.js'></script>
-<script src='http://danvk.org/lmnowave/cluesui.js'></script>
-<script src='http://danvk.org/lmnowave/focusbox.js'></script>
-<script src='http://danvk.org/lmnowave/roster.js'></script>
-<script src='http://danvk.org/lmnowave/crossword.js'></script>
+<script src='common.js'></script>
+<script src='console.js'></script>
+<script src='crosswordui.js'></script>
+<script src='cluesui.js'></script>
+<script src='focusbox.js'></script>
+<script src='roster.js'></script>
+<script src='crossword.js'></script>
 
 <script>
 
