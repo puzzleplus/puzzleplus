@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+
+<Module>
+  <ModulePrefs title="lmnowave" height="500">
+   <Require feature="rpc"/>
+  </ModulePrefs>
+
+  <Content type="html">
+  <![CDATA[ 
+    <script type="text/javascript"
+      src="http://wave-api.appspot.com/public/wave.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="http://danvk.org/lmnowave/crossword.css"/>
+<style type='text/css'>
+body {
+	margin: 0ex 1ex;
+}
+body, td, input {
+	font-family: serif;
+}
+
+h1 {
+	font-size: 140%;
+	margin: 0.2ex 0;
+}
+
+h2 {
+	font-size: 110%;
+}
+
+h3 {
+	font-size: 100%;
+	margin: 0;
+}
+</style>
+
+<script src='http://danvk.org/lmnowave/common.js'></script>
+<script src='http://danvk.org/lmnowave/console.js'></script>
+<script src='http://danvk.org/lmnowave/crosswordui.js'></script>
+<script src='http://danvk.org/lmnowave/cluesui.js'></script>
+<script src='http://danvk.org/lmnowave/focusbox.js'></script>
+<script src='http://danvk.org/lmnowave/roster.js'></script>
+<script src='http://danvk.org/lmnowave/crossword.js'></script>
+
+<script>
+
+function $(id) { return document.getElementById(id); }
+
+function makeCrossword() {
+  Globals = {
+  };
+
+  var page_title = "lmnopuz";
+  if (Crossword.title) page_title += " - " + Crossword.title;
+
+  Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+
+  Globals.widget = new CrosswordWidget;
+	Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
+  $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
+
+  Globals.console = new Console(3,
+                                false);
+  $('console').appendChild(Globals.console.container);
+
+  Globals.console.write(
+    "Welcome to lmnopuz! " +
+    
+    "lmnopuz has many nifty shortcut keys that you can learn about by " +
+    " clicking the \"Help\" link in the upper right corner.");
+
+  Globals.clues = new CluesUI(Crossword);
+  $('clues').appendChild(Globals.clues.container);
+
+  
+
+  handleResize();
+
+  // We need to wait to set focus until the table has been rendered (so
+  // that the offset stuff works) and until the clues have been created (so
+  // that the initial ones will be highlighted).  This kinda sucks.
+  Globals.widget.setFocus(Globals.widget.square(0, 0));
+};
+
+function handleResize() {
+  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
+
+  // Resize the console to take up all available space in the window.  To
+  // do this, we subtract from the window height the console's top offset
+  // and the margin that we want to keep at the bottom.
+	// Globals.console.setHeight(
+  //     document.body.clientHeight -
+  //     findPosY($('console').childNodes[0].childNodes[0]) -
+  //     (findPosY($('title')) + 5));  // fudge factor because title font don't
+  //                                   // quite reach the top of the window.
+
+  // Make the roster the same height as the console.
+  if (Globals.roster)
+    Globals.roster.setHeight($('console').childNodes[0].clientHeight);
+
+  // Make the width of the console/roster table match that of the
+  // crossword/clues table.
+  $('bottomtable').style.width = $('toptable').clientWidth;
+
+  Globals.console.scrollToBottom();
+};
+
+function handleBeforeUnload() {
+  if (Globals.mp) Globals.mp.shutdown();
+};
+
+function handleBlur() {
+  if (Globals) Globals.windowFocused = false;
+};
+
+function handleFocus() {
+  // TODO(derat): I suspect that we might not be getting an initial focus
+  // event in Safari (we seem to in Firefox).  If this is the case, we
+  // should just set Globals.windowFocused to true in makeCrossword().
+  if (Globals && !Globals.windowFocused) {
+    Globals.windowFocused = true;
+    Globals.console.stopTitleFlash();
+  }
+};
+
+</script>
+
+<!-- do onblur and onfocus mean anything to a table? -->
+<table cellspacing='0' cellpadding='0' id='toptable'
+  onblur='javascript:handleBlur();'
+  onfocus='javascript:handleFocus();'>
+  <tr valign='top'>
+    <td><div id='crossword' style='margin-right: 2ex'></div></td>
+    <td><div id='clues'></div></td>
+  </tr>
+</table>
+
+<table cellspacing='0' cellpadding='0' style='padding-top: 1ex' id='bottomtable'>
+  <tr valign='top'>
+    <td style='width:100%'><div id='console'></div></td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+	gadgets.util.registerOnLoadHandler(function() {
+		makeCrossword();
+		if (wave && wave.isInWaveContainer()) {
+			wave.setStateCallback(stateUpdated);
+		}
+	});
+
+	function updateWave(x, y, let) {
+		if (wave) {
+			var delta = {};
+			delta["" + x + "," + y] = let;
+			wave.getState().submitDelta(delta);
+			Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
+		}
+	}
+
+	function stateUpdated() {
+		var state = wave.getState();
+		var keys = state.getKeys();
+		for (var i = 0; i < keys.length; i++) {
+			var k = keys[i];
+			var xy = k.split(",");
+			if (xy.length != 2) continue;
+			var x = parseInt(xy[0]);
+			var y = parseInt(xy[1]);
+			if (isNaN(x) || isNaN(y)) continue;
+			var square = Globals.widget.square(x, y);
+			if (!square) continue;
+			square.fill(state.get(k), '#dddddd', false);
+		}
+	}
+</script>
+  ]]> 
+  </Content>
+</Module>
