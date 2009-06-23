@@ -84,15 +84,6 @@ function makeCrossword() {
 function handleResize() {
   Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
 
-  // Resize the console to take up all available space in the window.  To
-  // do this, we subtract from the window height the console's top offset
-  // and the margin that we want to keep at the bottom.
-  // Globals.console.setHeight(
-  //     document.body.clientHeight -
-  //     findPosY($('console').childNodes[0].childNodes[0]) -
-  //     (findPosY($('title')) + 5));  // fudge factor because title font don't
-  //                                   // quite reach the top of the window.
-
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
   $('bottomtable').style.width = $('toptable').clientWidth;
