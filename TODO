@@ -7,26 +7,28 @@
   Will need to write a .puz parser in JS.
   http://joshisanerd.com/puz/
 
+- (derat) Figure out a way to source from HEAD via an http request (ala cgit)
+  (github URLs include a commit hash)
+  Probably use cgit on evan's machine, add an apache rewrite rule.
+  Would be nice to have a "danvk" branch for me to test on w/o affecting HEAD.
+  (it may already be possible to do this with github)
+
+
 - Switch to a standard library for event-handling code
   There's lots of weirdness re: onkeypress vs. onkeydown, arrow keys, Safari, etc.
   This code from closure is what we should be using:
   http://doctype.googlecode.com/svn/trunk/goog/events/keyhandler.js
+  Or: get Julie or Ojan to fix this =)
 
-- Figure out a way to source from HEAD via an http request (ala cgit)
-  (github URLs include a commit hash)
-  Probably use cgit on evan's machine, add an apache rewrite rule.
-  Would be nice to have a "danvk" branch for me to test on w/o affecting HEAD.
-
-- Replace the lmnopuz console w/ a wave- or browser-specific library
+- (danvk) Replace the lmnopuz console
+  Should be able to use the firebug console in both FF and Chrome.
 
 - Add back keyboard shortcuts like "?". (if possible)
 
-- Delete all roster-related code.
+- (danvk) Delete all roster-related code.
 
 - Assign colors to people.
-
 - Store which user filled in a square in the wave state.
-
 - Show other players' cursors (store in wave state).
 
 - A way to check errors/reveal answers
