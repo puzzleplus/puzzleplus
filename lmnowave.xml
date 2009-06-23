@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?> 
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Module>
   <ModulePrefs title="lmnowave" height="500">
@@ -6,7 +6,7 @@
   </ModulePrefs>
 
   <Content type="html">
-  <![CDATA[ 
+  <![CDATA[
     <script type="text/javascript"
       src="http://wave-api.appspot.com/public/wave.js"></script>
 <link rel="stylesheet" type="text/css" href="crossword.css"/>
