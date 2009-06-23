@@ -94,10 +94,6 @@ function handleResize() {
   //     (findPosY($('title')) + 5));  // fudge factor because title font don't
   //                                   // quite reach the top of the window.
 
-  // Make the roster the same height as the console.
-  if (Globals.roster)
-    Globals.roster.setHeight($('console').childNodes[0].clientHeight);
-
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
   $('bottomtable').style.width = $('toptable').clientWidth;
@@ -105,30 +101,10 @@ function handleResize() {
   Globals.console.scrollToBottom();
 };
 
-function handleBeforeUnload() {
-  if (Globals.mp) Globals.mp.shutdown();
-};
-
-function handleBlur() {
-  if (Globals) Globals.windowFocused = false;
-};
-
-function handleFocus() {
-  // TODO(derat): I suspect that we might not be getting an initial focus
-  // event in Safari (we seem to in Firefox).  If this is the case, we
-  // should just set Globals.windowFocused to true in makeCrossword().
-  if (Globals && !Globals.windowFocused) {
-    Globals.windowFocused = true;
-    Globals.console.stopTitleFlash();
-  }
-};
-
 </script>
 
 <!-- do onblur and onfocus mean anything to a table? -->
-<table cellspacing='0' cellpadding='0' id='toptable'
-  onblur='javascript:handleBlur();'
-  onfocus='javascript:handleFocus();'>
+<table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign='top'>
     <td><div id='crossword' style='margin-right: 2ex'></div></td>
     <td><div id='clues'></div></td>
