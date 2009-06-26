@@ -8,6 +8,9 @@ class Square(object):
 
   def __repr__(self):
     return self.char
+  
+  def number(self):
+    return self.down or self.across
 
 
 class Crossword(object):
@@ -17,26 +20,7 @@ class Crossword(object):
 
   @staticmethod
   def FromString(puz):
-    c = Convert(puz)
-    if c:
-      print "width: %d" % c.width
-      print "height: %d" % c.height
-      print "clue count: %d" % c.cluecount
-      print "title: %s" % c.title
-      print "author: %s" % c.author
-      print "copyright: %s" % c.copyright
-      print "comment: %s" % c.comment
-
-      for y in range(0, c.height):
-        for x in range(0, c.width):
-          sq = c.squares[x][y]
-          if not sq: continue
-          if sq.down:
-            print "%d,%d = %dD, %s" % (x, y, sq.down, c.down[sq.down])
-          if sq.across:
-            print "%d,%d = %dA, %s" % (x, y, sq.across, c.across[sq.across])
-
-    return c
+    return Convert(puz)
 
 
 def Convert(puz):

@@ -1,19 +1,50 @@
 import cgi
+from crossword import Crossword
+from django.utils import simplejson
+
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+
 class ConvertPage(webapp.RequestHandler):
   def post(self):
-    self.response.headers['Content-Type'] = 'text/html'
-    self.response.out.write("\n<pre>")
-    self.response.out.write(cgi.escape(self.request.get('puz')))
-    self.response.out.write("\n</pre>")
+    x = self.request.get('puz')
+    c = Crossword.FromString(x)
 
-  def get(self):
+    answers = ""
+    for y in range(0, c.height):
+      for x in range(0, c.width):
+        sq = c.squares[x][y]
+        if sq:
+          answers += sq.char
+        else:
+          answers += ","
+
+    nums = [ [None for y in range(0, c.height)] for x in range(0, c.width)]
+    for y in range(0, c.height):
+      for x in range(0, c.width):
+        sq = c.squares[x][y]
+        if sq: nums[x][y] = sq.number() or 0
+        else:  nums[x][y] = 0
+
+    cross_hash = {
+        'title': c.title,
+        'author': c.author,
+        'copyright': c.copyright,
+        'width': c.width,
+        'height': c.height,
+        'answer': answers,
+        'numbers': nums,
+        'down': [ [num, c.down[num]] for num in sorted(c.down.keys()) ],
+        'across': [ [num, c.across[num]] for num in sorted(c.across.keys()) ]
+        }
+
     self.response.headers['Content-Type'] = 'text/plain'
-    print "blah"
-    self.response.out.write('Hello, webapp World!')
-    self.response.out.write(self.request.post('file'))
+    out = self.response.out
+    out.write("var Crossword = ")
+    out.write(simplejson.dumps(cross_hash))
+    out.write(";")
+
 
 class MainPage(webapp.RequestHandler):
   def get(self):
