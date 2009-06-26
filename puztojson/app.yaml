@@ -1,0 +1,10 @@
+application: puztojson
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: puztojson.py
+- url: /convert
+  script: puztojson.py
