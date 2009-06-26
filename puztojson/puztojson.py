@@ -18,7 +18,7 @@ class ConvertPage(webapp.RequestHandler):
         if sq:
           answers += sq.char
         else:
-          answers += ","
+          answers += "."
 
     nums = [ [None for y in range(0, c.height)] for x in range(0, c.width)]
     for y in range(0, c.height):
@@ -56,6 +56,8 @@ class MainPage(webapp.RequestHandler):
 </head>
 
 <body>
+  <h2>.puz to JSON converter</h2>
+  <p>Choose a .puz file and click "Convert"</p>
   <form action="/convert" method="post" enctype="multipart/form-data">
   <input type="file" name="puz"><br/>
   <input type="submit" value="Convert">
