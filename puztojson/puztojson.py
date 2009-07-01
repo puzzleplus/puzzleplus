@@ -39,11 +39,34 @@ class ConvertPage(webapp.RequestHandler):
         'across': [ [num, c.across[num]] for num in sorted(c.across.keys()) ]
         }
 
-    self.response.headers['Content-Type'] = 'text/plain'
+    wave = self.request.get('lmnowave')
+
     out = self.response.out
+    if wave:
+      self.response.headers['Content-Type'] = 'text/html'
+      out.write("""<html><head>
+      <script type="text/javascript"
+      src="http://wave-api.appspot.com/public/wave.js"></script>
+                </head><body>
+                <script type="text/javascript">
+                """)
+    else:
+      self.response.headers['Content-Type'] = 'text/plain'
+
     out.write("var Crossword = ")
     out.write(simplejson.dumps(cross_hash))
     out.write(";")
+
+    if wave:
+      out.write("""
+                gadgets.util.registerOnLoadHandler(function() {
+                  wave.submitDelta({ "crossword": Crossword });
+                  alert("Submitted delta");
+                }
+                </script>
+                </body>
+                </html>
+                """)
 
 
 class MainPage(webapp.RequestHandler):
@@ -60,6 +83,7 @@ class MainPage(webapp.RequestHandler):
   <p>Choose a .puz file and click "Convert"</p>
   <form action="/convert" method="post" enctype="multipart/form-data">
   <input type="file" name="puz"><br/>
+  <input type="checkbox" name="lmnowave" value="yes"/> lmnowave?<br/>
   <input type="submit" value="Convert">
   </form>
 </body>

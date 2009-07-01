@@ -39,46 +39,53 @@ h3 {
 <script src='cluesui.js'></script>
 <script src='focusbox.js'></script>
 <script src='roster.js'></script>
-<script src='crossword.js'></script>
 
 <script>
 
 function $(id) { return document.getElementById(id); }
 
 function makeCrossword() {
-  Globals = {
-  };
+  var state = wave.getState();
+  var crossword = state.get("crossword", null);
+  if (crossword) {
+    Crossword = crossword;
+    Globals = {
+    };
 
-  var page_title = "lmnopuz";
-  if (Crossword.title) page_title += " - " + Crossword.title;
+    var page_title = "lmnopuz";
+    if (Crossword.title) page_title += " - " + Crossword.title;
 
-  Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
 
-  Globals.widget = new CrosswordWidget;
-  Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
-  $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
+    Globals.widget = new CrosswordWidget;
+    Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
+    $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
-  Globals.console = new Console(3,
-                                false);
-  $('console').appendChild(Globals.console.container);
+    Globals.console = new Console(3,
+                                  false);
+    $('console').appendChild(Globals.console.container);
 
-  Globals.console.write(
-    "Welcome to lmnopuz! " +
+    Globals.console.write(
+      "Welcome to lmnopuz! " +
+      
+      "lmnopuz has many nifty shortcut keys that you can learn about by " +
+      " clicking the \"Help\" link in the upper right corner.");
+
+    Globals.clues = new CluesUI(Crossword);
+    $('clues').appendChild(Globals.clues.container);
+
     
-    "lmnopuz has many nifty shortcut keys that you can learn about by " +
-    " clicking the \"Help\" link in the upper right corner.");
 
-  Globals.clues = new CluesUI(Crossword);
-  $('clues').appendChild(Globals.clues.container);
+    handleResize();
 
-  
-
-  handleResize();
-
-  // We need to wait to set focus until the table has been rendered (so
-  // that the offset stuff works) and until the clues have been created (so
-  // that the initial ones will be highlighted).  This kinda sucks.
-  Globals.widget.setFocus(Globals.widget.square(0, 0));
+    // We need to wait to set focus until the table has been rendered (so
+    // that the offset stuff works) and until the clues have been created (so
+    // that the initial ones will be highlighted).  This kinda sucks.
+    Globals.widget.setFocus(Globals.widget.square(0, 0));
+    $('crossword').style.display = 'block';
+  } else {
+    $('upload').style.display = 'block';
+  }
 };
 
 function handleResize() {
@@ -93,7 +100,18 @@ function handleResize() {
 
 </script>
 
+<div id="upload" style="display:none">
+  <p>Choose a .puz file and click "Play"</p>
+  <form action="http://puztojson.appspot.com/convert"
+    method="post" enctype="multipart/form-data">
+  <input type="file" name="puz"><br/>
+  <input type="hidden" name="lmnowave" value="yes">
+  <input type="submit" value="Play">
+  </form>
+</div>
+
 <!-- do onblur and onfocus mean anything to a table? -->
+<div id="crossword" style="display:none">
 <table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign='top'>
     <td><div id='crossword' style='margin-right: 2ex'></div></td>
@@ -106,10 +124,10 @@ function handleResize() {
     <td style='width:100%'><div id='console'></div></td>
   </tr>
 </table>
+</div>
 
 <script type="text/javascript">
   gadgets.util.registerOnLoadHandler(function() {
-    makeCrossword();
     if (wave && wave.isInWaveContainer()) {
       wave.setStateCallback(stateUpdated);
     }
@@ -126,17 +144,23 @@ function handleResize() {
 
   function stateUpdated() {
     var state = wave.getState();
-    var keys = state.getKeys();
-    for (var i = 0; i < keys.length; i++) {
-      var k = keys[i];
-      var xy = k.split(",");
-      if (xy.length != 2) continue;
-      var x = parseInt(xy[0]);
-      var y = parseInt(xy[1]);
-      if (isNaN(x) || isNaN(y)) continue;
-      var square = Globals.widget.square(x, y);
-      if (!square) continue;
-      square.fill(state.get(k), '#dddddd', false);
+    if (typeof(Crossword) == 'undefined') {
+      makeCrossword();
+    }
+
+    if (state.get("crossword", null)) {
+      var keys = state.getKeys();
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var xy = k.split(",");
+        if (xy.length != 2) continue;
+        var x = parseInt(xy[0]);
+        var y = parseInt(xy[1]);
+        if (isNaN(x) || isNaN(y)) continue;
+        var square = Globals.widget.square(x, y);
+        if (!square) continue;
+        square.fill(state.get(k), '#dddddd', false);
+      }
     }
   }
 </script>
