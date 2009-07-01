@@ -44,12 +44,12 @@ class ConvertPage(webapp.RequestHandler):
     out = self.response.out
     if wave:
       self.response.headers['Content-Type'] = 'text/html'
-      out.write("""<html><head>
-      <script type="text/javascript"
-      src="http://wave-api.appspot.com/public/wave.js"></script>
-                </head><body>
-                <script type="text/javascript">
-                """)
+      #out.write("""<html><head>
+      #<script type="text/javascript"
+      #src="http://wave-api.appspot.com/public/wave.js"></script>
+      #          </head><body>
+      #          <script type="text/javascript">
+      #          """)
     else:
       self.response.headers['Content-Type'] = 'text/plain'
 
@@ -58,12 +58,14 @@ class ConvertPage(webapp.RequestHandler):
     out.write(";")
 
     if wave:
+      #out.write("""
+      #          gadgets.util.registerOnLoadHandler(function() {
+      #            wave.submitDelta({ "crossword": Crossword });
+      #            alert("Submitted delta");
+      #          }
       out.write("""
-                gadgets.util.registerOnLoadHandler(function() {
-                  wave.submitDelta({ "crossword": Crossword });
-                  alert("Submitted delta");
-                }
                 </script>
+                <h2>Does this show up?</h2>
                 </body>
                 </html>
                 """)
