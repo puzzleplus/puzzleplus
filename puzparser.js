@@ -17,8 +17,8 @@ function parsePuz(puz) {
   }
   var c = {};
   c.checksum = puz.substr(0, 2);
-  WIDTHOFFSET = 0x2c   // :nodoc:
-  HEADERLENGTH = 0x34  // :nodoc:
+  WIDTHOFFSET = 0x2c;   // :nodoc:
+  HEADERLENGTH = 0x34;  // :nodoc:
 
   c.width = puz.charCodeAt(WIDTHOFFSET);
   c.height = puz.charCodeAt(WIDTHOFFSET + 1);
