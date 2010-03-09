@@ -39,6 +39,7 @@ h3 {
 <script src='cluesui.js'></script>
 <script src='focusbox.js'></script>
 <script src='roster.js'></script>
+<script src='puzparser.js'></script>
 
 <script>
 
@@ -86,7 +87,7 @@ function makeCrossword() {
   } else {
     $('upload').style.display = 'block';
   }
-};
+}
 
 function handleResize() {
   Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
@@ -96,17 +97,42 @@ function handleResize() {
   $('bottomtable').style.width = $('toptable').clientWidth;
 
   Globals.console.scrollToBottom();
-};
+}
+
+function addPuzToWave() {
+  var input = document.getElementById("puz");
+  var files = input.files;
+  if (files.length != 1) {
+    Globals.console.write("Need to upload a file!");
+    return;
+  }
+
+  var reader = new FileReader();
+  reader.onloadend = function(e) {
+    var state = wave.getState();
+    var crossword = state.get("crossword", null);
+    if (crossword) {
+      Globals.console.write("Tried to add a second puz file!");
+      return;
+    }
+
+    puz = parsePuz(e.target.result);
+    if (!puz) {
+      Globals.console.write("Couldn't parse puz file!");
+      return;
+    }
+    state.submitDelta( { crossword: puz } );
+  };
+
+  reader.readAsBinaryString(files[0]);
+}
 
 </script>
 
 <div id="upload" style="display:none">
   <p>Choose a .puz file and click "Play"</p>
-  <form action="http://puztojson.appspot.com/convert"
-    method="post" enctype="multipart/form-data">
-  <input type="file" name="puz"><br/>
-  <input type="hidden" name="lmnowave" value="yes">
-  <input type="submit" value="Play">
+  <input type="file" id="puz" /><br/>
+  <input type="button" value="Play" onclick="addPuzToWave()" />
   </form>
 </div>
 
