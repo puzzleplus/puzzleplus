@@ -3,13 +3,15 @@
 <Module>
   <ModulePrefs title="lmnowave" height="500">
    <Require feature="rpc"/>
+   <Require feature="wave" /> 
+	 <Require feature="dynamic-height" />
   </ModulePrefs>
 
   <Content type="html">
   <![CDATA[
     <script type="text/javascript"
       src="http://wave-api.appspot.com/public/wave.js"></script>
-<link rel="stylesheet" type="text/css" href="crossword.css"/>
+		<link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
 <style type='text/css'>
 body {
   margin: 0ex 1ex;
@@ -33,13 +35,13 @@ h3 {
 }
 </style>
 
-<script src='common.js'></script>
-<script src='console.js'></script>
-<script src='crosswordui.js'></script>
-<script src='cluesui.js'></script>
-<script src='focusbox.js'></script>
-<script src='roster.js'></script>
-<script src='puzparser.js'></script>
+<script src='http://danvk.org/lmnowave/common.js'></script>
+<script src='http://danvk.org/lmnowave/console.js'></script>
+<script src='http://danvk.org/lmnowave/crosswordui.js'></script>
+<script src='http://danvk.org/lmnowave/cluesui.js'></script>
+<script src='http://danvk.org/lmnowave/focusbox.js'></script>
+<script src='http://danvk.org/lmnowave/roster.js'></script>
+<script src='http://danvk.org/lmnowave/puzparser.js'></script>
 
 <script>
 
@@ -49,7 +51,11 @@ function makeCrossword() {
   var state = wave.getState();
   var crossword = state.get("crossword", null);
   if (crossword) {
-    Crossword = crossword;
+		Crossword = parsePuz(crossword);
+		if (!Crossword) {
+			console.log("couldn't parse crossword");
+			return;
+		}
     Globals = {
     };
 
@@ -75,22 +81,21 @@ function makeCrossword() {
     Globals.clues = new CluesUI(Crossword);
     $('clues').appendChild(Globals.clues.container);
 
-    
-
     handleResize();
 
     // We need to wait to set focus until the table has been rendered (so
     // that the offset stuff works) and until the clues have been created (so
     // that the initial ones will be highlighted).  This kinda sucks.
     Globals.widget.setFocus(Globals.widget.square(0, 0));
-    $('crossword').style.display = 'block';
+    $('crossword_container').style.display = 'block';
+    $('upload').style.display = 'none';
   } else {
     $('upload').style.display = 'block';
   }
 }
 
 function handleResize() {
-  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
+  Globals.clues.setHeight($('crossword_container').childNodes[0].clientHeight);
 
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
@@ -121,7 +126,9 @@ function addPuzToWave() {
       Globals.console.write("Couldn't parse puz file!");
       return;
     }
-    state.submitDelta( { crossword: puz } );
+		// Wave can only store string -> string maps, so it's easiest to submit the
+		// binary .puz file to the wave.
+    state.submitDelta( { crossword: e.target.result } );
   };
 
   reader.readAsBinaryString(files[0]);
@@ -137,7 +144,7 @@ function addPuzToWave() {
 </div>
 
 <!-- do onblur and onfocus mean anything to a table? -->
-<div id="crossword" style="display:none">
+<div id="crossword_container" style="display:none">
 <table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign='top'>
     <td><div id='crossword' style='margin-right: 2ex'></div></td>
