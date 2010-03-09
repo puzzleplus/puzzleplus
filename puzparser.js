@@ -128,9 +128,9 @@ function parsePuz(puz) {
 
   // Construct c.numbers
   c.numbers = [];
-  for (var x = 0; x < c.width; x++) {
+  for (var y = 0; y < c.height; y++) {
     var row = [];
-    for (var y = 0; y < c.height; y++) {
+    for (var x = 0; x < c.width; x++) {
       row.push(null);
     }
     c.numbers.push(row);
@@ -138,8 +138,8 @@ function parsePuz(puz) {
   for (var y = 0; y < c.height; y++) {
     for (var x = 0; x < c.width; x++) {
       var sq = c.squares[x][y];
-      if (sq) { c.numbers[x][y] = sq.across || sq.down || 0; }
-      else    { c.numbers[x][y] = 0; }
+      if (sq) { c.numbers[y][x] = sq.across || sq.down || 0; }
+      else    { c.numbers[y][x] = 0; }
     }
   }
   delete c.squares;
