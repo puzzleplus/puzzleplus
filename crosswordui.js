@@ -37,7 +37,11 @@ function CrosswordWidget() {
 CrosswordWidget.prototype.loadCrossword = function(crossword) {
   var widget = this;
 
-  document.onkeypress = function(e) { return widget.keyPress(e); };
+  // The onkeydown handler prevents the "default actions" from taking place for
+  // special keys (arrows, tab, backspace) in Safari and Chrome. In Firefox,
+  // both onkeypress and onkeyup then fire. In Safari and Chrome, only onkeyup
+  // fires. We can get around all this mess by just using onkeydown.
+  document.onkeydown = function(e) { return widget.keyDown(e); };
   document.onmousedown = function() { widget.focus(); };
 
   this.crossword = crossword;
@@ -273,6 +277,29 @@ CrosswordWidget.prototype.getLetters = function(number, across) {
   return word;
 };
 
+CrosswordWidget.prototype.keyDown = function(e) {
+  if (!this.focused) return true;
+  if (!e) e = window.event;
+  if (e.altKey || e.ctrlKey || e.metaKey) return true;
+
+  // Safari and Chrome capture special keys by default. We need to
+  // "preventDefault" on the event to stop this from happening.
+  var keycode = e.keyCode;
+  if (   keycode == 9 || keycode == 25  // tab
+      || keycode == 35 || keycode == 63275  // end
+      || keycode == 36 || keycode == 63273  // home
+      || keycode == 37 || keycode == 63234  // left
+      || keycode == 38 || keycode == 63232  // up
+      || keycode == 39 || keycode == 63235  // right
+      || keycode == 40 || keycode == 63233  // down
+      || keycode == 8  // backspace
+      || keycode == 46 || keycode == 63272) { // delete
+    e.preventDefault();
+  }
+
+  return this.keyPress(e);
+};
+
 CrosswordWidget.prototype.keyPress = function(e) {
   if (!this.focused) return true;
   var square = this.focused;
@@ -288,6 +315,10 @@ CrosswordWidget.prototype.keyPress = function(e) {
   // Crazy-looking key codes (63xxx) are for Safari.
   var keycode = e.keyCode;
 
+  if (!charcode) {
+    charcode = keycode;
+  }
+
   if (charcode == 32) {  // space pressed: switch direction
     this.direction_horiz = !this.direction_horiz;
     this.focusClues(square);
@@ -299,8 +330,7 @@ CrosswordWidget.prototype.keyPress = function(e) {
       var color = Globals && Globals.mp ? Globals.mp.getColor() : undefined;
       // it's only an update if the square was changed.
       if (str != square.answer) {
-        square.fill(str.toUpperCase(), color,
-                    charcode >= 65 && charcode <= 90 ? true : false);
+        square.fill(str.toUpperCase(), color, e.shiftKey);
         if (this.onChanged)
           this.onChanged(square.x, square.y, str);
       }
