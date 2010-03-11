@@ -41,21 +41,22 @@ function makeCrossword() {
     // user -> color
     Globals.user_colors = {};
 
-    handleResize();
-
     // We need to wait to set focus until the table has been rendered (so
     // that the offset stuff works) and until the clues have been created (so
     // that the initial ones will be highlighted).  This kinda sucks.
     Globals.widget.setFocus(Globals.widget.square(0, 0));
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
+    handleResize();
+    gadgets.window.adjustHeight();
   } else {
     $('upload').style.display = 'block';
+    gadgets.window.adjustHeight();
   }
 }
 
 function handleResize() {
-  Globals.clues.setHeight($('crossword_container').childNodes[0].clientHeight);
+  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
 
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
@@ -64,11 +65,9 @@ function handleResize() {
   Globals.console.scrollToBottom();
 }
 
-function addPuzToWave() {
-  var input = document.getElementById("puz");
-  var files = input.files;
+function addPuzToWave(files) {
   if (files.length != 1) {
-    Globals.console.write("Need to upload a file!");
+    Globals.console.write("Need to upload one puz file!");
     return;
   }
 
@@ -111,7 +110,7 @@ function stateUpdated() {
     makeCrossword();
   }
 
-  if (state.get("crossword", null)) {
+  if (state && state.get("crossword", null)) {
     var keys = state.getKeys();
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
@@ -153,7 +152,7 @@ function stateUpdated() {
 
         // Which particpant number are we?
         var count = 0;
-        for (var x in Global.user_colors) { count++; }
+        for (var x in Globals.user_colors) { count++; }
         var my_color = colors[count % colors.length];
         var delta = {};
         delta["@" + me] = my_color;

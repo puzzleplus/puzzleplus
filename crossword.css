@@ -80,6 +80,10 @@ div.focusbox {
   padding-top: 0.5em;
 }
 
+/* hide the console for now */
+#bottomtable {
+  display: none;
+}
 #console div.container {
   border: solid 1px #ccc;
 }
@@ -144,4 +148,15 @@ div.focusbox {
 }
 #roster div.line span.name {
   padding: 0.2em;
+}
+
+.dropbox {
+  width: 250px;
+  height: 150px;
+  border: 4px dashed black;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  text-align: center;
+  vertical-align: middle;
+  display: table-cell;
 }
