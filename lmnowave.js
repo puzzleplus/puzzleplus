@@ -19,6 +19,7 @@ function makeCrossword() {
     var page_title = "lmnopuz";
     if (Crossword.title) page_title += " - " + Crossword.title;
 
+    // TODO(danvk): focus box's color should be same as player's color.
     Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
 
     Globals.widget = new CrosswordWidget;
@@ -148,18 +149,17 @@ function stateUpdated() {
         // Assign a color to ourself.
         // TODO(danvk): generate more colors.
         var colors = ["#eea", "#fcb", "#cfc", "#adf", "#ebf"];
-        var my_color = colors[(numPeople - 1) % colors.length];
+
+        // Which particpant number are we?
+        var count = 0;
+        for (var x in Global.user_colors) { count++; }
+        var my_color = colors[count % colors.length];
         var delta = {};
         delta["@" + me] = my_color;
         state.submitDelta(delta);
         if (console) {
           console.log("setting my color to: " + my_color);
         }
-      }
-      if (console) {
-        console.log("numPeople: " + numPeople);
-        console.log("me: " + wave.getViewer().getDisplayName());
-        console.log("me: " + wave.getViewer().getId());
       }
     }
   }
