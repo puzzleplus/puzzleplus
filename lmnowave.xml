@@ -42,100 +42,7 @@ h3 {
 <script src='http://danvk.org/lmnowave/focusbox.js'></script>
 <script src='http://danvk.org/lmnowave/roster.js'></script>
 <script src='http://danvk.org/lmnowave/puzparser.js'></script>
-
-<script>
-
-function $(id) { return document.getElementById(id); }
-
-function makeCrossword() {
-  var state = wave.getState();
-  var crossword = state.get("crossword", null);
-  if (crossword) {
-        Crossword = parsePuz(crossword);
-        if (!Crossword) {
-            console.log("couldn't parse crossword");
-            return;
-        }
-    Globals = {
-    };
-
-    var page_title = "lmnopuz";
-    if (Crossword.title) page_title += " - " + Crossword.title;
-
-    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
-
-    Globals.widget = new CrosswordWidget;
-    Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
-    $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
-
-    Globals.console = new Console(3,
-                                  false);
-    $('console').appendChild(Globals.console.container);
-
-    Globals.console.write(
-      "Welcome to lmnopuz! " +
-
-      "lmnopuz has many nifty shortcut keys that you can learn about by " +
-      " clicking the \"Help\" link in the upper right corner.");
-
-    Globals.clues = new CluesUI(Crossword);
-    $('clues').appendChild(Globals.clues.container);
-
-    handleResize();
-
-    // We need to wait to set focus until the table has been rendered (so
-    // that the offset stuff works) and until the clues have been created (so
-    // that the initial ones will be highlighted).  This kinda sucks.
-    Globals.widget.setFocus(Globals.widget.square(0, 0));
-    $('crossword_container').style.display = 'block';
-    $('upload').style.display = 'none';
-  } else {
-    $('upload').style.display = 'block';
-  }
-}
-
-function handleResize() {
-  Globals.clues.setHeight($('crossword_container').childNodes[0].clientHeight);
-
-  // Make the width of the console/roster table match that of the
-  // crossword/clues table.
-  $('bottomtable').style.width = $('toptable').clientWidth;
-
-  Globals.console.scrollToBottom();
-}
-
-function addPuzToWave() {
-  var input = document.getElementById("puz");
-  var files = input.files;
-  if (files.length != 1) {
-    Globals.console.write("Need to upload a file!");
-    return;
-  }
-
-  var reader = new FileReader();
-  reader.onloadend = function(e) {
-    var state = wave.getState();
-    var crossword = state.get("crossword", null);
-    if (crossword) {
-      Globals.console.write("Tried to add a second puz file!");
-      return;
-    }
-
-    puz = parsePuz(e.target.result);
-    if (!puz) {
-      Globals.console.write("Couldn't parse puz file!");
-      return;
-    }
-
-    // Wave can only store string -> string maps, so it's easiest to submit the
-    // binary .puz file to the wave.
-    state.submitDelta( { crossword: e.target.result } );
-  };
-
-  reader.readAsBinaryString(files[0]);
-}
-
-</script>
+<script src='http://danvk.org/lmnowave/lmnowave.js'></script>
 
 <div id="upload" style="display:none">
   <p>Choose a .puz file and click "Play"</p>
@@ -166,37 +73,6 @@ function addPuzToWave() {
       wave.setStateCallback(stateUpdated);
     }
   });
-
-  function updateWave(x, y, let) {
-    if (wave) {
-      var delta = {};
-      delta["" + x + "," + y] = let;
-      wave.getState().submitDelta(delta);
-      Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
-    }
-  }
-
-  function stateUpdated() {
-    var state = wave.getState();
-    if (typeof(Crossword) == 'undefined') {
-      makeCrossword();
-    }
-
-    if (state.get("crossword", null)) {
-      var keys = state.getKeys();
-      for (var i = 0; i < keys.length; i++) {
-        var k = keys[i];
-        var xy = k.split(",");
-        if (xy.length != 2) continue;
-        var x = parseInt(xy[0]);
-        var y = parseInt(xy[1]);
-        if (isNaN(x) || isNaN(y)) continue;
-        var square = Globals.widget.square(x, y);
-        if (!square) continue;
-        square.fill(state.get(k), '#dddddd', false);
-      }
-    }
-  }
 </script>
   ]]>
   </Content>
