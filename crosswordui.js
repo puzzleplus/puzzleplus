@@ -297,10 +297,13 @@ CrosswordWidget.prototype.keyPress = function(e) {
     if (!this.correct) {
       var str = String.fromCharCode(charcode);
       var color = Globals && Globals.mp ? Globals.mp.getColor() : undefined;
-      square.fill(str.toUpperCase(), color,
-                  charcode >= 65 && charcode <= 90 ? true : false);
-      if (this.onChanged)
-        this.onChanged(square.x, square.y, str);
+      // it's only an update if the square was changed.
+      if (str != square.answer) {
+        square.fill(str.toUpperCase(), color,
+                    charcode >= 65 && charcode <= 90 ? true : false);
+        if (this.onChanged)
+          this.onChanged(square.x, square.y, str);
+      }
       if (this.direction_horiz)
         this.focusNext(square, 1, 0, false);
       else

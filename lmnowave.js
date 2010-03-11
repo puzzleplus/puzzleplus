@@ -97,8 +97,9 @@ function addPuzToWave() {
 
 function updateWave(x, y, let) {
   if (wave) {
+    var k = "" + x + "," + y;
     var delta = {};
-    delta["" + x + "," + y] = let + "\t" + wave.getViewer().getId();
+    delta[k] = let + "\t" + wave.getViewer().getId();
     wave.getState().submitDelta(delta);
     // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
