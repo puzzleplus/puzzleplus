@@ -537,8 +537,8 @@ CrosswordWidget.prototype.focus = function() {
 
 CrosswordWidget.prototype.fadeSquareColors = function() {
   if (!Globals.widget.correct) {
-    var fade_sec = 45;
-    var min_opacity = 1.0 / 3.0;
+    var fade_sec = 30;
+    var min_opacity = 2.0 / 3.0;
     var cycle_sec = 5;
     var now = new Date().getTime() / 1000;
 
