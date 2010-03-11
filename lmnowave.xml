@@ -62,6 +62,7 @@ h3 {
   gadgets.util.registerOnLoadHandler(function() {
     if (wave && wave.isInWaveContainer()) {
       wave.setStateCallback(stateUpdated);
+      wave.setParticipantCallback(stateUpdated);
     }
   });
 </script>

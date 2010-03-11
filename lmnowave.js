@@ -4,6 +4,8 @@ function $(id) { return document.getElementById(id); }
 
 function makeCrossword() {
   var state = wave.getState();
+  if (!state) return;
+
   var crossword = state.get("crossword", null);
   if (crossword) {
     Crossword = parsePuz(crossword);
@@ -34,6 +36,9 @@ function makeCrossword() {
 
     Globals.clues = new CluesUI(Crossword);
     $('clues').appendChild(Globals.clues.container);
+
+    // user -> color
+    Globals.user_colors = {};
 
     handleResize();
 
@@ -92,9 +97,9 @@ function addPuzToWave() {
 function updateWave(x, y, let) {
   if (wave) {
     var delta = {};
-    delta["" + x + "," + y] = let;
+    delta["" + x + "," + y] = let + "\t" + wave.getViewer().getId();
     wave.getState().submitDelta(delta);
-    Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
+    // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
 }
 
@@ -108,14 +113,54 @@ function stateUpdated() {
     var keys = state.getKeys();
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
-      var xy = k.split(",");
-      if (xy.length != 2) continue;
-      var x = parseInt(xy[0]);
-      var y = parseInt(xy[1]);
-      if (isNaN(x) || isNaN(y)) continue;
-      var square = Globals.widget.square(x, y);
-      if (!square) continue;
-      square.fill(state.get(k), '#dddddd', false);
+      if (k.substr(0, 1) != "@") {
+        // must be a cell: "x,y" -> "letter,user@domain.com"
+        var xy = k.split(",");
+        if (xy.length != 2) continue;
+        var x = parseInt(xy[0]);
+        var y = parseInt(xy[1]);
+        if (isNaN(x) || isNaN(y)) continue;
+        var square = Globals.widget.square(x, y);
+        if (!square) continue;
+
+        var letter_user = state.get(k).split("\t");
+        if (letter_user.length != 2) continue;
+        var letter = letter_user[0];
+        var user = letter_user[1];
+
+        var color = Globals.user_colors[user];
+        if (!color) {
+          color = '#dddddd';
+        }
+
+        square.fill(letter, color, false);
+      } else {
+        // must be a user: "@user@domain.com" -> "#abcdef"
+        Globals.user_colors[k.substr(1)] = state.get(k);
+      }
+    }
+
+    var participants = wave.getParticipants();
+    if (participants) {
+      var numPeople = participants.length;
+      var me = wave.getViewer().getId();
+      if (!Globals.user_colors[me]) {
+        // Assign a color to ourself.
+        // TODO(danvk): generate more colors.
+        var colors = ["#eea", "#fcb", "#cfc", "#adf", "#ebf"];
+        var my_color = colors[(numPeople - 1) % colors.length];
+        var delta = {};
+        delta["@" + me] = my_color;
+        state.submitDelta(delta);
+        if (console) {
+          console.log("setting my color to: " + my_color);
+        }
+      }
+      if (console) {
+        console.log("numPeople: " + numPeople);
+        console.log("me: " + wave.getViewer().getDisplayName());
+        console.log("me: " + wave.getViewer().getId());
+      }
     }
   }
 }
