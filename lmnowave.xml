@@ -3,15 +3,15 @@
 <Module>
   <ModulePrefs title="lmnowave" height="500">
    <Require feature="rpc"/>
-   <Require feature="wave" /> 
-	 <Require feature="dynamic-height" />
+   <Require feature="wave" />
+   <Require feature="dynamic-height" />
   </ModulePrefs>
 
   <Content type="html">
   <![CDATA[
     <script type="text/javascript"
       src="http://wave-api.appspot.com/public/wave.js"></script>
-		<link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
+        <link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
 <style type='text/css'>
 body {
   margin: 0ex 1ex;
@@ -51,11 +51,11 @@ function makeCrossword() {
   var state = wave.getState();
   var crossword = state.get("crossword", null);
   if (crossword) {
-		Crossword = parsePuz(crossword);
-		if (!Crossword) {
-			console.log("couldn't parse crossword");
-			return;
-		}
+        Crossword = parsePuz(crossword);
+        if (!Crossword) {
+            console.log("couldn't parse crossword");
+            return;
+        }
     Globals = {
     };
 
@@ -74,7 +74,7 @@ function makeCrossword() {
 
     Globals.console.write(
       "Welcome to lmnopuz! " +
-      
+
       "lmnopuz has many nifty shortcut keys that you can learn about by " +
       " clicking the \"Help\" link in the upper right corner.");
 
@@ -126,8 +126,9 @@ function addPuzToWave() {
       Globals.console.write("Couldn't parse puz file!");
       return;
     }
-		// Wave can only store string -> string maps, so it's easiest to submit the
-		// binary .puz file to the wave.
+
+    // Wave can only store string -> string maps, so it's easiest to submit the
+    // binary .puz file to the wave.
     state.submitDelta( { crossword: e.target.result } );
   };
 
@@ -197,6 +198,6 @@ function addPuzToWave() {
     }
   }
 </script>
-  ]]> 
+  ]]>
   </Content>
 </Module>
