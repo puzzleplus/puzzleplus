@@ -20,15 +20,6 @@ body, td, input {
   font-family: serif;
 }
 
-h1 {
-  font-size: 140%;
-  margin: 0.2ex 0;
-}
-
-h2 {
-  font-size: 110%;
-}
-
 h3 {
   font-size: 100%;
   margin: 0;
