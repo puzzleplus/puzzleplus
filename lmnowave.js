@@ -143,17 +143,13 @@ function stateUpdated() {
 
     var participants = wave.getParticipants();
     if (participants) {
-      var numPeople = participants.length;
       var me = wave.getViewer().getId();
       if (!Globals.user_colors[me]) {
         // Assign a color to ourself.
-        // TODO(danvk): generate more colors.
-        var colors = ["#eea", "#fcb", "#cfc", "#adf", "#ebf"];
-
         // Which particpant number are we?
         var count = 0;
         for (var x in Globals.user_colors) { count++; }
-        var my_color = colors[count % colors.length];
+        var my_color = RandomLightColor(count);
         var delta = {};
         delta["@" + me] = my_color;
         state.submitDelta(delta);
