@@ -72,6 +72,10 @@ function parseHexColor(str) {
     if (res) {
       r = res[1]; g = res[2]; b = res[3];
     } else {
+      res = /^rgb\(([0-9]*), *([0-9]*), *([0-9]*)\)$/.exec(str);
+      if (res) {
+        return [parseInt(res[1], 10), parseInt(res[2], 10), parseInt(res[3], 10)];
+      }
       return null;
     }
   }
