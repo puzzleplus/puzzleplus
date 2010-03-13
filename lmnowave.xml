@@ -32,6 +32,7 @@ h3 {
 <script src='http://danvk.org/lmnowave/cluesui.js'></script>
 <script src='http://danvk.org/lmnowave/focusbox.js'></script>
 <script src='http://danvk.org/lmnowave/roster.js'></script>
+<script src='http://danvk.org/lmnowave/color.js'></script>
 <script src='http://danvk.org/lmnowave/puzparser.js'></script>
 <script src='http://danvk.org/lmnowave/lmnowave.js'></script>
 
@@ -41,6 +42,7 @@ h3 {
   </div>
   <p>Or: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
   </form>
+  <p><b>Note:</b> File upload only works in Firefox 3.6.</p>
 </div>
 
 <!-- do onblur and onfocus mean anything to a table? -->
