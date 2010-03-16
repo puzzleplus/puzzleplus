@@ -1,0 +1,207 @@
+<HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<LINK rel="stylesheet" type="text/css" href="../wave/crossword.css" />
+<STYLE type="text/css">
+body {
+  margin: 0ex 1ex;
+}
+body, td, input {
+  font-family: serif;
+}
+
+h1 {
+  font-size: 140%;
+  margin: 0.2ex 0;
+}
+
+h2 {
+  font-size: 110%;
+}
+
+h3 {
+  font-size: 100%;
+  margin: 0;
+}
+
+
+
+#help {
+  z-index: 5;
+  position: fixed;
+  top: 2ex;
+  right: 2ex;
+  left: 2ex;
+  bottom: 2ex;
+  border: solid 1px black;
+  background: #ffc;
+  padding: 2em;
+  overflow: auto;
+  visibility: hidden;
+}
+#help ul, dl {
+  margin-top: 1ex;
+}
+#help dt {
+  font-weight: bold;
+  margin-top: 1ex;
+}
+#help dd {
+}
+
+</STYLE>
+
+<SCRIPT src="../wave/common.js"></SCRIPT>
+<SCRIPT src="../wave/console.js"></SCRIPT>
+<SCRIPT src="../wave/crosswordui.js"></SCRIPT>
+<SCRIPT src="../wave/cluesui.js"></SCRIPT>
+<SCRIPT src="../wave/focusbox.js"></SCRIPT>
+<SCRIPT src="../wave/roster.js"></SCRIPT>
+
+<SCRIPT src="../wave/crossword.js"></SCRIPT>
+<SCRIPT>//<![CDATA[
+
+function $(id) { return document.getElementById(id); }
+
+function toggleHelp() {
+  if ($('help').style.visibility != 'visible') {
+    $('help').style.visibility = 'visible';
+  } else {
+    $('help').style.visibility = 'hidden';
+  }
+}
+
+function makeCrossword() {
+  Globals = {
+  };
+
+  $('title').innerHTML = Crossword.title;
+  var page_title = "lmnopuz";
+  if (Crossword.title) page_title += " - " + Crossword.title;
+  document.title = page_title;
+
+  Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+
+  Globals.widget = new CrosswordWidget;
+  $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
+
+  Globals.console = new Console(150,
+                                false);
+  $('console').appendChild(Globals.console.container);
+
+  Globals.console.write(
+    "Welcome to lmnopuz! " +
+    
+    "lmnopuz has many nifty shortcut keys that you can learn about by " +
+    " clicking the \"Help\" link in the upper right corner.");
+
+  Globals.clues = new CluesUI(Crossword);
+  $('clues').appendChild(Globals.clues.container);
+
+  
+
+  handleResize();
+
+  // We need to wait to set focus until the table has been rendered (so
+  // that the offset stuff works) and until the clues have been created (so
+  // that the initial ones will be highlighted).  This kinda sucks.
+  Globals.widget.setFocus(Globals.widget.square(0, 0));
+};
+
+function handleResize() {
+  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
+
+  // Resize the console to take up all available space in the window.  To
+  // do this, we subtract from the window height the console's top offset
+  // and the margin that we want to keep at the bottom.
+  Globals.console.setHeight(
+      document.body.clientHeight -
+      findPosY($('console').childNodes[0].childNodes[0]) -
+      (findPosY($('title')) + 5));  // fudge factor because title font don't
+                                    // quite reach the top of the window.
+
+  // Make the roster the same height as the console.
+  if (Globals.roster)
+    Globals.roster.setHeight($('console').childNodes[0].clientHeight);
+
+  // Make the width of the console/roster table match that of the
+  // crossword/clues table.
+  $('bottomtable').style.width = $('toptable').clientWidth;
+
+  Globals.console.scrollToBottom();
+};
+
+function handleBeforeUnload() {
+  if (Globals.mp) Globals.mp.shutdown();
+};
+
+function handleBlur() {
+  if (Globals) Globals.windowFocused = false;
+};
+
+function handleFocus() {
+  // TODO(derat): I suspect that we might not be getting an initial focus
+  // event in Safari (we seem to in Firefox).  If this is the case, we
+  // should just set Globals.windowFocused to true in makeCrossword().
+  if (Globals && !Globals.windowFocused) {
+    Globals.windowFocused = true;
+    Globals.console.stopTitleFlash();
+  }
+};
+
+//]]>
+</SCRIPT>
+<TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE></HEAD><BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
+
+<DIV style="float:right">
+<A onclick="toggleHelp();return false" href="http://dv.sfo:1234/crossword/2004-02-04/#">Help</A>
+</DIV>
+
+<H1 id="title">NY Times, Wed, Feb 04, 2004</H1>
+
+<DIV id="help" onclick="toggleHelp(); return false;">
+  <TABLE><TBODY><TR>
+<TD valign="top" width="48%">
+<H2>Basics</H2>
+<P>Move the cursor using the mouse and arrow keys, and enter answers with the
+keyboard.</P>
+<P>The <B>space bar</B> (as well as clicking again in the current cell)
+switches direction between across and down.</P> 
+
+<H2>Advanced</H2>
+<DL>
+  <DT>Tab and Shift-Tab</DT>
+  <DD>Advance to the next clue along the current axis.  Shift reverses.</DD>
+
+  <DT>Shift (capital letters)</DT>
+  <DD>Hold shift while typing letters to mark an entry you're unsure of; the
+  letters will display in a lighter color.</DD>
+
+  <DT>Shift-Backspace, Shift-Delete</DT>
+  <DD>Clear the highlighted clue.</DD>
+
+  <DT>~</DT>
+  <DD>Toggle the highlighted clue between "unsure" and "sure".</DD>
+</DL>
+</TD>
+
+</TR></TBODY></TABLE>
+<P>(Click to hide this window.)</P>
+</DIV>
+
+<TABLE cellspacing="0" cellpadding="0" id="toptable">
+  <TBODY><TR valign="top">
+    <TD><DIV id="crossword" style="margin-right: 2ex"></DIV></TD>
+    <TD><DIV id="clues"><DIV></DIV></TD>
+  </TR>
+</TBODY></TABLE>
+
+<TABLE cellspacing="0" cellpadding="0" style="padding-top: 1ex; width: 680px; " id="bottomtable">
+  <TBODY><TR valign="top">
+    <TD style="width:100%"><DIV id="console"><DIV class="container"><DIV style="overflow-x: auto; overflow-y: auto; width: 100%; height: 299px; " class="scroller"><DIV class="line"><SPAN class="time">20:04:16</SPAN> Welcome to lmnopuz! lmnopuz has many nifty shortcut keys that you can learn about by  clicking the "Help" link in the upper right corner.</DIV></DIV></DIV></DIV></TD>
+    
+  </TR>
+</TBODY></TABLE>
+
+
+
+<!-- vim: set ts=2 sw=2 et : -->
+<DIV class="focusbox" style="background-color: blue; z-index: 4; display: block; left: 5px; top: 28px; width: 3px; height: 31px; "></DIV><DIV class="focusbox" style="background-color: blue; z-index: 4; display: block; left: 33px; top: 28px; width: 3px; height: 31px; "></DIV><DIV class="focusbox" style="background-color: blue; z-index: 4; display: block; left: 8px; top: 28px; width: 25px; height: 3px; "></DIV><DIV class="focusbox" style="background-color: blue; z-index: 4; display: block; left: 8px; top: 56px; width: 25px; height: 3px; "></DIV><INPUT style="display: none; "></BODY></HTML>
