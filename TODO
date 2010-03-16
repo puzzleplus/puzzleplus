@@ -2,12 +2,16 @@
   fewer users (and hence more distinctive colors), and will also reduce the
   chance of color conflicts.
 
+- (danvk) some people object to not overwriting.
+
 - (danvk) Make the "highlight" color something distinct from anyone's answer
   color. Currently it appears as though you "own" the highlighted answer.
 
 - (danvk) Add a big box with the current clue at the top.
 
 - (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
+
+- (danvk) circled letters, e.g. in http://rexwordpuzzle.blogspot.com/2010/03/former-captial-of-crete-thu-3-11-10.html
 
 - (danvk) Figure out a way to source from the current server.
   Currently always sources from danvk.org.

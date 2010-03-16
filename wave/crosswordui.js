@@ -134,6 +134,7 @@ CrosswordWidget.prototype.moveFocusBoxToSquare = function(focusbox, square) {
 // Skips over filled squares if skip_filled == true (i.e. if you're typing).
 CrosswordWidget.prototype.focusNext = function(square, dx, dy,
                                                skip_black, skip_filled) {
+  var start_square = square;
   var x = square.x;
   var y = square.y;
 
@@ -147,7 +148,14 @@ CrosswordWidget.prototype.focusNext = function(square, dx, dy,
         return;
       }
     } else {
-      if (!skip_black) return;
+      if (skip_filled) {
+        // Must have been completely filled-in. Just go to the next square.
+        return this.focusNext(start_square, dx, dy, false, false);
+      }
+
+      if (!skip_black) {
+        return;
+      }
     }
     x += dx; y += dy;
   }
