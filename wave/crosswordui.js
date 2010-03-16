@@ -129,8 +129,11 @@ CrosswordWidget.prototype.moveFocusBoxToSquare = function(focusbox, square) {
 };
 
 // Starting at square, move the focus by (dx,dy), stopping at the edge
-// of the puzzle (and skipping over empty squares if skip == true).
-CrosswordWidget.prototype.focusNext = function(square, dx, dy, skip) {
+// of the puzzle.
+// Skips over black squares if skip_black == true (i.e. for arrow keys).
+// Skips over filled squares if skip_filled == true (i.e. if you're typing).
+CrosswordWidget.prototype.focusNext = function(square, dx, dy,
+                                               skip_black, skip_filled) {
   var x = square.x;
   var y = square.y;
 
@@ -140,9 +143,12 @@ CrosswordWidget.prototype.focusNext = function(square, dx, dy, skip) {
     square = this.square(x,y);
     if (square) {
       this.setFocus(square, false);
-      return;
+      if (!skip_filled || square.getLetter() == '') {
+        return;
+      }
+    } else {
+      if (!skip_black) return;
     }
-    if (!skip) return;
     x += dx; y += dy;
   }
 };
@@ -332,10 +338,11 @@ CrosswordWidget.prototype.keyPress = function(e) {
       square.fill(str.toUpperCase(), color, e.shiftKey);
       if (this.onChanged)
         this.onChanged(square.x, square.y, str);
+      // TODO(danvk): make skip_filled a global parameter here.
       if (this.direction_horiz)
-        this.focusNext(square, 1, 0, false);
+        this.focusNext(square, 1, 0, false, true);
       else
-        this.focusNext(square, 0, 1, false);
+        this.focusNext(square, 0, 1, false, true);
     }
   } else if (charcode == 63) {  // question mark
     if (this.onMessageSent) {
@@ -366,13 +373,13 @@ CrosswordWidget.prototype.keyPress = function(e) {
     this.setFocus(
       this.getStartSquare(square, this.direction_horiz, true), false);
   } else if (keycode == 37 || keycode == 63234) { // left
-    this.focusNext(square, -1, 0, true);
+    this.focusNext(square, -1, 0, true, false);
   } else if (keycode == 38 || keycode == 63232) { // up
-    this.focusNext(square, 0, -1, true);
+    this.focusNext(square, 0, -1, true, false);
   } else if (keycode == 39 || keycode == 63235) { // right
-    this.focusNext(square, 1, 0, true);
+    this.focusNext(square, 1, 0, true, false);
   } else if (keycode == 40 || keycode == 63233) { // down
-    this.focusNext(square, 0, 1, true);
+    this.focusNext(square, 0, 1, true, false);
   } else if (keycode == 8) { // backspace
     if (!this.correct) {
       if (e.shiftKey) {
@@ -380,9 +387,9 @@ CrosswordWidget.prototype.keyPress = function(e) {
       } else {
         square.fill('', '', false);
         if (this.direction_horiz)
-          this.focusNext(square, -1, 0, false);
+          this.focusNext(square, -1, 0, false, false);
         else
-          this.focusNext(square, 0, -1, false);
+          this.focusNext(square, 0, -1, false, false);
         if (this.onChanged)
           this.onChanged(square.x, square.y, ' ');
       }
