@@ -40,6 +40,7 @@ function makeCrossword() {
 
     // user -> color
     Globals.user_colors = {};
+    Globals.has_typed = false;
 
     // We need to wait to set focus until the table has been rendered (so
     // that the offset stuff works) and until the clues have been created (so
@@ -94,12 +95,42 @@ function addPuzToWave(files) {
   reader.readAsBinaryString(files[0]);
 }
 
+// Returns a color for the current user. If the user does not have a color, one
+// will be assigned and sent along to the other participants in the wave. It is
+// posible that this color will change later, if there is a conflict with
+// another user.
+function getMyColor() {
+  if (!wave) return '#dddddd';
+
+  var state = wave.getState();
+  if (!state) return '#dddddd';
+
+  // This is what we think our color is.
+  // It's possible that someone else has stolen it from us.
+  var my_color = Globals.my_color;
+
+  var me = wave.getViewer().getId();
+  if (!my_color || state.get("@" + my_color) != me) {
+    // Either we haven't assigned ourselves a color yet or someone stolen this
+    // color from us. In either case, assign ourselves a new one.
+    var count = 0;
+    for (var x in Globals.user_colors) { count++; }
+    var my_color = RandomLightColor(count);
+    var delta = {};
+    delta["@" + color] = me;
+    state.submitDelta(delta);
+    Globals.my_color = color;
+  }
+  return Globals.my_color;
+}
+
 function updateWave(x, y, let) {
   if (wave) {
     var k = "" + x + "," + y;
     var delta = {};
     delta[k] = let + "\t" + wave.getViewer().getId();
     wave.getState().submitDelta(delta);
+    Globals.hasTyped = true;
     // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
 }
@@ -111,6 +142,7 @@ function stateUpdated() {
   }
 
   if (state && state.get("crossword", null)) {
+    var me = wave.getViewer().getId();
     var keys = state.getKeys();
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
@@ -129,6 +161,7 @@ function stateUpdated() {
         var letter = letter_user[0];
         var user = letter_user[1];
 
+        // TODO(danvk): keep an inverted copy of this map.
         var color = Globals.user_colors[user];
         if (!color) {
           color = '#dddddd';
@@ -137,20 +170,26 @@ function stateUpdated() {
         var isGuess = (letter != letter.toUpperCase());
         square.fill(letter.toUpperCase(), color, isGuess);
       } else {
-        // must be a user: "@user@domain.com" -> "#abcdef"
-        Globals.user_colors[k.substr(1)] = state.get(k);
+        // must be a user color: "@color" -> "user@domain.com"
+        var color = k.substr(1);
+        var user = state.get(k);
+        Globals.user_colors[user] = color;
+        if (user == me) {
+          Globals.my_color = color;
+        }
       }
     }
 
+    if (Globals.has_typed && !(me in Globals.user_colors)) {
+      // The was probably a race condition and someone stole our color.
+      // Assign ourselves a new one.
+      getMyColor();
+    }
+
+/*
     var participants = wave.getParticipants();
     if (participants) {
-      var me = wave.getViewer().getId();
       if (!Globals.user_colors[me]) {
-        // Assign a color to ourself.
-        // Which particpant number are we?
-        var count = 0;
-        for (var x in Globals.user_colors) { count++; }
-        var my_color = RandomLightColor(count);
         var delta = {};
         delta["@" + me] = my_color;
         state.submitDelta(delta);
@@ -159,5 +198,6 @@ function stateUpdated() {
         }
       }
     }
+*/
   }
 }
