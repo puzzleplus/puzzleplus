@@ -178,6 +178,23 @@ CrosswordWidget.prototype.getStartSquare =
   return h;
 };
 
+// Move to the first blank square past the given square.
+// This is used when the player hits tab or shift-tab.
+CrosswordWidget.prototype.getNextUnfilled = function(square, direction_horiz) {
+  var dx = direction_horiz ? 1 : 0;
+  var dy = direction_horiz ? 0 : 1;
+
+  var x = square.x, y = square.y;
+  while (x >= 0 && y >= 0 &&
+         x < this.crossword.width && y < this.crossword.height &&
+         this.square(x,y)) {
+    h = this.square(x,y);
+    if (h.getLetter() == '') return h;
+    x += dx; y += dy;
+  }
+  return square;  // It's completely filled; May as well go to the start.
+};
+
 // Get the word number of the passed-in square.
 CrosswordWidget.prototype.getNumber = function(square, direction_horiz) {
   return this.getStartSquare(square, direction_horiz, true).number;
@@ -246,7 +263,9 @@ CrosswordWidget.prototype.getNextWord =
     square = this.getStartSquare(square, true, !is_next);
     square = this.getNextSquare(square, is_next);
     if (!square) return undefined;
-    return this.getStartSquare(square, true, true);
+    square = this.getStartSquare(square, true, true);
+    square = this.getNextUnfilled(square, true);
+    return square;
   } else {
     // To find the next vertical word, we move to the beginning of the
     // current word and walk forward across the board until we find a
@@ -255,6 +274,7 @@ CrosswordWidget.prototype.getNextWord =
     square = this.getStartSquare(square, false, true);
     while (square = this.getNextSquare(square, is_next)) {
       if (square.y == 0 || !this.square(square.x, square.y - 1)) {
+        square = this.getNextUnfilled(square, false);
         return square;
       }
     }

@@ -5,14 +5,6 @@
 - (danvk) Make the "highlight" color something distinct from anyone's answer
   color. Currently it appears as though you "own" the highlighted answer.
 
-- (danvk) Skip over filled-in squares when typing an answer.
-  This will mitigate the answer-stealing problem (described below), since
-  overwriting someone else's answer will require clear intent.
-  This will also make Across Lite users more comfortable.
-  -> getNextWord
-  -> setFocus
-  -> focusNext
-
 - (danvk) Add back shift+letter for "pencil in".
 
 - (derat) Write an lmnowave robot
