@@ -1,18 +1,19 @@
+- (danvk) Assign colors when a user first types a letter. This will result in
+  fewer users (and hence more distinctive colors), and will also reduce the
+  chance of color conflicts.
+
+- (danvk) Make the "highlight" color something distinct from anyone's answer
+  color. Currently it appears as though you "own" the highlighted answer.
+
+- (danvk) Skip over filled-in squares when typing an answer.
+  This will mitigate the answer-stealing problem (described below), since
+  overwriting someone else's answer will require clear intent.
+  This will also make Across Lite users more comfortable.
+
 - (derat) Write an lmnowave robot
   Automatically linkify clue references in the wave.
   Notify when puzzle is complete
   Fill in answers when someone says "I give up"?
-
-- (danvk) An "Add Crossword" button
-  Will need to write a .puz parser in JS.
-  http://joshisanerd.com/puz/
-
-- (derat) Figure out a way to source from HEAD via an http request (ala cgit)
-  (github URLs include a commit hash)
-  Probably use cgit on evan's machine, add an apache rewrite rule.
-  Would be nice to have a "danvk" branch for me to test on w/o affecting HEAD.
-  (it may already be possible to do this with github)
-
 
 - Switch to a standard library for event-handling code
   There's lots of weirdness re: onkeypress vs. onkeydown, arrow keys, Safari, etc.
@@ -27,8 +28,6 @@
 
 - (danvk) Delete all roster-related code.
 
-- Assign colors to people.
-- Store which user filled in a square in the wave state.
 - Show other players' cursors (store in wave state).
 
 - A way to check errors/reveal answers
@@ -37,8 +36,6 @@
   Announce when the puzzle is complete.
   Make it immutable when completed correctly.
   Show colors at the end.
-
-- Double-click doesn't change orientation back in Chrome.
 
 - Type a number to go to that clue.
 
