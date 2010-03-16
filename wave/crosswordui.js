@@ -355,9 +355,14 @@ CrosswordWidget.prototype.keyPress = function(e) {
       var str = String.fromCharCode(charcode);
       var color = Globals && Globals.mp ? Globals.mp.getColor() : undefined;
       // it's only an update if the square was changed.
-      square.fill(str.toUpperCase(), color, e.shiftKey);
-      if (this.onChanged)
-        this.onChanged(square.x, square.y, str);
+      var isGuess = e.shiftKey;
+      str = str.toUpperCase();
+      square.fill(str, color, isGuess);
+      if (this.onChanged) {
+        // lowercase = "pencil", uppercase = "pen".
+        this.onChanged(square.x, square.y, isGuess ? str.toLowerCase() : str);
+      }
+
       // TODO(danvk): make skip_filled a global parameter here.
       if (this.direction_horiz)
         this.focusNext(square, 1, 0, false, true);

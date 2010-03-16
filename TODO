@@ -5,11 +5,14 @@
 - (danvk) Make the "highlight" color something distinct from anyone's answer
   color. Currently it appears as though you "own" the highlighted answer.
 
-- (danvk) Add back shift+letter for "pencil in".
-
 - (danvk) Add a big box with the current clue at the top.
 
 - (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
+
+- (danvk) Figure out a way to source from the current server.
+  Currently always sources from danvk.org.
+
+- (danvk) Show the title/author/copyright somewhere.
 
 - (derat) Write an lmnowave robot
   Automatically linkify clue references in the wave.

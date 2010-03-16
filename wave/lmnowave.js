@@ -134,7 +134,8 @@ function stateUpdated() {
           color = '#dddddd';
         }
 
-        square.fill(letter, color, false);
+        var isGuess = (letter != letter.toUpperCase());
+        square.fill(letter.toUpperCase(), color, isGuess);
       } else {
         // must be a user: "@user@domain.com" -> "#abcdef"
         Globals.user_colors[k.substr(1)] = state.get(k);
