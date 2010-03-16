@@ -1,0 +1,32 @@
+lmnowave
+By Dan Vanderkam
+Based on "lmnopuz", by Evan Martin and Dan Erat
+
+lmnowave is a crossword puzzle gadget for Google Wave. It allows collaborative
+solving of crosswords in Wave, as well as uploading of Across Lite format
+(".puz") files to the wave.
+
+To test wave-related code, you'll need to copy everything in the "wave"
+directory to a server that can be accessed by Wave (i.e. not localhost) and
+create a gadget whose URL is your copy of the lmnowave.xml file.
+
+To test non-wave related code (i.e. the crossword UI), open localtest/test.html
+in your browser. This is much more convenient for debugging that going through
+Wave.
+
+A bit of lmnowave history:
+
+2007-2008
+derat and emartin create lmnopuz, with a JS frontend and a Ruby backend.
+The service works, but there's no good place to host it.
+
+2009
+After learning about Wave, danvk remembers lmnopuz and writes the code to store
+crossword state in a wave. Work is abandoned after the realization that there's
+no way to access uploaded files via JavaScript, a crucial feature of lmnowave.
+
+2010
+After going on a hike with another developer, danvk learns that Firefox 3.6 has
+added support for the HTML5 File API. lmnowave is now possible! Hacking
+resumes!
+
