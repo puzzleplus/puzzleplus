@@ -9,6 +9,11 @@
   This will mitigate the answer-stealing problem (described below), since
   overwriting someone else's answer will require clear intent.
   This will also make Across Lite users more comfortable.
+  -> getNextWord
+  -> setFocus
+  -> focusNext
+
+- (danvk) Add back shift+letter for "pencil in".
 
 - (derat) Write an lmnowave robot
   Automatically linkify clue references in the wave.
