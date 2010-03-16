@@ -115,11 +115,12 @@ function getMyColor() {
     // color from us. In either case, assign ourselves a new one.
     var count = 0;
     for (var x in Globals.user_colors) { count++; }
-    var my_color = RandomLightColor(count);
+    var color = RandomLightColor(count);
     var delta = {};
     delta["@" + color] = me;
     state.submitDelta(delta);
     Globals.my_color = color;
+    if (console) console.log("Assigning self color #" + count + ": " + color);
   }
   return Globals.my_color;
 }
@@ -129,8 +130,9 @@ function updateWave(x, y, let) {
     var k = "" + x + "," + y;
     var delta = {};
     delta[k] = let + "\t" + wave.getViewer().getId();
+    getMyColor();  // make sure we have a color assigned to us.
     wave.getState().submitDelta(delta);
-    Globals.hasTyped = true;
+    Globals.has_typed = true;
     // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
 }
@@ -144,60 +146,58 @@ function stateUpdated() {
   if (state && state.get("crossword", null)) {
     var me = wave.getViewer().getId();
     var keys = state.getKeys();
+
+    // Make two passes through the state: one for the colors, one for the cells.
+    Globals.my_color = null;
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
-      if (k.substr(0, 1) != "@") {
-        // must be a cell: "x,y" -> "letter,user@domain.com"
-        var xy = k.split(",");
-        if (xy.length != 2) continue;
-        var x = parseInt(xy[0]);
-        var y = parseInt(xy[1]);
-        if (isNaN(x) || isNaN(y)) continue;
-        var square = Globals.widget.square(x, y);
-        if (!square) continue;
-
-        var letter_user = state.get(k).split("\t");
-        if (letter_user.length != 2) continue;
-        var letter = letter_user[0];
-        var user = letter_user[1];
-
-        // TODO(danvk): keep an inverted copy of this map.
-        var color = Globals.user_colors[user];
-        if (!color) {
-          color = '#dddddd';
-        }
-
-        var isGuess = (letter != letter.toUpperCase());
-        square.fill(letter.toUpperCase(), color, isGuess);
-      } else {
-        // must be a user color: "@color" -> "user@domain.com"
-        var color = k.substr(1);
-        var user = state.get(k);
-        Globals.user_colors[user] = color;
-        if (user == me) {
-          Globals.my_color = color;
-        }
+      if (k.substr(0, 1) != "@") continue;
+      // must be a user color: "@color" -> "user@domain.com"
+      var color = k.substr(1);
+      var user = state.get(k);
+      Globals.user_colors[user] = color;
+      if (user == me) {
+        Globals.my_color = color;
       }
     }
 
-    if (Globals.has_typed && !(me in Globals.user_colors)) {
+    // Pass two: cells on the grid.
+    var any_from_me = false;
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (k.substr(0, 1) == "@") continue;
+
+      // must be a cell: "x,y" -> "letter,user@domain.com"
+      var xy = k.split(",");
+      if (xy.length != 2) continue;
+      var x = parseInt(xy[0]);
+      var y = parseInt(xy[1]);
+      if (isNaN(x) || isNaN(y)) continue;
+      var square = Globals.widget.square(x, y);
+      if (!square) continue;
+
+      var letter_user = state.get(k).split("\t");
+      if (letter_user.length != 2) continue;
+      var letter = letter_user[0];
+      var user = letter_user[1];
+
+      // TODO(danvk): keep an inverted copy of this map.
+      var color = Globals.user_colors[user];
+      if (!color) {
+        color = '#dddddd';
+      }
+
+      var isGuess = (letter != letter.toUpperCase());
+      square.fill(letter.toUpperCase(), color, isGuess);
+
+      if (user == me) any_from_me = true;
+    }
+
+    if ((Globals.has_typed || any_from_me) && !(Globals.my_color)) {
       // The was probably a race condition and someone stole our color.
       // Assign ourselves a new one.
       getMyColor();
     }
-
-/*
-    var participants = wave.getParticipants();
-    if (participants) {
-      if (!Globals.user_colors[me]) {
-        var delta = {};
-        delta["@" + me] = my_color;
-        state.submitDelta(delta);
-        if (console) {
-          console.log("setting my color to: " + my_color);
-        }
-      }
-    }
-*/
+    gadgets.window.adjustHeight();
   }
 }
