@@ -7,6 +7,10 @@
 
 - (danvk) Add back shift+letter for "pencil in".
 
+- (danvk) Add a big box with the current clue at the top.
+
+- (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
+
 - (derat) Write an lmnowave robot
   Automatically linkify clue references in the wave.
   Notify when puzzle is complete
@@ -22,8 +26,6 @@
   Should be able to use the firebug console in both FF and Chrome.
 
 - Add back keyboard shortcuts like "?". (if possible)
-
-- (danvk) Delete all roster-related code.
 
 - Show other players' cursors (store in wave state).
 
