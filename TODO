@@ -3,7 +3,7 @@
 - (danvk) Make the "highlight" color something distinct from anyone's answer
   color. Currently it appears as though you "own" the highlighted answer.
 
-- (danvk) Add a big box with the current clue at the top.
+- (danvk) Show other players' cursors (store in wave state).
 
 - (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
 
@@ -29,8 +29,6 @@
   Should be able to use the firebug console in both FF and Chrome.
 
 - Add back keyboard shortcuts like "?". (if possible)
-
-- Show other players' cursors (store in wave state).
 
 - A way to check errors/reveal answers
 
