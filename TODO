@@ -7,7 +7,12 @@
 
 - (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
 
-- (danvk) circled letters, e.g. in http://rexwordpuzzle.blogspot.com/2010/03/former-captial-of-crete-thu-3-11-10.html
+- (danvk) circled letters, e.g. in
+  http://rexwordpuzzle.blogspot.com/2010/03/former-captial-of-crete-thu-3-11-10.html
+
+- (danvk) Type "__XXX" and go to the first square. Type "AB". The cursor will
+  jump to the end of the clue. This is unintuitive and different than what
+  Across Lite does.
 
 - (danvk) Figure out a way to source from the current server.
   Currently always sources from danvk.org.
