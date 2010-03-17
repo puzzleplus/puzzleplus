@@ -609,8 +609,8 @@ CrosswordWidget.prototype.focus = function() {
 CrosswordWidget.prototype.fadeSquareColors = function() {
   if (!Globals.widget.correct) {
     var fade_sec = 30;
-    var min_opacity = 4.0 / 5.0;
-    var cycle_sec = 5;
+    var min_opacity = 3.0 / 4.0;
+    var cycle_sec = 3;
     var now = new Date().getTime() / 1000;
 
     // We only need to cycle through the individual cells if one has been
@@ -628,7 +628,8 @@ CrosswordWidget.prototype.fadeSquareColors = function() {
             if (!colors) continue;
 
             var opacity = 1.0 - min_opacity * (now - s.color_set_time) / fade_sec;
-            if (opacity < min_opacity) opacity = min_opacity;
+            if (opacity < 0.0) opacity = 0.0;
+            // if (opacity < min_opacity) opacity = min_opacity;
 
             for (var i = 0; i < 3; i++) {
               colors[i] = parseInt(255 - (255 - colors[i]) * opacity);
