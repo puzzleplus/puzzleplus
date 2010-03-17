@@ -79,8 +79,8 @@ CluesBox.prototype.scrollTo = function(number, primary) {
 CluesBox.prototype.getClueText = function(num) {
   var clue = this.divs[num];
   if (!clue) return undefined;
-  return '"' + unescapeHTML(clue.innerHTML).
-      replace(/^[0-9]+ */, '').replace(/"/g, "'") + '"';
+  return unescapeHTML(clue.innerHTML).
+      replace(/^[0-9]+ */, '').replace(/"/g, "'");
 }
 
 function CluesUI(crossword) {

@@ -421,8 +421,8 @@ CrosswordWidget.prototype.keyPress = function(e) {
     if (this.onMessageSent) {
       var num = this.getNumber(square, this.direction_horiz);
       var msg = 'Check out ' + num + " " +
-        (this.direction_horiz ? 'Across' : 'Down') + ": " +
-        Globals.clues.getClueText(num, this.direction_horiz) + ', ' +
+        (this.direction_horiz ? 'Across' : 'Down') + ': "' +
+        Globals.clues.getClueText(num, this.direction_horiz) + '", ' +
         this.getLetters(
             num, this.direction_horiz).replace(/\./g, '_').split('').join(' ');
       this.onMessageSent(msg);
