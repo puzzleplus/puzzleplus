@@ -6,8 +6,8 @@
     title_url="http://danvk.org/"
     author="Dan Vanderkam"
     author_email="danvdk@gmail.com"
-    thumbnail="http://danvk.org/lmnowave/thumbnail_120.png"
-    screenshot="http://danvk.org/lmnowave/screenshot.png"
+    thumbnail="http://lmnowave.appspot.com/thumbnail_120.png"
+    screenshot="http://lmnowave.appspot.com/screenshot.png"
     description="Solve crossword puzzles with friends in Google Wave"
     height="250">
    <Require feature="rpc"/>
@@ -17,7 +17,7 @@
 
   <Content type="html">
   <![CDATA[
-  <link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
+  <link rel="stylesheet" type="text/css" href="http://lmnowave.appspot.com/crossword.css"/>
 <style type='text/css'>
 body {
   margin: 0ex 1ex;
@@ -32,15 +32,15 @@ h3 {
 }
 </style>
 
-<script src="http://danvk.org/lmnowave/common.js"></script>
-<script src="http://danvk.org/lmnowave/console.js"></script>
-<script src="http://danvk.org/lmnowave/crosswordui.js"></script>
-<script src="http://danvk.org/lmnowave/cluesui.js"></script>
-<script src="http://danvk.org/lmnowave/focusbox.js"></script>
-<script src="http://danvk.org/lmnowave/roster.js"></script>
-<script src="http://danvk.org/lmnowave/color.js"></script>
-<script src="http://danvk.org/lmnowave/puzparser.js"></script>
-<script src="http://danvk.org/lmnowave/lmnowave.js"></script>
+<script src="http://lmnowave.appspot.com/common.js"></script>
+<script src="http://lmnowave.appspot.com/console.js"></script>
+<script src="http://lmnowave.appspot.com/crosswordui.js"></script>
+<script src="http://lmnowave.appspot.com/cluesui.js"></script>
+<script src="http://lmnowave.appspot.com/focusbox.js"></script>
+<script src="http://lmnowave.appspot.com/roster.js"></script>
+<script src="http://lmnowave.appspot.com/color.js"></script>
+<script src="http://lmnowave.appspot.com/puzparser.js"></script>
+<script src="http://lmnowave.appspot.com/lmnowave.js"></script>
 
 <div id="upload" style="display:none">
   <div id="dropbox" class="dropbox" >
