@@ -1,6 +1,6 @@
 <extension 
     name="lmnowave Gadget"
-    thumbnailUrl="http://lmnowave.appspot.com/screenshot.png"
+    thumbnailUrl="http://lmnowave.appspot.com/thumbnail_120.png"
     description="Solve crossword puzzles with friends in Google Wave"> 
   <author name="Dan Vanderkam"/> 
   <menuHook location="toolbar" text="Add lmnowave Gadget"
