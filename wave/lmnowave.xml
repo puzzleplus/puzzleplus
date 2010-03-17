@@ -55,7 +55,12 @@ h3 {
 <div id="crossword_container" style="display:none">
 <table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign='top'>
-    <td><div id='crossword' style='margin-right: 2ex'></div></td>
+  </tr>
+  <tr valign='top'>
+    <td>
+      <div id='current_clue'></div>
+      <div id='crossword' style='margin-right: 2ex'></div>
+    </td>
     <td><div id='clues'></div></td>
   </tr>
 </table>

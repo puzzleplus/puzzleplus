@@ -102,6 +102,46 @@ CrosswordWidget.prototype.focusClues = function(square) {
       this.getNumber(square, true),
       this.getNumber(square, false),
       this.direction_horiz);
+
+  // Update the "Current Clue" box.
+  if (Globals.cluebox) {
+    var num = this.getNumber(square, this.direction_horiz);
+    var clue_str = num + (this.direction_horiz ? "A" : "D") + ": ";
+    clue_str += Globals.clues.getClueText(num, this.direction_horiz);
+
+    // See if the text is too wide to fit. If it is, shrink it (up to a point).
+    var cb = Globals.cluebox;
+    if (!Globals.size_div) {
+      var div = document.createElement("div");
+      div.style.position = 'absolute';
+      div.style.left = '-1000px';
+      div.style.top = '-1000px';
+      div.style.width = 'auto';
+      div.style.height = 'auto';
+      var styles = ['font-size','font-style', 'font-weight', 'font-family','line-height', 'text-transform', 'letter-spacing'];
+      var computed = window.getComputedStyle(cb);
+      for (var i = 0; i < styles.length; i++) {
+        div.style[styles[i]] = computed[styles[i]];
+      }
+      document.body.appendChild(div);
+      Globals.size_div = div;
+    }
+
+    Globals.size_div.textContent = clue_str;
+    var textWidth = Globals.size_div.clientWidth;
+    var divWidth = Globals.cluebox.clientWidth;
+
+    var pct = 100.0;
+    if (divWidth < textWidth) {
+      pct *= divWidth / textWidth;
+      if (pct < 67) pct = 67;
+    }
+    if (console) {
+      console.log("" + textWidth + " / " + divWidth + " -> " + pct);
+    }
+
+    Globals.cluebox.innerHTML = "<span style='font-size: " + pct + "%'>" + clue_str + "</span>";
+  }
 };
 
 // Change the focus to the given target square.

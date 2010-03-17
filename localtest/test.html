@@ -23,7 +23,6 @@ h3 {
 }
 
 
-
 #help {
   z-index: 5;
   position: fixed;
@@ -96,7 +95,8 @@ function makeCrossword() {
   Globals.clues = new CluesUI(Crossword);
   $('clues').appendChild(Globals.clues.container);
 
-  
+  Globals.cluebox = $('current_clue');
+
 
   handleResize();
 
@@ -107,7 +107,8 @@ function makeCrossword() {
 };
 
 function handleResize() {
-  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
+  var clue_height = $('crossword').childNodes[0].clientHeight + $('current_clue').offsetHeight;
+  Globals.clues.setHeight(clue_height);
 
   // Resize the console to take up all available space in the window.  To
   // do this, we subtract from the window height the console's top offset
@@ -125,6 +126,10 @@ function handleResize() {
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
   $('bottomtable').style.width = $('toptable').clientWidth;
+
+  if (Globals.cluebox) {
+    Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
+  }
 
   Globals.console.scrollToBottom();
 };
@@ -151,45 +156,15 @@ function handleFocus() {
 </SCRIPT>
 <TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE></HEAD><BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
 
-<DIV style="float:right">
-<A onclick="toggleHelp();return false" href="http://dv.sfo:1234/crossword/2004-02-04/#">Help</A>
-</DIV>
-
 <H1 id="title">NY Times, Wed, Feb 04, 2004</H1>
 
-<DIV id="help" onclick="toggleHelp(); return false;">
-  <TABLE><TBODY><TR>
-<TD valign="top" width="48%">
-<H2>Basics</H2>
-<P>Move the cursor using the mouse and arrow keys, and enter answers with the
-keyboard.</P>
-<P>The <B>space bar</B> (as well as clicking again in the current cell)
-switches direction between across and down.</P> 
-
-<H2>Advanced</H2>
-<DL>
-  <DT>Tab and Shift-Tab</DT>
-  <DD>Advance to the next clue along the current axis.  Shift reverses.</DD>
-
-  <DT>Shift (capital letters)</DT>
-  <DD>Hold shift while typing letters to mark an entry you're unsure of; the
-  letters will display in a lighter color.</DD>
-
-  <DT>Shift-Backspace, Shift-Delete</DT>
-  <DD>Clear the highlighted clue.</DD>
-
-  <DT>~</DT>
-  <DD>Toggle the highlighted clue between "unsure" and "sure".</DD>
-</DL>
-</TD>
-
-</TR></TBODY></TABLE>
-<P>(Click to hide this window.)</P>
-</DIV>
-
 <TABLE cellspacing="0" cellpadding="0" id="toptable">
-  <TBODY><TR valign="top">
-    <TD><DIV id="crossword" style="margin-right: 2ex"></DIV></TD>
+  <TBODY>
+  <TR valign="top">
+    <TD>
+      <div id='current_clue' style="margin-right: 2ex">hello</div>
+      <DIV id="crossword" style="margin-right: 2ex"></DIV>
+    </TD>
     <TD><DIV id="clues"><DIV></DIV></TD>
   </TR>
 </TBODY></TABLE>

@@ -80,6 +80,19 @@ div.focusbox {
   padding-top: 0.5em;
 }
 
+#current_clue {
+  font-size: 140%;
+  /* border: solid 1px black; */
+  margin-bottom: 3px;
+  padding-left: 2px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  height: 1.1em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+
 /* hide the console for now */
 #bottomtable {
   display: none;

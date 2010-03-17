@@ -29,6 +29,7 @@ function makeCrossword() {
     Globals.console = new Console(3,
                                   false);
     $('console').appendChild(Globals.console.container);
+    Globals.cluebox = $('current_clue');
 
     Globals.console.write(
         "Welcome to lmnopuz! " +
@@ -61,11 +62,18 @@ function makeCrossword() {
 }
 
 function handleResize() {
-  Globals.clues.setHeight($('crossword').childNodes[0].clientHeight);
+  var clue_height = $('crossword').childNodes[0].clientHeight +
+                    $('current_clue').offsetHeight;
+  Globals.clues.setHeight(clue_height);
 
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
   $('bottomtable').style.width = $('toptable').clientWidth;
+
+  if (Globals.cluebox) {
+    Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
+  }
+
 
   Globals.console.scrollToBottom();
 }
