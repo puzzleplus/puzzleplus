@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Module>
-  <ModulePrefs title="lmnowave" height="250">
+  <ModulePrefs
+    title="lmnowave"
+    title_url="http://danvk.org/"
+    author="Dan Vanderkam"
+    author_email="danvdk@gmail.com"
+    thumbnail="http://danvk.org/lmnowave/thumbnail_120.png"
+    screenshot="http://danvk.org/lmnowave/screenshot.png"
+    description="Solve crossword puzzles with friends in Google Wave"
+    height="250">
    <Require feature="rpc"/>
    <Require feature="wave" />
    <Require feature="dynamic-height" />
@@ -9,9 +17,7 @@
 
   <Content type="html">
   <![CDATA[
-    <script type="text/javascript"
-      src="http://wave-api.appspot.com/public/wave.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
+  <link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
 <style type='text/css'>
 body {
   margin: 0ex 1ex;

@@ -1,7 +1,3 @@
-- (danvk) Assign colors when a user first types a letter. This will result in
-  fewer users (and hence more distinctive colors), and will also reduce the
-  chance of color conflicts.
-
 - (danvk) some people object to not overwriting.
 
 - (danvk) Make the "highlight" color something distinct from anyone's answer
