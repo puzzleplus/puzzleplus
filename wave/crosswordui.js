@@ -119,7 +119,7 @@ CrosswordWidget.prototype.focusClues = function(square) {
       div.style.width = 'auto';
       div.style.height = 'auto';
       var styles = ['font-size','font-style', 'font-weight', 'font-family','line-height', 'text-transform', 'letter-spacing'];
-      var computed = window.getComputedStyle(cb);
+      var computed = window.getComputedStyle(cb, null);
       for (var i = 0; i < styles.length; i++) {
         div.style[styles[i]] = computed[styles[i]];
       }
