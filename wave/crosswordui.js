@@ -172,6 +172,7 @@ CrosswordWidget.prototype.moveFocusBoxToSquare = function(focusbox, square) {
 // of the puzzle.
 // Skips over black squares if skip_black == true (i.e. for arrow keys).
 // Skips over filled squares if skip_filled == true (i.e. if you're typing).
+// TODO(danvk): this logic is getting really convoluted; rework it.
 CrosswordWidget.prototype.focusNext = function(square, dx, dy,
                                                skip_black, skip_filled) {
   var start_square = square;
@@ -198,6 +199,11 @@ CrosswordWidget.prototype.focusNext = function(square, dx, dy,
       }
     }
     x += dx; y += dy;
+  }
+
+  if (skip_filled) {
+    // Must have been completely filled-in. Just go to the next square.
+    return this.focusNext(start_square, dx, dy, false, false);
   }
 };
 
