@@ -2,6 +2,16 @@
 
 function $(id) { return document.getElementById(id); }
 
+// Detect whether the browser supports the HTML5 File API.
+function supportsUpload() {
+  try {
+    var f = new FileReader;
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 function makeCrossword() {
   var state = wave.getState();
   if (!state) return;
