@@ -50,7 +50,10 @@ h3 {
     </div>
     <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
     </form>
+    <p>You can find links to many .puz files <a
+    href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.</p>
   </div>
+
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
