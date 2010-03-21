@@ -68,6 +68,13 @@ h3 {
 
 <!-- do onblur and onfocus mean anything to a table? -->
 <div id="crossword_container" style="display:none">
+
+<div id="puzzle_info">
+  <span id="title"></span>
+  <span id="author"></span>
+  <span id="copyright"></span>
+</div>
+
 <table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign='top'>
   </tr>

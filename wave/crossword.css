@@ -173,3 +173,22 @@ div.focusbox {
   vertical-align: middle;
   display: table-cell;
 }
+
+#puzzle_info {
+  border-bottom: 1px solid black;
+  font-size: 120%;
+}
+
+#title {
+  border-right: 1px solid black;
+  padding-right: 10px;
+}
+#author {
+  border-right: 1px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#copyright {
+  padding-left: 10px;
+  padding-right: 10px;
+}

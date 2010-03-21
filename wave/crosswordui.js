@@ -76,6 +76,15 @@ CrosswordWidget.prototype.loadCrossword = function(crossword) {
   table.appendChild(tbody);
   this.tbody = tbody;
 
+  if (document.getElementById("puzzle_info")) {
+    var el = document.getElementById("title");
+    if (el) el.innerHTML = crossword["title"];
+    el = document.getElementById("author");
+    if (el) el.innerHTML = crossword["author"];
+    el = document.getElementById("copyright");
+    if (el) el.innerHTML = crossword["copyright"];
+  }
+
   // Hack -- we need something to focus when we want to take the focus away
   // from other input widgets (console, roster, etc.).  Focusing non-input
   // elements doesn't seem to do anything, so we create an invisible input
@@ -140,6 +149,7 @@ CrosswordWidget.prototype.focusClues = function(square) {
       console.log("" + textWidth + " / " + divWidth + " -> " + pct);
     }
 
+    // TODO(danvk): escape clue_str.
     Globals.cluebox.innerHTML = "<span style='font-size: " + pct + "%'>" + clue_str + "</span>";
   }
 };
