@@ -45,14 +45,21 @@ h3 {
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
     <div id="dropbox" class="dropbox" >
-    <b>Drag a .puz file here to start playing.</b>
+    <img src="http://danvk.org/lmnowave/thumbnail_120.png" />
+    <p><b>Drag a .puz file here to start playing.</b></p>
     </div>
-    <p>Or: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
+    <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
     </form>
   </div>
   <div id="upload_unsupported" style="display:none;">
-    <p><b>Your browser does not support puzzle upload.</b></p>
-    <p>One browser that does is <a href="http://www.mozilla.com/firefox/">Firefox 3.6</a>.</p>
+    <table><tr>
+    <td valign="top">
+      <img src="http://danvk.org/lmnowave/thumbnail_120.png" />
+    </td><td valign="middle">
+      <p><b>Your browser does not support puzzle upload.</b></p>
+      <p>Try loading this wave in a browser that does. One such browser is <a
+      href="http://www.mozilla.com/firefox/" target="_blank">Firefox 3.6</a>.</p>
+    </td>
   </div>
 </div>
 
