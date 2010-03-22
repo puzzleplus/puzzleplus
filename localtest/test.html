@@ -157,14 +157,16 @@ function handleFocus() {
 </SCRIPT>
 <TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE></HEAD><BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
 
-<div id="puzzle_info">
-  <span id="title"></span>
-  <span id="author"></span>
-  <span id="copyright"></span>
-</div>
-
 <TABLE cellspacing="0" cellpadding="0" id="toptable">
   <TBODY>
+  <tr valign="top"><td colspan=3>
+    <table id="puzzle_info" width="100%"><tr>
+      <td id="title"></td>
+      <td id="author"></td>
+      <td id="copyright"></td>
+    </tr></table>
+  </td> </tr>
+
   <TR valign="top">
     <TD>
       <div id='current_clue' style="margin-right: 2ex">hello</div>

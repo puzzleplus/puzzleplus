@@ -63,21 +63,22 @@ h3 {
       <p>Try loading this wave in a browser that does. One such browser is <a
       href="http://www.mozilla.com/firefox/" target="_blank">Firefox 3.6</a>.</p>
     </td>
+    </tr></table>
   </div>
 </div>
 
 <!-- do onblur and onfocus mean anything to a table? -->
 <div id="crossword_container" style="display:none">
 
-<div id="puzzle_info">
-  <span id="title"></span>
-  <span id="author"></span>
-  <span id="copyright"></span>
-</div>
-
 <table cellspacing='0' cellpadding='0' id='toptable' >
-  <tr valign='top'>
-  </tr>
+  <tr valign="top"><td colspan=3>
+    <table id="puzzle_info" width="100%"><tr>
+      <td id="title"></td>
+      <td id="author"></td>
+      <td id="copyright"></td>
+    </tr></table>
+  </td></tr>
+
   <tr valign='top'>
     <td>
       <div id='current_clue'></div>
