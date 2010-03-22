@@ -9,7 +9,7 @@
     thumbnail="http://danvk.org/lmnowave/thumbnail_120.png"
     screenshot="http://danvk.org/lmnowave/screenshot.png"
     description="Solve crossword puzzles with friends in Google Wave"
-    height="250">
+    height="375">
    <Require feature="rpc"/>
    <Require feature="wave" />
    <Require feature="dynamic-height" />
@@ -41,6 +41,7 @@ h3 {
 <script src="http://danvk.org/lmnowave/color.js"></script>
 <script src="http://danvk.org/lmnowave/puzparser.js"></script>
 <script src="http://danvk.org/lmnowave/lmnowave.js"></script>
+<script src="http://danvk.org/lmnowave/builtins.js"></script>
 
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
@@ -51,7 +52,9 @@ h3 {
     <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
     </form>
     <p>You can find links to many .puz files <a
-    href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.</p>
+    href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.
+    <br/>Or, try one of these puzzles from the <a
+    href="http://www.avclub.com/">A.V. Club</a>:</p>
   </div>
 
   <div id="upload_unsupported" style="display:none;">
@@ -60,11 +63,28 @@ h3 {
       <img src="http://danvk.org/lmnowave/thumbnail_120.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
-      <p>Try loading this wave in a browser that does. One such browser is <a
-      href="http://www.mozilla.com/firefox/" target="_blank">Firefox 3.6</a>.</p>
+      <p>Try loading this wave in a browser that does, such as <a
+      href="http://www.mozilla.com/firefox/" target="_blank">Firefox
+      3.6</a>.<br/> Or, try one of these puzzles from the <a
+      href="http://www.avclub.com/">A.V. Club</a>:</p>
     </td>
     </tr></table>
   </div>
+
+  <div id="builtins">
+  </div>
+
+  <script type="text/javascript">
+  for (var i = 0; i < Builtins.length; i++) {
+    var p = Builtins[i];
+    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="http://danvk.org/lmnowave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    document.getElementById("builtins").innerHTML += str;
+  }
+
+  function setBuiltInPuz(i) {
+    wave.getState().submitDelta({'crossword': unescape(Builtins[i].data)});
+  }
+  </script>
 </div>
 
 <!-- do onblur and onfocus mean anything to a table? -->
@@ -101,6 +121,9 @@ h3 {
   gadgets.util.registerOnLoadHandler(function() {
     if (wave && wave.isInWaveContainer()) {
       wave.setStateCallback(stateUpdated);
+    }
+    if (typeof(gadget) != 'undefined' && gadget && gadget.window) {
+      gadget.window.adjustHeight();
     }
   });
 

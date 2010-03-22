@@ -117,6 +117,10 @@ function addPuzToWave(files) {
   reader.readAsBinaryString(files[0]);
 }
 
+function addBuiltInPuzToWave(puz_file) {
+  state.submitDelta( { crossword: puz_file } );
+}
+
 // Returns a color for the current user. If the user does not have a color, one
 // will be assigned and sent along to the other participants in the wave. It is
 // posible that this color will change later, if there is a conflict with

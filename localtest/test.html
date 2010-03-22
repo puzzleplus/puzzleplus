@@ -55,6 +55,8 @@ h3 {
 <SCRIPT src="../wave/focusbox.js"></SCRIPT>
 <SCRIPT src="../wave/roster.js"></SCRIPT>
 <SCRIPT src="../wave/lmnowave.js"></SCRIPT>
+<SCRIPT src="../wave/builtins.js"></SCRIPT>
+<SCRIPT src="../wave/puzparser.js"></SCRIPT>
 
 <SCRIPT src="../wave/crossword.js"></SCRIPT>
 <SCRIPT>//<![CDATA[
@@ -78,7 +80,9 @@ function makeCrossword() {
   if (Crossword.title) page_title += " - " + Crossword.title;
   document.title = page_title;
 
-  Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+  if (!Globals.focusbox) {
+    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+  }
 
   Globals.widget = new CrosswordWidget;
   $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
@@ -182,4 +186,21 @@ function handleFocus() {
     
   </TR>
 </TBODY></TABLE>
+
+<div id="builtins">
+</div>
+<script type="text/javascript">
+for (var i = 0; i < Builtins.length; i++) {
+  var p = Builtins[i];
+  var str = '<a href="javascript:setPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+  document.getElementById("builtins").innerHTML += str;
+}
+function setPuz(i) {
+  Crossword = parsePuz(unescape(Builtins[i].data));
+
+  $('crossword').innerHTML = '';
+  $('clues').innerHTML = '';
+  makeCrossword();
+}
+</script>
 </BODY></HTML>

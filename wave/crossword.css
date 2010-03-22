@@ -193,3 +193,11 @@ div.focusbox {
   padding-left: 5px;
   padding-right: 5px;
 }
+
+#builtins a {
+  text-decoration: none;
+}
+
+#builtins img {
+  border: 0;
+}
