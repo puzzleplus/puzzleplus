@@ -47,6 +47,7 @@ function makeCrossword() {
         " clicking the \"Help\" link in the upper right corner.");
 
     Globals.clues = new CluesUI(Crossword);
+    $('clues').appendChild(Globals.clues.container);
 
     // user -> color
     Globals.user_colors = {};
@@ -59,15 +60,13 @@ function makeCrossword() {
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
 
-    // NOTE: we call adjustHeight here, before appending the clues box, to work
-    // around a bug in how wave computes the height of the gadget in
-    // Webkit-based browsers.
-    gadgets.window.adjustHeight();
-    $('clues').appendChild(Globals.clues.container);
+    //gadgets.window.adjustHeight();
+    setHeight();
     handleResize();
   } else {
     $('upload').style.display = 'block';
-    gadgets.window.adjustHeight();
+    //gadgets.window.adjustHeight();
+    setHeight();
   }
 }
 
@@ -224,6 +223,13 @@ function stateUpdated() {
       // Assign ourselves a new one.
       getMyColor();
     }
-    gadgets.window.adjustHeight();
+    // gadgets.window.adjustHeight();
+    setHeight();
   }
+}
+
+function setHeight() {
+  gadgets.window.adjustHeight(10 +
+    document.getElementById("crossword_container").clientHeight +
+    document.getElementById("upload").clientHeight);
 }
