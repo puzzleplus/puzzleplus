@@ -6,3 +6,4 @@ perl -i -pe 's,(type="text/css" href=").*(/crossword\.css"/>),$1'$base'$2,g' wav
 perl -i -pe 's,(<script src=").*(/[^/]*\.js"></script>),$1'$base'$2,g' wave/lmnowave.xml
 
 perl -i -pe 's,((?:thumbnail|screenshot)=").*(/[^/]*\.png"),$1'$base'$2,g' wave/lmnowave.xml
+perl -i -pe 's,(src=").*?(/[^/]*\.png"),$1'$base'$2,g' wave/lmnowave.xml
