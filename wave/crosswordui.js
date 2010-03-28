@@ -121,36 +121,54 @@ CrosswordWidget.prototype.focusClues = function(square) {
     // See if the text is too wide to fit. If it is, shrink it (up to a point).
     var cb = Globals.cluebox;
     if (!Globals.size_div) {
+      // Copy all styles from the clue box, except for a few that
+      // make it invisible.
       var div = document.createElement("div");
+      var computed = window.getComputedStyle(cb, null);
+      for (var i = 0; i < computed.length; i++) {
+        div.style[computed[i]] = computed[computed[i]];
+      }
+
       div.style.position = 'absolute';
-      div.style.left = '-1000px';
-      div.style.top = '-1000px';
+      div.style.left = '-500px';
+      div.style.top = '-500px';
       div.style.width = 'auto';
       div.style.height = 'auto';
-      var styles = ['font-size','font-style', 'font-weight', 'font-family','line-height', 'text-transform', 'letter-spacing'];
-      var computed = window.getComputedStyle(cb, null);
-      for (var i = 0; i < styles.length; i++) {
-        div.style[styles[i]] = computed[styles[i]];
-      }
+
+      // div.style.border = '1px solid black';
       document.body.appendChild(div);
       Globals.size_div = div;
     }
 
     Globals.size_div.textContent = clue_str;
     var textWidth = Globals.size_div.clientWidth;
-    var divWidth = Globals.cluebox.clientWidth;
+    var divWidth = Globals.cluebox.clientWidth - 10;
 
     var pct = 100.0;
+    var clipped = false;
     if (divWidth < textWidth) {
       pct *= divWidth / textWidth;
-      if (pct < 67) pct = 67;
-    }
-    if (console) {
-      console.log("" + textWidth + " / " + divWidth + " -> " + pct);
+      if (pct < 67) {
+        clipped = true;
+        pct = 67;
+      }
     }
 
     // TODO(danvk): escape clue_str.
     Globals.cluebox.innerHTML = "<span style='font-size: " + pct + "%'>" + clue_str + "</span>";
+
+    if (clipped) {
+      // Give some indication (a "...") that the clue was truncated.
+      var dotdiv = document.createElement("div");
+      dotdiv.style.position = 'absolute';
+      dotdiv.style.top = "0px";
+      dotdiv.style.right = "0px";
+      dotdiv.style.textAlign = "right";
+      dotdiv.style.fontSize = pct + "%";
+      dotdiv.style.background = '#fff';
+      dotdiv.innerHTML = "&hellip;";
+      Globals.cluebox.appendChild(dotdiv);
+    }
   }
 };
 

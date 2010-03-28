@@ -90,6 +90,7 @@ div.focusbox {
   height: 1.1em;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
 }
 
 
