@@ -63,6 +63,19 @@ function makeCrossword() {
     //gadgets.window.adjustHeight();
     setHeight();
     handleResize();
+  } else if (wave.getState().get('attachment_url') !== null) {
+    // .puz file has been sent as an attachment. Do an XHR for it.
+    var url = wave.getState().get('attachment_url');
+    wave.log("Doing XHR for " + url);
+    gadgets.io.makeRequest(url, function(obj) {
+      var puzData = obj.text;
+      var delta = {};
+      delta["crossword"] = puzData;
+      wave.getState().submitDelta(delta);
+      wave.log("XHR for " + url + " succeeded; return " +
+               puzData.length + " bytes");
+    });
+
   } else {
     $('upload').style.display = 'block';
     //gadgets.window.adjustHeight();
