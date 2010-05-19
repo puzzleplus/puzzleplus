@@ -4,5 +4,7 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /listpuzzles
+  script: app.py
 - url: /
   static_dir: wave
