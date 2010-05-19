@@ -9,6 +9,7 @@
     thumbnail="http://danvk.org/lmnowave/thumbnail_120.png"
     screenshot="http://danvk.org/lmnowave/screenshot.png"
     description="Solve crossword puzzles with friends in Google Wave"
+    width="800"
     height="375">
    <Require feature="rpc"/>
    <Require feature="wave" />
