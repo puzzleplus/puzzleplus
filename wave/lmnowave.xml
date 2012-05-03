@@ -12,12 +12,13 @@
     width="800"
     height="375">
    <Require feature="rpc"/>
-   <Require feature="wave" />
+   <!-- <Require feature="wave" /> -->
    <Require feature="dynamic-height" />
   </ModulePrefs>
 
   <Content type="html">
   <![CDATA[
+<html>
   <link rel="stylesheet" type="text/css" href="http://danvk.org/lmnowave/crossword.css"/>
 <style type='text/css'>
 body {
@@ -43,6 +44,10 @@ h3 {
 <script src="http://danvk.org/lmnowave/puzparser.js"></script>
 <script src="http://danvk.org/lmnowave/lmnowave.js"></script>
 <script src="http://danvk.org/lmnowave/builtins.js"></script>
+
+<body>
+
+<script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
@@ -83,7 +88,7 @@ h3 {
   }
 
   function setBuiltInPuz(i) {
-    wave.getState().submitDelta({'crossword': unescape(Builtins[i].data)});
+    gapi.hangout.data.getState().submitDelta({'crossword': unescape(Builtins[i].data)});
   }
   </script>
 </div>
@@ -120,12 +125,23 @@ h3 {
 
 <script type="text/javascript">
   gadgets.util.registerOnLoadHandler(function() {
-    if (wave && wave.isInWaveContainer()) {
-      wave.setStateCallback(stateUpdated);
-    }
-    // gadgets.window.adjustHeight();
-    setHeight();
+    gapi.hangout.onApiReady.add(
+      function(eventObj) {
+        if (eventObj.isApiReady) {
+          realInit();
+        }
+      }
+    );
   });
+
+  function realInit() {
+    // if (wave && wave.isInWaveContainer()) {
+    //   wave.setStateCallback(stateUpdated);
+    // }
+    // gadgets.window.adjustHeight();
+    gapi.hangout.data.onStateChanged.add(stateUpdated);
+    setHeight();
+  }
 
   // Set up the drag-and-drop interface.
   if (supportsUpload()) {
@@ -142,6 +158,7 @@ h3 {
     $('upload_unsupported').style.display = 'block';
   }
 </script>
+</body>
   ]]>
   </Content>
 </Module>

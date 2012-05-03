@@ -13,10 +13,10 @@ function supportsUpload() {
 }
 
 function makeCrossword() {
-  var state = wave.getState();
+  var state = gapi.hangout.data.getState();
   if (!state) return;
 
-  var crossword = state.get("crossword", null);
+  var crossword = state["crossword"] || null;
   if (crossword) {
     Crossword = parsePuz(crossword);
     if (!Crossword) {
@@ -63,17 +63,17 @@ function makeCrossword() {
     //gadgets.window.adjustHeight();
     setHeight();
     handleResize();
-  } else if (wave.getState().get('attachment_url') !== null) {
+  } else if (state['attachment_url'] !== undefined) {
     // .puz file has been sent as an attachment. Do an XHR for it.
-    var url = wave.getState().get('attachment_url');
-    wave.log("Doing XHR for " + url);
+    var url = gapi.hangout.data.getValue('attachment_url');
+    console.log("Doing XHR for " + url);
     gadgets.io.makeRequest(url, function(obj) {
       var puzData = obj.text;
       var delta = {};
       delta["crossword"] = puzData;
-      wave.getState().submitDelta(delta);
-      wave.log("XHR for " + url + " succeeded; return " +
-               puzData.length + " bytes");
+      gapi.hangout.data.submitDelta(delta);
+      console.log("XHR for " + url + " succeeded; return " +
+                  puzData.length + " bytes");
     });
 
   } else {
@@ -108,8 +108,8 @@ function addPuzToWave(files) {
 
   var reader = new FileReader();
   reader.onloadend = function(e) {
-    var state = wave.getState();
-    var crossword = state.get("crossword", null);
+    var state = gapi.hangout.data.getState();
+    var crossword = state["crossword"] || null;
     if (crossword) {
       Globals.console.write("Tried to add a second puz file!");
       return;
@@ -123,14 +123,22 @@ function addPuzToWave(files) {
 
     // Wave can only store string -> string maps, so it's easiest to submit the
     // binary .puz file to the wave.
-    state.submitDelta( { crossword: e.target.result } );
+    gapi.hangout.data.submitDelta( { crossword: e.target.result } );
   };
 
   reader.readAsBinaryString(files[0]);
 }
 
 function addBuiltInPuzToWave(puz_file) {
-  state.submitDelta( { crossword: puz_file } );
+  gapi.hangout.data.submitDelta( { crossword: puz_file } );
+}
+
+function getMyId() {
+  // var me = wa ve.getViewer().getId();
+  // This is the user's Google+ ID, e.g. 123456789727111132824
+  // Also of interest: person.displayName, person.image.url, person.image
+  var me = gapi.hangout.getParticipantById(gapi.hangout.getParticipantId());
+  return me.person.id;
 }
 
 // Returns a color for the current user. If the user does not have a color, one
@@ -138,17 +146,20 @@ function addBuiltInPuzToWave(puz_file) {
 // posible that this color will change later, if there is a conflict with
 // another user.
 function getMyColor() {
-  if (!wave) return '#dddddd';
+  if (!gapi.hangout.data) return '#dddddd';
 
-  var state = wave.getState();
+  var state = gapi.hangout.data.getState();
   if (!state) return '#dddddd';
 
   // This is what we think our color is.
   // It's possible that someone else has stolen it from us.
   var my_color = Globals.my_color;
 
-  var me = wave.getViewer().getId();
-  if (!my_color || state.get("@" + my_color) != me) {
+  // This is the user's Google+ ID, e.g. 123456789727111132824
+  // Also of interest: person.displayName, person.image.url, person.image
+  var me = getMyId();
+
+  if (!my_color || state["@" + my_color] != me) {
     // Either we haven't assigned ourselves a color yet or someone stolen this
     // color from us. In either case, assign ourselves a new one.
     var count = 0;
@@ -156,7 +167,7 @@ function getMyColor() {
     var color = RandomLightColor(count);
     var delta = {};
     delta["@" + color] = me;
-    state.submitDelta(delta);
+    gapi.hangout.data.submitDelta(delta);
     Globals.my_color = color;
     if (console) console.log("Assigning self color #" + count + ": " + color);
   }
@@ -164,26 +175,26 @@ function getMyColor() {
 }
 
 function updateWave(x, y, let) {
-  if (wave) {
+  if (gapi.hangout.data) {
     var k = "" + x + "," + y;
     var delta = {};
-    delta[k] = let + "\t" + wave.getViewer().getId();
+    delta[k] = let + "\t" + getMyId();
     getMyColor();  // make sure we have a color assigned to us.
-    wave.getState().submitDelta(delta);
+    gapi.hangout.data.submitDelta(delta);
     Globals.has_typed = true;
     // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
 }
 
 function stateUpdated() {
-  var state = wave.getState();
+  var state = gapi.hangout.data.getState();
   if (typeof(Crossword) == 'undefined') {
     makeCrossword();
   }
 
-  if (state && state.get("crossword", null)) {
-    var me = wave.getViewer().getId();
-    var keys = state.getKeys();
+  if (state && state["crossword"] !== undefined) {
+    var me = getMyId();
+    var keys = gapi.hangout.data.getKeys();
 
     // Make two passes through the state: one for the colors, one for the cells.
     Globals.my_color = null;
@@ -192,7 +203,7 @@ function stateUpdated() {
       if (k.substr(0, 1) != "@") continue;
       // must be a user color: "@color" -> "user@domain.com"
       var color = k.substr(1);
-      var user = state.get(k);
+      var user = state[k];
       Globals.user_colors[user] = color;
       if (user == me) {
         Globals.my_color = color;
@@ -214,7 +225,7 @@ function stateUpdated() {
       var square = Globals.widget.square(x, y);
       if (!square) continue;
 
-      var letter_user = state.get(k).split("\t");
+      var letter_user = state[k].split("\t");
       if (letter_user.length != 2) continue;
       var letter = letter_user[0];
       var user = letter_user[1];
