@@ -36,16 +36,16 @@ h3 {
 
 <body>
 
-<script src="http://danvk.org/lmnowave/common.js"></script>
-<script src="http://danvk.org/lmnowave/console.js"></script>
-<script src="http://danvk.org/lmnowave/crosswordui.js"></script>
-<script src="http://danvk.org/lmnowave/cluesui.js"></script>
-<script src="http://danvk.org/lmnowave/focusbox.js"></script>
-<script src="http://danvk.org/lmnowave/roster.js"></script>
-<script src="http://danvk.org/lmnowave/color.js"></script>
-<script src="http://danvk.org/lmnowave/puzparser.js"></script>
-<script src="http://danvk.org/lmnowave/lmnowave.js"></script>
-<script src="http://danvk.org/lmnowave/builtins.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/common.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/console.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/crosswordui.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/cluesui.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/focusbox.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/roster.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/color.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/puzparser.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/lmnowave.js"></script>
+<script src="https://github.com/danvk/lmnowave/blob/master/wave/builtins.js"></script>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
