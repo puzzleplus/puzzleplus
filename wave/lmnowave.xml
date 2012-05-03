@@ -34,6 +34,8 @@ h3 {
 }
 </style>
 
+<body>
+
 <script src="http://danvk.org/lmnowave/common.js"></script>
 <script src="http://danvk.org/lmnowave/console.js"></script>
 <script src="http://danvk.org/lmnowave/crosswordui.js"></script>
@@ -44,8 +46,6 @@ h3 {
 <script src="http://danvk.org/lmnowave/puzparser.js"></script>
 <script src="http://danvk.org/lmnowave/lmnowave.js"></script>
 <script src="http://danvk.org/lmnowave/builtins.js"></script>
-
-<body>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
@@ -88,7 +88,7 @@ h3 {
   }
 
   function setBuiltInPuz(i) {
-    gapi.hangout.data.getState().submitDelta({'crossword': unescape(Builtins[i].data)});
+    gapi.hangout.data.submitDelta({'crossword': Builtins[i].data});
   }
   </script>
 </div>
@@ -127,6 +127,7 @@ h3 {
   gadgets.util.registerOnLoadHandler(function() {
     gapi.hangout.onApiReady.add(
       function(eventObj) {
+        console.log('onApiReady fn called');
         if (eventObj.isApiReady) {
           realInit();
         }
@@ -139,8 +140,10 @@ h3 {
     //   wave.setStateCallback(stateUpdated);
     // }
     // gadgets.window.adjustHeight();
+    console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
     setHeight();
+    stateUpdated();  // initialize state
   }
 
   // Set up the drag-and-drop interface.

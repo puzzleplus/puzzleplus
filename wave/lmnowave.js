@@ -13,12 +13,14 @@ function supportsUpload() {
 }
 
 function makeCrossword() {
+  console.log('called makeCrossword');
   var state = gapi.hangout.data.getState();
   if (!state) return;
 
   var crossword = state["crossword"] || null;
+
   if (crossword) {
-    Crossword = parsePuz(crossword);
+    Crossword = parsePuz(unescape(crossword));
     if (!Crossword) {
       console.log("couldn't parse crossword");
       return;
@@ -70,7 +72,7 @@ function makeCrossword() {
     gadgets.io.makeRequest(url, function(obj) {
       var puzData = obj.text;
       var delta = {};
-      delta["crossword"] = puzData;
+      delta["crossword"] = escape(puzData);
       gapi.hangout.data.submitDelta(delta);
       console.log("XHR for " + url + " succeeded; return " +
                   puzData.length + " bytes");
@@ -123,15 +125,15 @@ function addPuzToWave(files) {
 
     // Wave can only store string -> string maps, so it's easiest to submit the
     // binary .puz file to the wave.
-    gapi.hangout.data.submitDelta( { crossword: e.target.result } );
+    gapi.hangout.data.submitDelta( { crossword: escape(e.target.result) } );
   };
 
   reader.readAsBinaryString(files[0]);
 }
 
-function addBuiltInPuzToWave(puz_file) {
-  gapi.hangout.data.submitDelta( { crossword: puz_file } );
-}
+// function addBuiltInPuzToWave(puz_file) {
+//   gapi.hangout.data.submitDelta( { crossword: puz_file } );
+// }
 
 function getMyId() {
   // var me = wa ve.getViewer().getId();
@@ -187,6 +189,7 @@ function updateWave(x, y, let) {
 }
 
 function stateUpdated() {
+  console.log('called stateUpdated');
   var state = gapi.hangout.data.getState();
   if (typeof(Crossword) == 'undefined') {
     makeCrossword();
