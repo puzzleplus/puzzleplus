@@ -130,7 +130,7 @@ function handleResize() {
 
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
-  $('bottomtable').style.width = $('toptable').clientWidth;
+  // $('bottomtable').style.width = $('toptable').clientWidth;
 
   if (Globals.cluebox) {
     Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
@@ -180,7 +180,7 @@ function handleFocus() {
   </TR>
 </TBODY></TABLE>
 
-<TABLE cellspacing="0" cellpadding="0" style="padding-top: 1ex; width: 680px; display: block;" id="bottomtable">
+<TABLE cellspacing="0" cellpadding="0" style="padding-top: 1ex; width: 680px;" id="bottomtable">
   <TBODY><TR valign="top">
     <TD style="width:100%"><DIV id="console"></DIV></TD>
     
