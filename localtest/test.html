@@ -48,159 +48,143 @@ h3 {
 
 </STYLE>
 
+<script src="fake-api.js"></script>
+
+<SCRIPT src="../wave/color.js"></SCRIPT>
 <SCRIPT src="../wave/common.js"></SCRIPT>
 <SCRIPT src="../wave/console.js"></SCRIPT>
 <SCRIPT src="../wave/crosswordui.js"></SCRIPT>
 <SCRIPT src="../wave/cluesui.js"></SCRIPT>
 <SCRIPT src="../wave/focusbox.js"></SCRIPT>
-<SCRIPT src="../wave/roster.js"></SCRIPT>
+<!--<SCRIPT src="../wave/roster.js"></SCRIPT>-->
 <SCRIPT src="../wave/lmnowave.js"></SCRIPT>
 <SCRIPT src="../wave/builtins.js"></SCRIPT>
 <SCRIPT src="../wave/puzparser.js"></SCRIPT>
 
-<SCRIPT src="../wave/crossword.js"></SCRIPT>
-<SCRIPT>//<![CDATA[
+<!--<SCRIPT src="../wave/crossword.js"></SCRIPT>-->
 
-function $(id) { return document.getElementById(id); }
+<script src="../wave/lmnowave.js"></script>
 
-function toggleHelp() {
-  if ($('help').style.visibility != 'visible') {
-    $('help').style.visibility = 'visible';
-  } else {
-    $('help').style.visibility = 'hidden';
-  }
-}
+<TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE>
+</HEAD>
+<!--
+<BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
+-->
+<body>
 
-function makeCrossword() {
-  Globals = {
-  };
+<div id="upload" style="display:none">
+  <div id="upload_supported" style="display:none;">
+    <div id="dropbox" class="dropbox" >
+    <img src="../wave/thumbnail_120.png" />
+    <p><b>Drag a .puz file here to start playing.</b></p>
+    </div>
+    <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
+    </form>
+    <p>You can find links to many .puz files <a
+    href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.
+    <br/>Or, try one of these puzzles from the <a
+    href="http://www.avclub.com/">A.V. Club</a>:</p>
+  </div>
 
-  $('title').innerHTML = Crossword.title;
-  var page_title = "lmnopuz";
-  if (Crossword.title) page_title += " - " + Crossword.title;
-  document.title = page_title;
+  <div id="upload_unsupported" style="display:none;">
+    <table><tr>
+    <td valign="top">
+      <img src="..//wave/thumbnail_120.png" />
+    </td><td valign="middle">
+      <p><b>Your browser does not support puzzle upload.</b></p>
+      <p>Try loading this wave in a browser that does, such as <a
+      href="http://www.mozilla.com/firefox/" target="_blank">Firefox</a> or
+      <a href="https://www.google.com/chrome">Chrome</a>.<br/>
+      Or, try one of these puzzles from the <a
+      href="http://www.avclub.com/">A.V. Club</a>:</p>
+    </td>
+    </tr></table>
+  </div>
 
-  if (!Globals.focusbox) {
-    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
-  }
+  <div id="builtins">
+  </div>
 
-  Globals.widget = new CrosswordWidget;
-  $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
-
-  Globals.console = new Console(150,
-                                false);
-  $('console').appendChild(Globals.console.container);
-
-  Globals.console.write(
-    "Welcome to lmnopuz! " +
-    
-    "lmnopuz has many nifty shortcut keys that you can learn about by " +
-    " clicking the \"Help\" link in the upper right corner.");
-
-  Globals.clues = new CluesUI(Crossword);
-  $('clues').appendChild(Globals.clues.container);
-
-  Globals.cluebox = $('current_clue');
-
-
-  handleResize();
-
-  // We need to wait to set focus until the table has been rendered (so
-  // that the offset stuff works) and until the clues have been created (so
-  // that the initial ones will be highlighted).  This kinda sucks.
-  Globals.widget.setFocus(Globals.widget.square(0, 0));
-};
-
-function handleResize() {
-  var clue_height = $('crossword').childNodes[0].clientHeight + $('current_clue').offsetHeight;
-  Globals.clues.setHeight(clue_height);
-
-  // Resize the console to take up all available space in the window.  To
-  // do this, we subtract from the window height the console's top offset
-  // and the margin that we want to keep at the bottom.
-  Globals.console.setHeight(
-      document.body.clientHeight -
-      findPosY($('console').childNodes[0].childNodes[0]) -
-      (findPosY($('title')) + 5));  // fudge factor because title font don't
-                                    // quite reach the top of the window.
-
-  // Make the roster the same height as the console.
-  if (Globals.roster)
-    Globals.roster.setHeight($('console').childNodes[0].clientHeight);
-
-  // Make the width of the console/roster table match that of the
-  // crossword/clues table.
-  // $('bottomtable').style.width = $('toptable').clientWidth;
-
-  if (Globals.cluebox) {
-    Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
+  <script type="text/javascript">
+  for (var i = 0; i < Builtins.length; i++) {
+    var p = Builtins[i];
+    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    document.getElementById("builtins").innerHTML += str;
   }
 
-  Globals.console.scrollToBottom();
-};
-
-function handleBeforeUnload() {
-  if (Globals.mp) Globals.mp.shutdown();
-};
-
-function handleBlur() {
-  if (Globals) Globals.windowFocused = false;
-};
-
-function handleFocus() {
-  // TODO(derat): I suspect that we might not be getting an initial focus
-  // event in Safari (we seem to in Firefox).  If this is the case, we
-  // should just set Globals.windowFocused to true in makeCrossword().
-  if (Globals && !Globals.windowFocused) {
-    Globals.windowFocused = true;
-    Globals.console.stopTitleFlash();
+  function setBuiltInPuz(i) {
+    gapi.hangout.data.submitDelta({'crossword': Builtins[i].data});
   }
-};
+  </script>
+</div>
 
-//]]>
-</SCRIPT>
-<TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE></HEAD><BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
+<!-- do onblur and onfocus mean anything to a table? -->
+<div id="crossword_container" style="display:none">
 
-<TABLE cellspacing="0" cellpadding="0" id="toptable">
-  <TBODY>
+<table cellspacing='0' cellpadding='0' id='toptable' >
   <tr valign="top"><td colspan=3>
     <table id="puzzle_info" width="100%"><tr>
       <td id="title"></td>
       <td id="author"></td>
       <td id="copyright"></td>
     </tr></table>
-  </td> </tr>
+  </td></tr>
 
-  <TR valign="top">
-    <TD>
-      <div id='current_clue' style="margin-right: 2ex">hello</div>
-      <DIV id="crossword" style="margin-right: 2ex"></DIV>
-    </TD>
-    <TD><DIV id="clues"><DIV></DIV></TD>
-  </TR>
-</TBODY></TABLE>
-
-<TABLE cellspacing="0" cellpadding="0" style="padding-top: 1ex; width: 680px;" id="bottomtable">
-  <TBODY><TR valign="top">
-    <TD style="width:100%"><DIV id="console"></DIV></TD>
-    
-  </TR>
-</TBODY></TABLE>
-
-<div id="builtins">
+  <tr valign='top'>
+    <td>
+      <div id='current_clue'></div>
+      <div id='crossword' style='margin-right: 2ex'></div>
+    </td>
+    <td><div id='clues'></div></td>
+  </tr>
+</table>
 </div>
-<script type="text/javascript">
-for (var i = 0; i < Builtins.length; i++) {
-  var p = Builtins[i];
-  var str = '<a href="javascript:setPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
-  document.getElementById("builtins").innerHTML += str;
-}
-function setPuz(i) {
-  Crossword = parsePuz(unescape(Builtins[i].data));
 
-  $('crossword').innerHTML = '';
-  $('clues').innerHTML = '';
-  makeCrossword();
-}
+<div style="display:none;">
+<table cellspacing='0' cellpadding='0' style='padding-top: 1ex' id='bottomtable'>
+  <tr valign='top'>
+    <td style='width:100%'><div id='console'></div></td>
+  </tr>
+</table>
+</div>
+
+<script type="text/javascript">
+  gadgets.util.registerOnLoadHandler(function() {
+    gapi.hangout.onApiReady.add(
+      function(eventObj) {
+        console.log('onApiReady fn called');
+        if (eventObj.isApiReady) {
+          realInit();
+        }
+      }
+    );
+  });
+
+  function realInit() {
+    // if (wave && wave.isInWaveContainer()) {
+    //   wave.setStateCallback(stateUpdated);
+    // }
+    // gadgets.window.adjustHeight();
+    console.log('in realInit');
+    gapi.hangout.data.onStateChanged.add(stateUpdated);
+    setHeight();
+    stateUpdated();  // initialize state
+  }
+
+  // Set up the drag-and-drop interface.
+  if (supportsUpload()) {
+    var dropbox = document.getElementById("dropbox");
+    var stop = function(e) { e.stopPropagation(); e.preventDefault(); };
+    dropbox.addEventListener("dragenter", stop, false);
+    dropbox.addEventListener("dragover", stop, false);
+    dropbox.addEventListener("drop", function(e) {
+      stop(e);
+      addPuzToWave(e.dataTransfer.files);
+    }, false);
+    $('upload_supported').style.display = 'block';
+  } else {
+    $('upload_unsupported').style.display = 'block';
+  }
 </script>
-</BODY></HTML>
+
+</body>
+</html>
