@@ -38,12 +38,12 @@ FocusBox.prototype.drawEdge = function(edge, left, top, width, height) {
 };
 
 FocusBox.prototype.drawBox = function(x, y, w, h) {
-  if (w == 0 && h == 0) {
+  if (w <= 0 && h <= 0) {
     this.left.style.display = 'none';
     this.right.style.display = 'none';
     this.top.style.display = 'none';
     this.bottom.style.display = 'none';
-  } else if (this.cur_w == 0 && this.cur_h == 0 && (w != 0 || h != 0)) {
+  } else if (this.cur_w <= 0 && this.cur_h <= 0 && (w != 0 || h != 0)) {
     this.left.style.display = 'block';
     this.right.style.display = 'block';
     this.top.style.display = 'block';
@@ -100,7 +100,7 @@ FocusBox.prototype.moveTo = function(x, y, w, h, animate) {
   this.des_y = y;
   this.des_w = w;
   this.des_h = h;
-  if (animate) {
+  if (animate && this.cur_w > 0) {
     if (!this.timer) this.animate(this);
   } else {
     this.drawBox(x, y, w, h);

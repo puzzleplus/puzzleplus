@@ -89,9 +89,13 @@ div.focusbox {
   padding-top: 1px;
   padding-bottom: 1px;
   height: 1.1em;
-  overflow: hidden;
   white-space: nowrap;
   position: relative;
+}
+
+#current_clue div {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

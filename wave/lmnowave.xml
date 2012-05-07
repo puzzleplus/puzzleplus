@@ -146,6 +146,7 @@ h3 {
     //   wave.setStateCallback(stateUpdated);
     // }
     // gadgets.window.adjustHeight();
+    console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
     setHeight();
     stateUpdated();  // initialize state

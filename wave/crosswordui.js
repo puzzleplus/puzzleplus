@@ -145,30 +145,15 @@ CrosswordWidget.prototype.focusClues = function(square) {
     var divWidth = Globals.cluebox.clientWidth - 10;
 
     var pct = 100.0;
-    var clipped = false;
     if (divWidth < textWidth) {
       pct *= divWidth / textWidth;
       if (pct < 67) {
-        clipped = true;
         pct = 67;
       }
     }
 
     // TODO(danvk): escape clue_str.
-    Globals.cluebox.innerHTML = "<span style='font-size: " + pct + "%'>" + clue_str + "</span>";
-
-    if (clipped) {
-      // Give some indication (a "...") that the clue was truncated.
-      var dotdiv = document.createElement("div");
-      dotdiv.style.position = 'absolute';
-      dotdiv.style.top = "0px";
-      dotdiv.style.right = "0px";
-      dotdiv.style.textAlign = "right";
-      dotdiv.style.fontSize = pct + "%";
-      dotdiv.style.background = '#fff';
-      dotdiv.innerHTML = "&hellip;";
-      Globals.cluebox.appendChild(dotdiv);
-    }
+    Globals.cluebox.innerHTML = "<div style='font-size: " + pct + "%'>" + clue_str + "</div>";
   }
 };
 
