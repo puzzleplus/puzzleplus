@@ -680,6 +680,10 @@ CrosswordWidget.prototype.focus = function() {
   this.moveFocusBoxToSquare(Globals.focusbox, this.focused);
 };
 
+CrosswordWidget.prototype.blur = function() {
+  this.focused = undefined;
+};
+
 CrosswordWidget.prototype.fadeSquareColors = function() {
   if (!Globals.widget.correct) {
     var fade_sec = 30;
@@ -730,6 +734,11 @@ Square = function(widget, x, y, letter, number) {
   this.td = document.createElement('td');
   this.td.square = this;   // this is probably bad for IE...  *shrug*
   this.td.onmousedown = function() { widget.setFocus(this.square, true); };
+  this.td.ondblclick = function(e) {
+    console.log('td.dblclick');
+    e.preventDefault();
+    return true;
+  };
 
   this.answer = letter;
 

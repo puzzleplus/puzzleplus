@@ -45,12 +45,31 @@ function CluesBox(title, clues) {
     entry.number = number;
     entry.onclick = function() {
       Globals.widget.selectByClue(this.number, this.direction);
+      Globals.widget.blur();
     };
     entry.innerHTML = number + ' ' + clues[i][1];
 
     scroller.appendChild(entry);
     this.divs[number] = entry;
   }
+
+  // TODO(danvk): this probably needs to go on document.onkeydown...
+  scroller.onkeydown = function(e) {
+    console.log('scroller onkeydown');
+    if (!e) e = window.event;
+    if (e.altKey || e.ctrlKey || e.metaKey) return true;
+
+    // Safari and Chrome capture special keys by default. We need to
+    // "preventDefault" on the event to stop this from happening.
+    var keycode = e.keyCode;
+    if (   keycode == 38 || keycode == 63232  // up
+        || keycode == 40 || keycode == 63233  // down
+        ) { // delete
+      e.preventDefault();
+    }
+
+    this.keyPress(e);
+  };
   container.appendChild(scroller);
 
   this.container = container;
@@ -81,7 +100,29 @@ CluesBox.prototype.getClueText = function(num) {
   if (!clue) return undefined;
   return unescapeHTML(clue.innerHTML).
       replace(/^[0-9]+ */, '').replace(/"/g, "'");
-}
+};
+
+CluesBox.prototype.keyPress = function(e) {
+  if (!this.highlighted) return true;
+
+  // see comments in crosswordui.js, keyPress()
+  var keycode = e.keyCode;
+  var delta = 0;
+  if (keycode == 38 || keycode == 63232) { // up
+    delta = -1;
+  } else if (keycode == 40 || keycode == 63233) { // down
+    delta = +1;
+  }
+
+  if (!delta) return true;
+
+  // this is a bit odd...
+  Globals.widget.keyPress({
+    keycode: 9,
+    shiftKey: (delta < 0)
+  });
+};
+
 
 function CluesUI(crossword) {
   this.container = document.createElement('div');

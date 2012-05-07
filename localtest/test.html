@@ -151,7 +151,6 @@ h3 {
   gadgets.util.registerOnLoadHandler(function() {
     gapi.hangout.onApiReady.add(
       function(eventObj) {
-        console.log('onApiReady fn called');
         if (eventObj.isApiReady) {
           realInit();
         }
@@ -164,7 +163,6 @@ h3 {
     //   wave.setStateCallback(stateUpdated);
     // }
     // gadgets.window.adjustHeight();
-    console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
     setHeight();
     stateUpdated();  // initialize state

@@ -26,6 +26,7 @@ The focus is attached to a cell by making it a child of the cell:
   position: absolute;
   font-size: 7pt;
   font-family: sans-serif;
+  margin-left: 1px;  /* gives a bit of separation from left cell edge */
 }
 
 #crosswordui div.letter {
