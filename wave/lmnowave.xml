@@ -90,7 +90,7 @@ h3 {
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://raw.github.com/danvk/lmnowave/raw/master/wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
     document.getElementById("builtins").innerHTML += str;
   }
 
