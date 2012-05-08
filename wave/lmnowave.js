@@ -51,8 +51,10 @@ function makeCrossword() {
     Globals.clues = new CluesUI(Crossword);
     $('clues').appendChild(Globals.clues.container);
 
+    console.log('creating roster...');
     Globals.roster = new Roster();
     $('roster').appendChild(Globals.roster.container);
+    console.log('created roster...');
 
     // user -> color
     Globals.user_colors = {};
