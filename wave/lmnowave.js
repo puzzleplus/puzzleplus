@@ -53,6 +53,8 @@ function makeCrossword() {
 
     console.log('creating roster...');
     Globals.roster = new Roster();
+    console.log(Globals.roster);
+    console.log($('roster'));
     $('roster').appendChild(Globals.roster.container);
     console.log('created roster...');
 
