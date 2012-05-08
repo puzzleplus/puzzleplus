@@ -257,7 +257,7 @@ function stateUpdated() {
 }
 
 function setHeight() {
-  gadgets.window.adjustHeight(10 +
-    document.getElementById("crossword_container").clientHeight +
-    document.getElementById("upload").clientHeight);
+  // gadgets.window.adjustHeight(10 +
+  //   document.getElementById("crossword_container").clientHeight +
+  //   document.getElementById("upload").clientHeight);
 }
