@@ -139,6 +139,7 @@ div.focusbox {
 
 #roster {
   width: 12em;
+  margin-right: 1ex;
 }
 #roster div.namediv {
   padding: 0.3em;

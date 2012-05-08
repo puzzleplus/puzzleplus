@@ -48,10 +48,7 @@ h3 {
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/puzparser.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/lmnowave.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/builtins.js"></script>
-
-<!--
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/roster.js"></script>
--->
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
@@ -104,15 +101,19 @@ h3 {
 <div id="crossword_container" style="display:none">
 
 <table cellspacing='0' cellpadding='0' id='toptable' >
-  <tr valign="top"><td colspan=3>
+  <tr valign="top">
+  <td>&nbsp;</td>
+  <td colspan=2>
     <table id="puzzle_info" width="100%"><tr>
       <td id="title"></td>
       <td id="author"></td>
       <td id="copyright"></td>
     </tr></table>
-  </td></tr>
+  </td>
+  </tr>
 
   <tr valign='top'>
+    <td><div id='roster'></div></td>
     <td>
       <div id='current_clue'></div>
       <div id='crossword' style='margin-right: 2ex'></div>
@@ -142,12 +143,9 @@ h3 {
   });
 
   function realInit() {
-    // if (wave && wave.isInWaveContainer()) {
-    //   wave.setStateCallback(stateUpdated);
-    // }
-    // gadgets.window.adjustHeight();
     console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
+    gapi.hangout.data.onEnabledParticipantsChanged.add(usersChanged);
     setHeight();
     stateUpdated();  // initialize state
   }

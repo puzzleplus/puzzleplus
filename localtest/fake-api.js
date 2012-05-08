@@ -11,6 +11,8 @@
 // gapi.hangout.getParticipantById();
 // gapi.hangout.getParticipantId();
 // gapi.hangout.onApiReady.add()
+// gapi.hangout.data.onEnabledParticipantsChanged.add();
+// gapi.hangout.getParticipants();
 
 var pageHasLoaded = false;
 var initFns = [];
@@ -31,19 +33,24 @@ var gadgets = (function() {
           fn();
         }
       }
-    },
-
-    window: {
-      adjustHeight: function(height) {
-        // This does something in iGoogle but is a no-op in Google+ Hangouts.
-      }
     }
   }
 })();
 
 var gapi = (function() {
   var state = {};
-  var users = {};
+  var users = {
+    '123ABC': {
+      hasAppEnabled: true,
+      person: {
+        id: '4567890123',
+        displayName: 'John Doe',
+        image: {
+          url: 'https://lh5.googleusercontent.com/-_om-59NoFH8/AAAAAAAAAAI/AAAAAAAAAAA/0fcwDv4LZ-M/s48-c-k/photo.jpg'
+        }
+      }
+    }
+  };
   var stateChangeFns = [];
   var apiReadyFns = [];
 
@@ -106,19 +113,26 @@ var gapi = (function() {
       },
 
       getParticipantById: function(id) {
-        return {
-          '123ABC': {
-            person: {
-              id: '4567890123',
-              displayName: 'John Doe'
-            }
-          }
-        }[id];
+        return users[id];
+      },
+
+      getParticipants: function(id) {
+        var users_list = [];
+        for (var k in users) {
+          users_list.push(users[k]);
+        }
+        return users_list;
       },
 
       onApiReady: {
         add: function(fn) {
           apiReadyFns.push(fn);
+        }
+      },
+
+      onEnabledParticipantsChanged: {
+        add: function(fn) {
+          // ...
         }
       }
     }

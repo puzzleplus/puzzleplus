@@ -51,6 +51,9 @@ function makeCrossword() {
     Globals.clues = new CluesUI(Crossword);
     $('clues').appendChild(Globals.clues.container);
 
+    Globals.roster = new Roster();
+    $('roster').appendChild(Globals.roster.container);
+
     // user -> color
     Globals.user_colors = {};
     Globals.has_typed = false;
@@ -65,6 +68,7 @@ function makeCrossword() {
     //gadgets.window.adjustHeight();
     setHeight();
     handleResize();
+    usersChanged();
   } else if (state['attachment_url'] !== undefined) {
     // TODO(danvk): remove this, I can't imagine how it would work in G+.
     // .puz file has been sent as an attachment. Do an XHR for it.
@@ -140,6 +144,12 @@ function getMyId() {
   // var me = wa ve.getViewer().getId();
   // This is the user's Google+ ID, e.g. 123456789727111132824
   // Also of interest: person.displayName, person.image.url, person.image
+
+  // TODO(danvk): be more graceful when this happens:
+  // There may be a small window of time where the local participant (returned
+  // from getParticipantId()) is not in the returned array.
+  // https://developers.google.com/+/hangouts/reference#gapi.hangout.getParticipants
+
   var me = gapi.hangout.getParticipantById(gapi.hangout.getParticipantId());
   return me.person.id;
 }
@@ -253,7 +263,32 @@ function stateUpdated() {
     }
     // gadgets.window.adjustHeight();
     setHeight();
+    usersChanged();
   }
+}
+
+function usersChanged(gapi_users) {
+  if (typeof(Globals) === 'undefined' || !Globals.roster) return;
+
+  var all_users = gapi.hangout.getParticipants();
+  var users = [];
+
+  for (var i = 0; i < all_users.length; i++) {
+    var user = all_users[i];
+    if (!user.hasAppEnabled) continue;
+
+    var p = user.person;
+
+    var display_user = {
+      image_url: p.image.url,
+      name: p.displayName,
+      color: Globals.user_colors[p.id] || '#dddddd'
+    };
+    users.push(display_user);
+  }
+
+  console.log('updating users');
+  Globals.roster.updateUsers(users);
 }
 
 function setHeight() {

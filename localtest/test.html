@@ -56,7 +56,7 @@ h3 {
 <SCRIPT src="../wave/crosswordui.js"></SCRIPT>
 <SCRIPT src="../wave/cluesui.js"></SCRIPT>
 <SCRIPT src="../wave/focusbox.js"></SCRIPT>
-<!--<SCRIPT src="../wave/roster.js"></SCRIPT>-->
+<SCRIPT src="../wave/roster.js"></SCRIPT>
 <SCRIPT src="../wave/lmnowave.js"></SCRIPT>
 <SCRIPT src="../wave/builtins.js"></SCRIPT>
 <SCRIPT src="../wave/puzparser.js"></SCRIPT>
@@ -65,11 +65,8 @@ h3 {
 
 <script src="../wave/lmnowave.js"></script>
 
-<TITLE>lmnopuz - NY Times, Wed, Feb 04, 2004</TITLE>
+<TITLE>lmnopuz test</TITLE>
 </HEAD>
-<!--
-<BODY onload="makeCrossword()" onresize="javascript:handleResize(); return true" onbeforeunload="javascript:handleBeforeUnload();" onblur="javascript:handleBlur();" onfocus="javascript:handleFocus();">
--->
 <body>
 
 <div id="upload" style="display:none">
@@ -121,15 +118,19 @@ h3 {
 <div id="crossword_container" style="display:none">
 
 <table cellspacing='0' cellpadding='0' id='toptable' >
-  <tr valign="top"><td colspan=3>
+  <tr valign="top">
+  <td>&nbsp;</td>
+  <td colspan=2>
     <table id="puzzle_info" width="100%"><tr>
       <td id="title"></td>
       <td id="author"></td>
       <td id="copyright"></td>
     </tr></table>
-  </td></tr>
+  </td>
+  </tr>
 
   <tr valign='top'>
+    <td><div id='roster'></div></td>
     <td>
       <div id='current_clue'></div>
       <div id='crossword' style='margin-right: 2ex'></div>
@@ -159,11 +160,9 @@ h3 {
   });
 
   function realInit() {
-    // if (wave && wave.isInWaveContainer()) {
-    //   wave.setStateCallback(stateUpdated);
-    // }
-    // gadgets.window.adjustHeight();
+    console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
+    gapi.hangout.onEnabledParticipantsChanged.add(usersChanged);
     setHeight();
     stateUpdated();  // initialize state
   }
@@ -183,6 +182,7 @@ h3 {
     $('upload_unsupported').style.display = 'block';
   }
 </script>
+
 
 </body>
 </html>
