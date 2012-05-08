@@ -20,7 +20,7 @@ Roster.prototype.updateUsers = function(users) {
 
     var name = document.createElement('span');
     name.className = 'name';
-    name.innerHTML = '<img src="' + user.image_url + '" /> ' + user.name;
+    name.innerHTML = '<img width=16 height=16 src="' + user.image_url + '" /> ' + user.name;
     console.log(name.innerHTML);
     div.appendChild(name);
 
