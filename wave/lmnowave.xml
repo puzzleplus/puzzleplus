@@ -145,7 +145,7 @@ h3 {
   function realInit() {
     console.log('in realInit');
     gapi.hangout.data.onStateChanged.add(stateUpdated);
-    gapi.hangout.data.onEnabledParticipantsChanged.add(usersChanged);
+    gapi.hangout.onEnabledParticipantsChanged.add(usersChanged);
     setHeight();
     stateUpdated();  // initialize state
   }
