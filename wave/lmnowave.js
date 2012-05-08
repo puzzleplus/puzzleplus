@@ -66,6 +66,7 @@ function makeCrossword() {
     setHeight();
     handleResize();
   } else if (state['attachment_url'] !== undefined) {
+    // TODO(danvk): remove this, I can't imagine how it would work in G+.
     // .puz file has been sent as an attachment. Do an XHR for it.
     var url = gapi.hangout.data.getValue('attachment_url');
     console.log("Doing XHR for " + url);
@@ -256,7 +257,7 @@ function stateUpdated() {
 }
 
 function setHeight() {
-  gadgets.window.adjustHeight(10 +
-    document.getElementById("crossword_container").clientHeight +
-    document.getElementById("upload").clientHeight);
+  // gadgets.window.adjustHeight(10 +
+  //   document.getElementById("crossword_container").clientHeight +
+  //   document.getElementById("upload").clientHeight);
 }
