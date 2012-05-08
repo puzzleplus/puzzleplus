@@ -273,6 +273,8 @@ function usersChanged(gapi_users) {
   var all_users = gapi.hangout.getParticipants();
   var users = [];
 
+  console.log(all_users);
+
   for (var i = 0; i < all_users.length; i++) {
     var user = all_users[i];
     if (!user.hasAppEnabled) continue;
