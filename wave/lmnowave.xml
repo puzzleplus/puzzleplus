@@ -37,8 +37,6 @@ h3 {
 }
 </style>
 
-<body>
-
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/common.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/console.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/crosswordui.js"></script>
@@ -52,14 +50,24 @@ h3 {
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
+<body>
+
+<div class="centering-outer">
+<div class="centering-middle">
+<div class="centering-inner">
+
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
-    <div id="dropbox" class="dropbox" >
-    <img src="https://raw.github.com/danvk/lmnowave/master/wave/thumbnail_120.png" />
-    <p><b>Drag a .puz file here to start playing.</b></p>
+    <div id="upload-interface">
+      <div id="dropbox" class="dropbox" >
+        <img src="../wave/thumbnail_120.png" />
+        <p><b>Drag a .puz file here to start playing.</b></p>
+      </div>
+      <p id="file-chooser">Or choose a file:
+        <input type="file" id="puz" onchange="addPuzToWave(this.files)" />
+      </p>
     </div>
-    <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
-    </form>
+
     <p>You can find links to many .puz files <a
     href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.
     <br/>Or, try one of these puzzles from the <a
@@ -69,7 +77,7 @@ h3 {
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
-      <img src="https://raw.github.com/danvk/lmnowave/master/wave/thumbnail_120.png" />
+      <img src="..//wave/thumbnail_120.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
       <p>Try loading this wave in a browser that does, such as <a
@@ -87,7 +95,7 @@ h3 {
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
     document.getElementById("builtins").innerHTML += str;
   }
 
@@ -121,7 +129,8 @@ h3 {
     <td><div id='clues'></div></td>
   </tr>
 </table>
-</div>
+
+</div>  <!-- #crossword_outer -->
 
 <div style="display:none;">
 <table cellspacing='0' cellpadding='0' style='padding-top: 1ex' id='bottomtable'>
@@ -130,6 +139,10 @@ h3 {
   </tr>
 </table>
 </div>
+
+</div>  <!-- .centering-inner -->
+</div>  <!-- .centering-middle -->
+</div>  <!-- .centering-outer -->
 
 <script type="text/javascript">
   gadgets.util.registerOnLoadHandler(function() {
@@ -165,6 +178,8 @@ h3 {
     $('upload_unsupported').style.display = 'block';
   }
 </script>
+
+
 </body>
   ]]>
   </Content>

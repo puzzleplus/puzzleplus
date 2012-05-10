@@ -69,14 +69,22 @@ h3 {
 </HEAD>
 <body>
 
+<div class="centering-outer">
+<div class="centering-middle">
+<div class="centering-inner">
+
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
-    <div id="dropbox" class="dropbox" >
-    <img src="../wave/thumbnail_120.png" />
-    <p><b>Drag a .puz file here to start playing.</b></p>
+    <div id="upload-interface">
+      <div id="dropbox" class="dropbox" >
+        <img src="../wave/thumbnail_120.png" />
+        <p><b>Drag a .puz file here to start playing.</b></p>
+      </div>
+      <p id="file-chooser">Or choose a file:
+        <input type="file" id="puz" onchange="addPuzToWave(this.files)" />
+      </p>
     </div>
-    <p>Or choose a file: <input type="file" id="puz" onchange="addPuzToWave(this.files)" /></p>
-    </form>
+
     <p>You can find links to many .puz files <a
     href="http://www.fleetingimage.com/wij/xyzzy/nyt-links.html">here</a>.
     <br/>Or, try one of these puzzles from the <a
@@ -138,7 +146,8 @@ h3 {
     <td><div id='clues'></div></td>
   </tr>
 </table>
-</div>
+
+</div>  <!-- #crossword_outer -->
 
 <div style="display:none;">
 <table cellspacing='0' cellpadding='0' style='padding-top: 1ex' id='bottomtable'>
@@ -147,6 +156,10 @@ h3 {
   </tr>
 </table>
 </div>
+
+</div>  <!-- .centering-inner -->
+</div>  <!-- .centering-middle -->
+</div>  <!-- .centering-outer -->
 
 <script type="text/javascript">
   gadgets.util.registerOnLoadHandler(function() {

@@ -113,7 +113,7 @@ function handleResize() {
 
 function addPuzToWave(files) {
   if (files.length != 1) {
-    Globals.console.write("Need to upload one puz file!");
+    if (console) console.log("Need to upload one puz file!");
     return;
   }
 
@@ -122,13 +122,13 @@ function addPuzToWave(files) {
     var state = gapi.hangout.data.getState();
     var crossword = state["crossword"] || null;
     if (crossword) {
-      Globals.console.write("Tried to add a second puz file!");
+      if (console) console.log("Tried to add a second puz file!");
       return;
     }
 
     puz = parsePuz(e.target.result);
     if (!puz) {
-      Globals.console.write("Couldn't parse puz file!");
+      if (console) console.write("Couldn't parse puz file!");
       return;
     }
 
