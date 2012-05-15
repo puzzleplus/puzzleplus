@@ -11,11 +11,24 @@ The focus is attached to a cell by making it a child of the cell:
 The net effect of these three styles is to horizontally & vertically center
 the crossword on the page.
 */
+
+body {
+  margin: 0;
+}
+body, td, input {
+  font-family: sans-serif;
+}
+
+h3 {
+  font-size: 100%;
+  margin: 0;
+}
+
 .centering-outer {
   width: 100%;
   height: 100%;
   display: table;
-  background: lightgray;
+  background: rgb(245,245,245);  /* matches Google+ gray */
 }
 .centering-middle {
   display: table-cell;
@@ -24,14 +37,13 @@ the crossword on the page.
 .centering-inner {
   display: table;
   margin: 0 auto;
-  border: 1px solid gray;
+  border: 1px solid lightgray;
   border-radius: 8px;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
   background: white;
   padding: 10px;
 }
-
 
 #crosswordui {
   font-family: sans-serif;
@@ -64,7 +76,7 @@ the crossword on the page.
   font-family: sans-serif;
   font-weight: bold;
   text-align: center;
-  line-height: 3ex;    /* vertical centering! */
+  line-height: 3.8ex;    /* vertical centering! */
   width:       3ex;
   height:      3ex;
   position: relative;
@@ -95,11 +107,13 @@ div.focusbox {
   height: 10em;
 }
 #clues div.primaryhighlighted {
+  color: rgb(162,0,0);
   border-top: #ccf solid 1px;
   border-bottom: #ccf solid 1px;
   background: #ccf;
 }
 #clues div.otherhighlighted {
+  color: rgb(162,0,0);
   border-top: #ccf dashed 1px;
   border-bottom: #ccf dashed 1px;
 }
@@ -121,6 +135,7 @@ div.focusbox {
   height: 1.1em;
   white-space: nowrap;
   position: relative;
+  /* color: rgb(162,0,0); */
 }
 
 #current_clue div {
@@ -188,20 +203,16 @@ div.focusbox {
   border: solid 1px gray;
 }
 #roster div.container {
-  border: solid 1px #ccc;
 }
 #roster div.line {
   padding: 0.3em 0.2em;
-}
-#roster div.scroller {
-  border-top: solid 1px #ccc;
 }
 #roster div.line span.name {
   padding: 0.2em;
 }
 
 .dropbox {
-  width: 250px;
+  width: 100%;
   height: 150px;
   border: 3px dashed black;
   border-radius: 8px;
@@ -213,9 +224,13 @@ div.focusbox {
   margin-bottom: 10px;
 }
 
+#upload {
+  font-family: serif;
+}
+
 #upload-interface {
   display: table;
-  margin: 0 auto;
+  margin: 1ex auto;
 }
 
 #puzzle_info {

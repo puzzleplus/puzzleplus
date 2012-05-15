@@ -115,7 +115,7 @@ CrosswordWidget.prototype.focusClues = function(square) {
   // Update the "Current Clue" box.
   if (Globals.cluebox) {
     var num = this.getNumber(square, this.direction_horiz);
-    var clue_str = num + (this.direction_horiz ? "A" : "D") + ": ";
+    var clue_str = num + (this.direction_horiz ? "A" : "D");
     clue_str += Globals.clues.getClueText(num, this.direction_horiz);
 
     // See if the text is too wide to fit. If it is, shrink it (up to a point).

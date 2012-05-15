@@ -6,36 +6,15 @@
     title_url="http://danvk.org/"
     author="Dan Vanderkam"
     author_email="danvdk@gmail.com"
-    description="Solve crossword puzzles with friends in Google Plus"
+    description="Solve crossword puzzles with friends in Google+"
     >
-    <!--
-    width="800"
-    height="375"
-    thumbnail="http://danvk.org/lmnowave/thumbnail_120.png"
-    screenshot="http://danvk.org/lmnowave/screenshot.png"
-    -->
    <Require feature="rpc"/>
-   <!-- <Require feature="wave" /> -->
-   <!-- <Require feature="dynamic-height" /> -->
   </ModulePrefs>
 
   <Content type="html">
   <![CDATA[
 <html>
   <link rel="stylesheet" type="text/css" href="https://raw.github.com/danvk/lmnowave/master/wave/crossword.css"/>
-<style type='text/css'>
-body {
-  margin: 0ex 1ex;
-}
-body, td, input {
-  font-family: serif;
-}
-
-h3 {
-  font-size: 100%;
-  margin: 0;
-}
-</style>
 
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/common.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/console.js"></script>
@@ -60,7 +39,7 @@ h3 {
   <div id="upload_supported" style="display:none;">
     <div id="upload-interface">
       <div id="dropbox" class="dropbox" >
-        <img src="../wave/thumbnail_120.png" />
+        <img src="https://raw.github.com/danvk/lmnowave/master/wave/thumbnail_120.png" />
         <p><b>Drag a .puz file here to start playing.</b></p>
       </div>
       <p id="file-chooser">Or choose a file:
@@ -77,7 +56,7 @@ h3 {
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
-      <img src="..//wave/thumbnail_120.png" />
+      <img src=".https://raw.github.com/danvk/lmnowave/master/wave/thumbnail_120.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
       <p>Try loading this wave in a browser that does, such as <a
@@ -95,7 +74,7 @@ h3 {
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://raw.github.com/danvk/lmnowave/master/wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
     document.getElementById("builtins").innerHTML += str;
   }
 

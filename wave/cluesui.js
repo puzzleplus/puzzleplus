@@ -47,7 +47,7 @@ function CluesBox(title, clues) {
       Globals.widget.selectByClue(this.number, this.direction);
       Globals.widget.blur();
     };
-    entry.innerHTML = number + ' ' + clues[i][1];
+    entry.innerHTML = number + '. ' + clues[i][1];
 
     scroller.appendChild(entry);
     this.divs[number] = entry;

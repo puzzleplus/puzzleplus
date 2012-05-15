@@ -1,28 +1,6 @@
 <HTML><HEAD><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <LINK rel="stylesheet" type="text/css" href="../wave/crossword.css" />
 <STYLE type="text/css">
-body {
-  margin: 0ex 1ex;
-}
-body, td, input {
-  font-family: serif;
-}
-
-h1 {
-  font-size: 140%;
-  margin: 0.2ex 0;
-}
-
-h2 {
-  font-size: 110%;
-}
-
-h3 {
-  font-size: 100%;
-  margin: 0;
-}
-
-
 #help {
   z-index: 5;
   position: fixed;
@@ -45,7 +23,6 @@ h3 {
 }
 #help dd {
 }
-
 </STYLE>
 
 <script src="fake-api.js"></script>
@@ -112,7 +89,7 @@ h3 {
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<a href="javascript:setBuiltInPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a>&nbsp; (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)<br/>';
+    var str = '<div class=builtin><a href="javascript:setBuiltInPuz(' + i + ')"><img src="../wave/puzzle_16.png" />' + p['title'] + '</a> (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)</div>';
     document.getElementById("builtins").innerHTML += str;
   }
 
