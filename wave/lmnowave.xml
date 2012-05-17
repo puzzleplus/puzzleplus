@@ -39,7 +39,7 @@
   <div id="upload_supported" style="display:none;">
     <div id="upload-interface">
       <div id="dropbox" class="dropbox" >
-        <img src="https://raw.github.com/danvk/lmnowave/master/wave/puzzleplus.png" />
+        <img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzleplus.png" />
         <p><b>Drag a .puz file here to start playing.</b></p>
       </div>
       <p id="file-chooser">Or choose a file:
