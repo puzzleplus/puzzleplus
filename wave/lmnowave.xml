@@ -39,7 +39,7 @@
   <div id="upload_supported" style="display:none;">
     <div id="upload-interface">
       <div id="dropbox" class="dropbox" >
-        <img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzleplus.png" />
+        <img src="https://github.com/danvk/lmnowave/raw/master/icons/220x140.png" />
         <p><b>Drag a .puz file here to start playing.</b></p>
       </div>
       <p id="file-chooser">Or choose a file:
@@ -56,7 +56,7 @@
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
-      <img src=".https://raw.github.com/danvk/lmnowave/master/wave/thumbnail_120.png" />
+      <img src="https://github.com/danvk/lmnowave/raw/master/icons/220x140.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
       <p>Try loading this wave in a browser that does, such as <a
@@ -74,7 +74,7 @@
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<div class=builtin><a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://raw.github.com/danvk/lmnowave/master/wave/puzzle_16.png" />' + p['title'] + '</a> (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)</div>';
+    var str = '<div class=builtin><a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzle_16.png" />' + p['title'] + '</a> (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)</div>';
     document.getElementById("builtins").innerHTML += str;
   }
 
