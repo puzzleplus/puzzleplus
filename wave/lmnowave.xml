@@ -26,6 +26,7 @@
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/lmnowave.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/builtins.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/roster.js"></script>
+<script src="https://raw.github.com/danvk/lmnowave/master/wave/browser-detect.js"></script>
 
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
 
