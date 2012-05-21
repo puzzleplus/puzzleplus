@@ -55,7 +55,6 @@ function CluesBox(title, clues) {
 
   // TODO(danvk): this probably needs to go on document.onkeydown...
   scroller.onkeydown = function(e) {
-    console.log('scroller onkeydown');
     if (!e) e = window.event;
     if (e.altKey || e.ctrlKey || e.metaKey) return true;
 

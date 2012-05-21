@@ -13,7 +13,6 @@ function supportsUpload() {
 }
 
 function makeCrossword() {
-  console.log('called makeCrossword');
   var state = gapi.hangout.data.getState();
   if (!state) return;
 
@@ -22,7 +21,6 @@ function makeCrossword() {
   if (crossword) {
     Crossword = parsePuz(unescape(crossword));
     if (!Crossword) {
-      console.log("couldn't parse crossword");
       return;
     }
     Globals = {
@@ -51,12 +49,8 @@ function makeCrossword() {
     Globals.clues = new CluesUI(Crossword);
     $('clues').appendChild(Globals.clues.container);
 
-    console.log('creating roster...');
     Globals.roster = new Roster();
-    console.log(Globals.roster);
-    console.log($('roster'));
     $('roster').appendChild(Globals.roster.container);
-    console.log('created roster...');
 
     // user -> color
     Globals.user_colors = {};
@@ -204,7 +198,6 @@ function updateWave(x, y, let) {
 }
 
 function stateUpdated() {
-  console.log('called stateUpdated');
   var state = gapi.hangout.data.getState();
   if (typeof(Crossword) == 'undefined') {
     makeCrossword();
@@ -277,8 +270,6 @@ function usersChanged(gapi_users) {
   var all_users = gapi.hangout.getParticipants();
   var users = [];
 
-  console.log(all_users);
-
   for (var i = 0; i < all_users.length; i++) {
     var user = all_users[i];
     if (!user.hasAppEnabled) continue;
@@ -293,7 +284,6 @@ function usersChanged(gapi_users) {
     users.push(display_user);
   }
 
-  console.log('updating users');
   Globals.roster.updateUsers(users);
 }
 

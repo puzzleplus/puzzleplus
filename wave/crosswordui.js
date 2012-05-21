@@ -720,7 +720,6 @@ Square = function(widget, x, y, letter, number) {
   this.td.square = this;   // this is probably bad for IE...  *shrug*
   this.td.onmousedown = function() { widget.setFocus(this.square, true); };
   this.td.ondblclick = function(e) {
-    console.log('td.dblclick');
     e.preventDefault();
     return true;
   };

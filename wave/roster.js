@@ -12,7 +12,6 @@ function Roster() {
 Roster.prototype.updateUsers = function(users) {
   this.scroller.innerHTML = '';
 
-  console.log(users);
   for (var i = 0; i < users.length; i++) {
     var user = users[i];
     var div = document.createElement('div');
@@ -21,7 +20,6 @@ Roster.prototype.updateUsers = function(users) {
     var name = document.createElement('span');
     name.className = 'name';
     name.innerHTML = '<img width=24 height=24 src="' + user.image_url + '" /> ' + user.name;
-    console.log(name.innerHTML);
     div.appendChild(name);
 
     var color_div = document.createElement('div');
