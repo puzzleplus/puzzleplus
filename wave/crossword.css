@@ -217,6 +217,7 @@ div.focusbox {
 #controls {
   position: absolute;
   bottom: 0px;
+  display: none;
 }
 
 .dropbox {
