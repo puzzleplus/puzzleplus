@@ -73,10 +73,13 @@ function makeCrossword() {
     });
 
   } else {
+    console.log('blah');
     Crossword = undefined;
     $('upload').style.display = 'block';
     $('crossword_container').style.display = 'none';
+    console.log('blah2');
     handleResize();
+    console.log('blah3');
   }
 }
 
@@ -201,6 +204,7 @@ function updateWave(x, y, let) {
 function stateUpdated() {
   var state = gapi.hangout.data.getState();
   if (typeof(Crossword) == 'undefined' || !("crossword" in state)) {
+    console.log('in stateUpdated branch');
     makeCrossword();
   }
 
