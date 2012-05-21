@@ -101,7 +101,9 @@ function handleResize() {
 
 function handleLiveResize() {
   // This updates the position of the focus box.
-  Globals.widget.focus();
+  if (typeof(Globals) != 'undefined' && Globals.widget) {
+    Globals.widget.focus();
+  }
 }
 
 function addPuzToWave(files) {
@@ -296,7 +298,13 @@ function newPuzzle() {
   // TODO(danvk): archive previous puzzles in some way.
   // TODO(danvk): don't clear colors.
   var keys = gapi.hangout.data.getKeys();
-  gapi.hangout.data.submitDelta({}, keys);
+  var keysToKill = [];
+  for (var i = 0; i < keys.length; i++) {
+    var k = keys[i];
+    if (k.substr(0, 1) == "@") continue;
+    keysToKill.push(k);
+  }
+  gapi.hangout.data.submitDelta({}, keysToKill);
 }
 
 // (for debugging)
