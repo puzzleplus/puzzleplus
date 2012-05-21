@@ -103,7 +103,17 @@
     <td id='left'>
       <div id='roster'></div>
       <div id='controls'>
-        <button onClick="document.body.webkitRequestFullScreen()">Full screen</button>
+        <div id="puzzle-done">
+          You're done!<br/>
+          <a href="#" onClick="newPuzzle()"><img src="https://github.com/danvk/lmnowave/raw/master/icons/176x109.png" width=176 height=109 border=0 /></a><br/>
+          Want to <a href="#" onClick="newPuzzle()">do another</a>?
+        </div>
+        <div id="fullscreen-tip">
+          Tip: Go full screen! Choose
+          <span class="Chrome">View&rarr;Enter Presentation Mode</span>
+          <span class="Firefox">View&rarr;Full Screen</span>
+          <span class="Safari">View&rarr;Enter Full Screen</span>
+        </div>
       </div>
     </td>
     <td id='middle'>
@@ -144,7 +154,6 @@
   function realInit() {
     gapi.hangout.data.onStateChanged.add(stateUpdated);
     gapi.hangout.onEnabledParticipantsChanged.add(usersChanged);
-    setHeight();
     stateUpdated();  // initialize state
   }
 
@@ -162,6 +171,14 @@
   } else {
     $('upload_unsupported').style.display = 'block';
   }
+
+  var els = document.getElementsByClassName(BrowserDetect.browser);
+  for (var i = 0; i < els.length; i++) {
+    els[i].style.display = 'inline';
+  }
+
+  window.onresize = handleLiveResize;
+
 </script>
 
 <!-- Google Analytics -->
