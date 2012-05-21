@@ -1,0 +1,42 @@
+<html>
+<head>
+  <style>
+    html,body {
+      margin: 0;
+      padding: 0;
+    }
+    div {
+      position: absolute;
+      left: 0;
+      right: 0;
+    }
+    #bottom {
+      bottom: 0px;
+      overflow-x: hidden;
+    }
+    #top {
+      border-bottom: 1px solid gray;
+      width: 100%;
+    }
+    #frame {
+      top: 83px;
+      bottom: 160px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id=top>
+    <img src="hangout-top.png" />
+  </div>
+
+  <div id=frame>
+    <iframe src="test.html" frameborder=0 height=200 width=320 marginheight=0 marginwidth=0 style="min-height: inherit; min-width: inherit; width: 100%; height: 100%">
+    </iframe>
+  </div>
+
+  <div id=bottom>
+    <img src="hangout-bottom.png" />
+  </div>
+</body>
+</html>

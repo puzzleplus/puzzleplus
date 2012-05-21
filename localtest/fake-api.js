@@ -92,9 +92,13 @@ var gapi = (function() {
         },
 
         submitDelta: function(delta, keys_to_delete) {
-          // TODO(danvk): implement keys_to_delete if I use it.
           for (var k in delta) {
             state[k] = delta[k];
+          }
+          if (keys_to_delete) {
+            for (var i = 0; i < keys_to_delete.length; i++) {
+              delete state[keys_to_delete[i]];
+            }
           }
           for (var i = 0; i < stateChangeFns.length; i++) {
             stateChangeFns[i]();

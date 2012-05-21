@@ -26,30 +26,23 @@ function makeCrossword() {
     Globals = {
     };
 
-    var page_title = "lmnopuz";
-    if (Crossword.title) page_title += " - " + Crossword.title;
-
     // TODO(danvk): focus box's color should be same as player's color.
     Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
 
     Globals.widget = new CrosswordWidget;
     Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
+    $('crossword').innerHTML = '';
     $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
-    Globals.console = new Console(3,
-                                  false);
-    $('console').appendChild(Globals.console.container);
+    Globals.console = new Console(3, false);
     Globals.cluebox = $('current_clue');
 
-    Globals.console.write(
-        "Welcome to lmnopuz! " +
-        "lmnopuz has many nifty shortcut keys that you can learn about by " +
-        " clicking the \"Help\" link in the upper right corner.");
-
     Globals.clues = new CluesUI(Crossword);
+    $('clues').innerHTML = '';
     $('clues').appendChild(Globals.clues.container);
 
     Globals.roster = new Roster();
+    $('roster').innerHTML = '';
     $('roster').appendChild(Globals.roster.container);
 
     // user -> color
@@ -63,8 +56,6 @@ function makeCrossword() {
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
 
-    //gadgets.window.adjustHeight();
-    setHeight();
     handleResize();
     usersChanged();
   } else if (state['attachment_url'] !== undefined) {
@@ -82,13 +73,15 @@ function makeCrossword() {
     });
 
   } else {
+    Crossword = undefined;
     $('upload').style.display = 'block';
-    //gadgets.window.adjustHeight();
-    setHeight();
+    $('crossword_container').style.display = 'none';
+    handleResize();
   }
 }
 
 function handleResize() {
+  if (typeof(Globals) == 'undefined' || !Globals.clues) return;
   var clue_height = $('crossword').childNodes[0].clientHeight +
                     $('current_clue').offsetHeight;
   Globals.clues.setHeight(clue_height);
@@ -101,8 +94,14 @@ function handleResize() {
     Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
   }
 
-
   Globals.console.scrollToBottom();
+
+  handleLiveResize();
+}
+
+function handleLiveResize() {
+  // This updates the position of the focus box.
+  Globals.widget.focus();
 }
 
 function addPuzToWave(files) {
@@ -199,7 +198,7 @@ function updateWave(x, y, let) {
 
 function stateUpdated() {
   var state = gapi.hangout.data.getState();
-  if (typeof(Crossword) == 'undefined') {
+  if (typeof(Crossword) == 'undefined' || !("crossword" in state)) {
     makeCrossword();
   }
 
@@ -258,9 +257,13 @@ function stateUpdated() {
       // Assign ourselves a new one.
       getMyColor();
     }
-    // gadgets.window.adjustHeight();
-    setHeight();
     usersChanged();
+
+    if (Globals.widget.isPuzzleCompleted()) {
+      $('puzzle-done').style.display = 'block';
+    } else {
+      $('puzzle-done').style.display = 'none';
+    }
   }
 }
 
@@ -287,8 +290,21 @@ function usersChanged(gapi_users) {
   Globals.roster.updateUsers(users);
 }
 
-function setHeight() {
-  // gadgets.window.adjustHeight(10 +
-  //   document.getElementById("crossword_container").clientHeight +
-  //   document.getElementById("upload").clientHeight);
+function newPuzzle() {
+  // Delete all keys -- this will trigger a state update for everyone
+  // which resets the puzzle to the "Upload" screen.
+  // TODO(danvk): archive previous puzzles in some way.
+  // TODO(danvk): don't clear colors.
+  var keys = gapi.hangout.data.getKeys();
+  gapi.hangout.data.submitDelta({}, keys);
+}
+
+// (for debugging)
+function fillAll() {
+  for (var x = 0; x < Globals.widget.crossword.width; x++) {
+    for (var y = 0; y < Globals.widget.crossword.height; y++) {
+      var square = Globals.widget.square(x, y);
+      if (square) square.fill('X', '#FF0000', false);
+    }
+  }
 }

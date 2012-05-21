@@ -662,7 +662,9 @@ CrosswordWidget.prototype.setCorrect = function() {
 
 CrosswordWidget.prototype.focus = function() {
   this.hiddeninput.focus();
-  this.moveFocusBoxToSquare(Globals.focusbox, this.focused);
+  if (this.focused) {
+    this.moveFocusBoxToSquare(Globals.focusbox, this.focused);
+  }
 };
 
 CrosswordWidget.prototype.blur = function() {
@@ -708,12 +710,27 @@ CrosswordWidget.prototype.fadeSquareColors = function() {
   }
 };
 
+CrosswordWidget.prototype.isPuzzleCompleted = function() {
+  var numFilled = 0;
+  for (var x = 0; x < Globals.widget.crossword.width; x++) {
+    for (var y = 0; y < Globals.widget.crossword.height; y++) {
+      var square = this.square(x, y);
+      if (!square) continue;
+      if (square.displayedLetter == '') return false;
+      numFilled++;
+    }
+  }
+  
+  return (numFilled > 0);
+};
+
 // Constructor for our per-square data.
 Square = function(widget, x, y, letter, number) {
   this.x = x;
   this.y = y;
   this.answer = letter;
   this.number = number;
+  this.displayedLetter = '';
 
   var square = this;
   this.td = document.createElement('td');
@@ -758,6 +775,7 @@ Square.prototype.fill = function(letter, color, is_guess) {
       this.letter.text.data = '';
     this.td.style.background = 'white';
     this.base_color = null;
+    this.displayedLetter = '';
     return;
   }
 
@@ -774,6 +792,7 @@ Square.prototype.fill = function(letter, color, is_guess) {
     this.letter.text.data = letter;
     changed = true;
   }
+  this.displayedLetter = letter;
 
   if (color != undefined) {
     if (color != this.base_color || changed) {

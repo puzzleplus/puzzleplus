@@ -217,7 +217,6 @@ div.focusbox {
 #controls {
   position: absolute;
   bottom: 0px;
-  display: none;
 }
 
 .dropbox {
@@ -268,4 +267,20 @@ div.focusbox {
 
 #builtins img {
   border: 0;
+}
+
+#fullscreen-tip {
+  font-style: italic;
+  font-size: small;
+}
+
+.Chrome { display: none; }
+.Firefox { display: none; }
+.Safari { display: none; }
+
+#puzzle-done {
+  display: none;
+  text-align: center;
+  padding-bottom: 20px;
+  line-height: 1.2ex;
 }
