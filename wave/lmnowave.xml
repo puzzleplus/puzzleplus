@@ -100,12 +100,19 @@
   </tr>
 
   <tr valign='top'>
-    <td><div id='roster'></div></td>
-    <td>
+    <td id='left'>
+      <div id='roster'></div>
+      <div id='controls'>
+        <button onClick="document.body.webkitRequestFullScreen()">Full screen</button>
+      </div>
+    </td>
+    <td id='middle'>
       <div id='current_clue'></div>
       <div id='crossword' style='margin-right: 2ex'></div>
     </td>
-    <td><div id='clues'></div></td>
+    <td id='right'>
+      <div id='clues'></div>
+    </td>
   </tr>
 </table>
 
