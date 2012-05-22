@@ -296,15 +296,22 @@ function newPuzzle() {
   // Delete all keys -- this will trigger a state update for everyone
   // which resets the puzzle to the "Upload" screen.
   // TODO(danvk): archive previous puzzles in some way.
-  // TODO(danvk): don't clear colors.
   var keys = gapi.hangout.data.getKeys();
   var keysToKill = [];
   for (var i = 0; i < keys.length; i++) {
     var k = keys[i];
     if (k.substr(0, 1) == "@") continue;
+    if (k == "crossword") continue;  // will handle specially
     keysToKill.push(k);
   }
-  gapi.hangout.data.submitDelta({}, keysToKill);
+
+  // The hangouts API doesn't like really big deltas, so we chunk this.
+  // So long as the crossword disappears first, no one should be able to
+  // tell the difference.
+  gapi.hangout.data.submitDelta({}, ['crossword']);
+  while (keysToKill.length > 0) {
+    gapi.hangout.data.submitDelta({}, keysToKill.splice(0, 20));
+  }
 }
 
 // (for debugging)
