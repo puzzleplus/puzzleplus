@@ -27,7 +27,7 @@ function makeCrossword() {
     };
 
     // TODO(danvk): focus box's color should be same as player's color.
-    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */);
+    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */, $('scroll-wrapper') /* container */);
 
     Globals.widget = new CrosswordWidget;
     Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };

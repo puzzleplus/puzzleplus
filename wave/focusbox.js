@@ -1,7 +1,7 @@
 // The FocusBox is the currently highlighted cell.
 // It is _not_ the currently highlighted word.
 
-function FocusBox(color, border, zindex) {
+function FocusBox(color, border, zindex, container) {
   this.left = this.createEdge(color, zindex);
   this.right = this.createEdge(color, zindex);
   this.top = this.createEdge(color, zindex);
@@ -12,10 +12,11 @@ function FocusBox(color, border, zindex) {
 
   this.border = border;
 
-  document.body.appendChild(this.left);
-  document.body.appendChild(this.right);
-  document.body.appendChild(this.top);
-  document.body.appendChild(this.bottom);
+  if (!container) container = document.body;
+  container.appendChild(this.left);
+  container.appendChild(this.right);
+  container.appendChild(this.top);
+  container.appendChild(this.bottom);
 };
 
 FocusBox.prototype.createEdge = function(color, zindex) {
