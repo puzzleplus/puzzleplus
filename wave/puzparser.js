@@ -33,6 +33,11 @@ function parsePuz(puz) {
   // sometimes the comment contains nuls.
   // so we limit the split to clues + 3 headers + optional comment.
   var strings = puz.substr(ofs).split('\0', c.cluecount + 3 + 1);
+  
+  // figure out how much we read. The rest is extensions.
+  for (var i = 0; i < strings.length; i++) {
+    ofs += strings[i].length + 1;
+  }
 
   // TODO(checksum)
 
@@ -45,6 +50,23 @@ function parsePuz(puz) {
   c.copyright = strings[2];
   clueoffset += c.copyright.length + 1;
   strings = strings.slice(3);
+
+  // Map from extension ID -> extension data.
+  var extensions = {};
+  while (ofs < puz.length - 8) {
+    var name = puz.substr(ofs, 4);
+    ofs += 4;
+    var len_str = puz.substr(ofs, 2);
+    ofs += 2;
+    len = 256 * len_str.charCodeAt(1) + len_str.charCodeAt(0);
+    var checksum = puz.substr(ofs, 2);
+    ofs += 2;
+
+    var data = puz.substr(ofs, len);
+    ofs += len;
+    ofs += 1;  // null terminator
+    extensions[name] = data;
+  }
 
   // TODO(danvk): something wonky here
   c.comment = "";
@@ -116,6 +138,27 @@ function parsePuz(puz) {
     }
   }
 
+  // Parse out circled cells.
+  if (extensions['GEXT']) {
+    n = -1;
+    var gext = extensions['GEXT'];
+    for (var y = 0; y < c.height; y++) {
+      for (var x = 0; x < c.width; x++) {
+        n++;
+        var square = c.squares[x][y];
+        if (!square) continue;
+
+        var bits = gext.charCodeAt(n);
+        if (bits & 0x10) { }  // cell previously marked incorrect
+        if (bits & 0x20) { }  // cell currently marked incorrect
+        if (bits & 0x40) { }  // cell contents were given
+        if (bits & 0x80) {  // square is circled
+          square.circled = true;
+        }
+      }
+    }
+  }
+
   // Construct c.answer
   c.answer = "";
   for (var y = 0; y < c.height; y++) {
@@ -142,7 +185,7 @@ function parsePuz(puz) {
       else    { c.numbers[y][x] = 0; }
     }
   }
-  delete c.squares;
+  // delete c.squares;
 
   return c;
 }

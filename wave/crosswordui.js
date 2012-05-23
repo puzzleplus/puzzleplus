@@ -59,9 +59,9 @@ CrosswordWidget.prototype.loadCrossword = function(crossword) {
     this.squares[y] = [];
     var tr = document.createElement('tr');
     for (var x = 0; x < crossword.width; ++x) {
-      var answer = crossword.answer.substr(y*crossword.width + x, 1);
-      if (answer != ".") {
-        var square = new Square(this, x, y, answer, crossword.numbers[y][x]);
+      var sq = crossword.squares[x][y];
+      if (sq) {
+        var square = new Square(this, x, y, sq);
         tr.appendChild(square.td);
         this.squares[y][x] = square;
       } else {
@@ -725,11 +725,13 @@ CrosswordWidget.prototype.isPuzzleCompleted = function() {
 };
 
 // Constructor for our per-square data.
-Square = function(widget, x, y, letter, number) {
+Square = function(widget, x, y, squareData) {
   this.x = x;
   this.y = y;
-  this.answer = letter;
-  this.number = number;
+  // TODO(danvk): just store squareData
+  this.answer = squareData.char;
+  // TODO(danvk): move this into puzparser
+  this.number = squareData.across || squareData.down || 0;
   this.displayedLetter = '';
 
   var square = this;
@@ -741,17 +743,21 @@ Square = function(widget, x, y, letter, number) {
     return true;
   };
 
-  this.answer = letter;
-
-  if (number != 0) {
+  if (this.number != 0) {
     var numberdiv = document.createElement('div');
     numberdiv.className = 'number';
-    numberdiv.appendChild(document.createTextNode(number));
+    numberdiv.appendChild(document.createTextNode(this.number));
     this.td.appendChild(numberdiv);
   }
 
   this.letter = document.createElement('div');
   this.letter.className = 'letter';
+  if (squareData.circled) {
+    var circle = document.createElement('div');
+    circle.className = 'circle';
+    this.letter.appendChild(circle);
+  }
+
   // We also create a plain text node and call it "text".
   // We'd like to do that right here, but Safari disappears the text node
   // if it's created empty.  So we instead create it lazily below.
