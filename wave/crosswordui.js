@@ -412,6 +412,8 @@ CrosswordWidget.prototype.keyPress = function(e) {
     charcode = keycode;
   }
 
+  // console.log('e.charcode=' + e.charCode + ' e.keyCode=' + e.keyCode + ' shift=' + e.shiftKey);
+
   if (charcode == 32) {  // space pressed: switch direction
     this.direction_horiz = !this.direction_horiz;
     this.focusClues(square);
@@ -450,7 +452,8 @@ CrosswordWidget.prototype.keyPress = function(e) {
     Globals.console.clickLastLink();
   } else if (charcode == 47) {  // slash
     Globals.console.focus();
-  } else if (charcode == 126) {  // tilde
+  } else if (charcode == 126 || (charcode == 192 && e.shiftKey)) {  // tilde
+    // TODO(danvk): what code does '~' come out as on other platforms/browsers.
     if (!this.correct) this.toggleGuessForWord(square);
   } else if (keycode == 9 || keycode == 25) { // tab
     var forwards = !e.shiftKey;
@@ -594,7 +597,7 @@ CrosswordWidget.prototype.toggleGuessForWord = function(square) {
       var guess = !cross_filled && to_guess;
       s.fill(ch, undefined, guess);
       if (this.onChanged) {
-        this.onChanged(x, y, guess ? ch.toUpperCase() : ch.toLowerCase());
+        this.onChanged(x, y, guess ? ch.toLowerCase() : ch.toUpperCase());
       }
     }
   }

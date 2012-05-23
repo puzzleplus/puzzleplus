@@ -307,3 +307,28 @@ div.focusbox {
   margin: -1px;
 }
 
+#help {
+  z-index: 5;
+  position: fixed;
+  top: 2ex;
+  right: 2ex;
+  left: 2ex;
+  bottom: 2ex;
+  border: solid 1px black;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background: #ffc;
+  padding: 2em;
+  overflow: auto;
+  visibility: hidden;
+}
+#help ul, dl {
+  margin-top: 1ex;
+}
+#help dt {
+  font-weight: bold;
+  margin-top: 1ex;
+}
+#help dd {
+}
