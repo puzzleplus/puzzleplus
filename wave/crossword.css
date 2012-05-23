@@ -25,6 +25,10 @@ h3 {
   margin: 0;
 }
 
+body {
+  background: rgb(245,245,245);  /* matches Google+ gray */
+}
+
 #scroll-wrapper {
   width: 100%;
   height: 100%;
@@ -39,7 +43,6 @@ h3 {
   width: 100%;
   height: 100%;
   display: table;
-  background: rgb(245,245,245);  /* matches Google+ gray */
 }
 .centering-middle {
   display: table-cell;
@@ -48,6 +51,8 @@ h3 {
 .centering-inner {
   display: table;
   margin: 0 auto;
+}
+.gray-bubble {
   border: 1px solid lightgray;
   border-radius: 8px;
   -moz-border-radius: 8px;
@@ -194,7 +199,7 @@ div.focusbox {
 }
 
 #roster {
-  width: 12em;
+  width: 10em;
   margin-right: 1ex;
 }
 #roster div.namediv {
@@ -310,18 +315,29 @@ div.focusbox {
 #help {
   z-index: 5;
   position: fixed;
-  top: 2ex;
-  right: 2ex;
-  left: 2ex;
-  bottom: 2ex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  visibility: hidden;
+  background: rgba(255,255,255,0.75);
+}
+
+#help-inner {
+  display: block;
+  max-width: 32em;
   border: solid 1px black;
+  /*
   border-radius: 5px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
+  */
   background: #ffc;
   padding: 2em;
   overflow: auto;
-  visibility: hidden;
+  -moz-box-shadow: 0 0 10px 3px gray;
+  -webkit-box-shadow: 0 0 10px 3px gray;
+  box-shadow: 0 0 10px 3px gray;
 }
 #help ul, dl {
   margin-top: 1ex;
@@ -331,4 +347,9 @@ div.focusbox {
   margin-top: 1ex;
 }
 #help dd {
+}
+
+.focused {
+  z-index: 10;
+  -webkit-box-radius: 0 0 5px 2px blue;
 }

@@ -25,7 +25,7 @@
 <div id="scroll-wrapper">
 <div class="centering-outer">
 <div class="centering-middle">
-<div class="centering-inner">
+<div class="centering-inner gray-bubble">
 
 <div id="upload" style="display:none">
   <div id="upload_supported" style="display:none;">
@@ -124,19 +124,28 @@
 </div>  <!-- #crossword_outer -->
 
 <div id='help' onmousedown="$('help').style.visibility='hidden'">
-  <h2>Basics</h2>
-  <ul>
-    <li>Move the cursor using the mouse and arrow keys.</li>
-    <li>Enter answers with the keyboard.</li>
-    <li>Switch direction (between across and down) using the space bar.</li>
-  </ul>
-  <h2>Advanced</h2>
-  <ul>
-    <li>Hit tab to advance to the next clue along the current axis.</li>
-    <li>Hold shift while typing letters to mark an entry you're unsure of; the
-    letters will display in a lighter color.</li>
-  </ul>
-  <p>(Click to hide this window.)</p>
+  <div class="centering-outer">
+  <div class="centering-middle">
+  <div class="centering-inner">
+  <div id='help-inner'>
+    <img src="../icons/220x140.png" style="float:right;"/>
+    <h2>Basics</h2>
+    <ul>
+      <li>Move the cursor using the mouse and arrow keys.</li>
+      <li>Enter answers with the keyboard.</li>
+      <li>Switch direction (between across and down) using the space bar.</li>
+    </ul>
+    <h2>Advanced</h2>
+    <ul>
+      <li>Hit tab to advance to the next clue along the current axis.</li>
+      <li>Hold shift while typing letters to mark an entry you're unsure of; the
+      letters will display in a lighter color.</li>
+    </ul>
+    <p style="clear: both;">(Click to hide this window.)</p>
+  </div>  <!-- #help-inner -->
+  </div>  <!-- .centering-inner -->
+  </div>  <!-- .centering-middle -->
+  </div>  <!-- .centering-outer -->
 </div>
 
 <div style="display:none;">

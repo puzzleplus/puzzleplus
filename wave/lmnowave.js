@@ -49,15 +49,16 @@ function makeCrossword() {
     Globals.user_colors = {};
     Globals.has_typed = false;
 
-    // We need to wait to set focus until the table has been rendered (so
-    // that the offset stuff works) and until the clues have been created (so
-    // that the initial ones will be highlighted).  This kinda sucks.
-    Globals.widget.setFocus(Globals.widget.square(0, 0));
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
 
     handleResize();
     usersChanged();
+
+    // We need to wait to set focus until the table has been rendered (so
+    // that the offset stuff works) and until the clues have been created (so
+    // that the initial ones will be highlighted).  This kinda sucks.
+    Globals.widget.setFocus(Globals.widget.getSquareForClue(1, true), false);
   } else if (state['attachment_url'] !== undefined) {
     // TODO(danvk): remove this, I can't imagine how it would work in G+.
     // .puz file has been sent as an attachment. Do an XHR for it.
@@ -104,6 +105,9 @@ function handleLiveResize() {
   if (typeof(Globals) != 'undefined' && Globals.widget) {
     Globals.widget.focus();
   }
+
+  var too_big = ($('crossword_container').offsetHeight > window.innerHeight);
+  $('fullscreen-tip').style.display = too_big ? 'block' : 'none';
 }
 
 function addPuzToWave(files) {
