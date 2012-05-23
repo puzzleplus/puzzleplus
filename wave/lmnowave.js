@@ -191,7 +191,7 @@ function getMyColor() {
     var count = 0;
     var color;
     while (1) {
-      color = RandomLightColor(count);
+      color = RandomLightColor(count++);
       if (!claimed_colors[color]) break;
     }
 
