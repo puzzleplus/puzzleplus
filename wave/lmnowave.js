@@ -185,8 +185,9 @@ function getMyColor() {
 
     // Write a new CSS rule to color the highlighted answer in our color.
     addHighlightCSS(darkenHexColor(color, 0.90));
-    var dark_color = darkenHexColor(color, 0.5);
-    Globals.focusbox.setColor(dark_color);
+    // just leaving it blue for now.
+    // var dark_color = darkenHexColor(color, 0.5);
+    // Globals.focusbox.setColor(dark_color);
   }
   return Globals.my_color;
 }
