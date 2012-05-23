@@ -31,7 +31,7 @@ function makeCrossword() {
 
     Globals.widget = new CrosswordWidget;
     Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
-    // Globals.widget.onCursorMove = function(x,y) { updateCursor(x, y); }
+    Globals.widget.onCursorMove = function(x,y) { updateCursor(x, y); }
     $('crossword').innerHTML = '';
     $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
@@ -224,6 +224,13 @@ function updateWave(x, y, let) {
 // Our cursor has moved to this position.
 function updateCursor(x, y) {
   if (gapi.hangout.data) {
+    // Don't send out deltas until colors have been sorted out.
+    var state = gapi.hangout.data.getState();
+    if (!Globals.my_color ||
+        state['@' + Globals.my_color] != getMyId()) {
+      return;
+    }
+
     var k = "c" + getMyId();
     var delta = {};
     delta[k] = x + "," + y;
@@ -302,7 +309,19 @@ function stateUpdated() {
     for (var id in cursors) {
       if (id == getMyId()) continue;
       if (!Globals.cursors[id]) {
+        if (!Globals.user_colors[id]) continue;
+        Globals.cursors[id] =
+            new FocusBox(Globals.user_colors[id], 2, 3, $('scroll-wrapper'));
       }
+
+      var xy = cursors[id].split(",");
+      if (xy.length != 2) continue;
+      var x = parseInt(xy[0], 10);
+      var y = parseInt(xy[1], 10);
+      if (isNaN(x) || isNaN(y)) continue;
+
+      var square = Globals.widget.square(x, y);
+      Globals.widget.moveFocusBoxToSquare(Globals.cursors[id], square);
     }
 
     if (Globals.widget.isPuzzleCompleted()) {
