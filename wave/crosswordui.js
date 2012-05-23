@@ -167,7 +167,7 @@ CrosswordWidget.prototype.setFocus = function(target, flip_if_focused) {
     this.focused = target;
     this.highlightRegion(target);
     this.moveFocusBoxToSquare(Globals.focusbox, target);
-    if (Globals.mp) Globals.mp.addCursorEvent(target.x, target.y);
+    if (this.onCursorMove) this.onCursorMove(target.x, target.y);
   }
   this.focusClues(target);
 };

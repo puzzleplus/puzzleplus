@@ -31,6 +31,7 @@ function makeCrossword() {
 
     Globals.widget = new CrosswordWidget;
     Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
+    // Globals.widget.onCursorMove = function(x,y) { updateCursor(x, y); }
     $('crossword').innerHTML = '';
     $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
@@ -48,6 +49,9 @@ function makeCrossword() {
     // user -> color
     Globals.user_colors = {};
     Globals.has_typed = false;
+
+    // user -> FocusBox object (excluding our own FocusBox)
+    Globals.cursors = {};
 
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
@@ -217,6 +221,16 @@ function updateWave(x, y, let) {
   }
 }
 
+// Our cursor has moved to this position.
+function updateCursor(x, y) {
+  if (gapi.hangout.data) {
+    var k = "c" + getMyId();
+    var delta = {};
+    delta[k] = x + "," + y;
+    gapi.hangout.data.submitDelta(delta);
+  }
+}
+
 function stateUpdated() {
   var state = gapi.hangout.data.getState();
   if (typeof(Crossword) == 'undefined' || !("crossword" in state)) {
@@ -243,9 +257,14 @@ function stateUpdated() {
 
     // Pass two: cells on the grid.
     var any_from_me = false;
+    var cursors = {};
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
       if (k.substr(0, 1) == "@") continue;
+      if (k.substr(0, 1) == "c") {
+        cursors[k.substr(1)] = state[k];
+        continue;
+      }
 
       // must be a cell: "x,y" -> "letter,user@domain.com"
       var xy = k.split(",");
@@ -279,6 +298,12 @@ function stateUpdated() {
       getMyColor();
     }
     usersChanged();
+
+    for (var id in cursors) {
+      if (id == getMyId()) continue;
+      if (!Globals.cursors[id]) {
+      }
+    }
 
     if (Globals.widget.isPuzzleCompleted()) {
       $('puzzle-done').style.display = 'block';
