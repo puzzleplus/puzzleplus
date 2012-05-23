@@ -269,7 +269,7 @@ function stateUpdated() {
       if (user == me) any_from_me = true;
     }
 
-    if ((Globals.has_typed || any_from_me) && !(Globals.my_color)) {
+    if (!(Globals.my_color)) {
       // The was probably a race condition and someone stole our color.
       // Assign ourselves a new one.
       getMyColor();
