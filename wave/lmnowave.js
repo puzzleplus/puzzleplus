@@ -183,7 +183,7 @@ function getMyColor() {
     // Either we haven't assigned ourselves a color yet or someone stolen this
     // color from us. In either case, assign ourselves a new one.
     var count = 0;
-    console.log('colors: ' + Globals.user_colors);
+    console.log('colors: ', Globals.user_colors);
     console.log('my_color: ' + my_color);
     for (var x in Globals.user_colors) { count++; }
     var color = RandomLightColor(count);
