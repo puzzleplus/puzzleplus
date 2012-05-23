@@ -96,6 +96,14 @@ function darkenHexColor(str, pct) {
   return makeHexColor(rgb);
 };
 
+function lightenHexColor(str, pct) {
+  var rgb = parseHexColor(str);
+  for (var i = 0; i < 3; i++) {
+    rgb[i] = 255 - (255 - rgb[i]) * pct;
+  }
+  return makeHexColor(rgb);
+}
+
 // TODO: This is pretty cheesy.  We should instead use a more general
 // method, like that of String.prototype.unescapeHTML() in
 // http://dev.rubyonrails.org/browser/spinoffs/scriptaculous/lib/prototype.js

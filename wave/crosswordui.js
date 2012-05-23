@@ -689,18 +689,15 @@ CrosswordWidget.prototype.fadeSquareColors = function() {
           if (s.base_color != undefined &&
               s.color_set_time != undefined &&
               now - s.color_set_time < fade_sec + cycle_sec) {
-            var colors = parseHexColor(s.base_color);
-            if (!colors) continue;
+            // var colors = parseHexColor(s.base_color);
+            // if (!colors) continue;
 
             var opacity = 1.0 - min_opacity * (now - s.color_set_time) / fade_sec;
             if (opacity < 0.0) opacity = 0.0;
             // if (opacity < min_opacity) opacity = min_opacity;
 
-            for (var i = 0; i < 3; i++) {
-              colors[i] = parseInt(255 - (255 - colors[i]) * opacity);
-            }
-
-            var color_str = makeHexColor(colors);
+            var color_str = lightenHexColor(s.base_color, opacity);
+            if (!color_str) continue;
             s.td.style.background = color_str;
           }
         }

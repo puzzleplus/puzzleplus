@@ -1,3 +1,6 @@
+// The FocusBox is the currently highlighted cell.
+// It is _not_ the currently highlighted word.
+
 function FocusBox(color, border, zindex) {
   this.left = this.createEdge(color, zindex);
   this.right = this.createEdge(color, zindex);

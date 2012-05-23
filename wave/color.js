@@ -88,6 +88,7 @@ function HueFromIndex(id) {
   }
 }
 
+// Returns an "rgb(123,45,67)"-style CSS color string.
 function RandomLightColor(id) {
   id = id % 1000;  // Reuse colors at 1,000 id increments.
   var saturation = SaturationFromIndex(id);
