@@ -116,6 +116,9 @@
           <span class="Firefox">View&rarr;Full Screen</span>
           <span class="Safari">View&rarr;Enter Full Screen</span>
         </div>
+        <div>
+          <a href='#' onClick="$('help').style.visibility = 'visible';">Help</a>
+        </div>
       </div>
     </td>
     <td id='middle'>
@@ -129,6 +132,22 @@
 </table>
 
 </div>  <!-- #crossword_outer -->
+
+<div id='help' onmousedown="$('help').style.visibility='hidden'">
+  <h2>Basics</h2>
+  <ul>
+    <li>Move the cursor using the mouse and arrow keys.</li>
+    <li>Enter answers with the keyboard.</li>
+    <li>Switch direction (between across and down) using the space bar.</li>
+  </ul>
+  <h2>Advanced</h2>
+  <ul>
+    <li>Hit tab to advance to the next clue along the current axis.</li>
+    <li>Hold shift while typing letters to mark an entry you're unsure of; the
+    letters will display in a lighter color.</li>
+  </ul>
+  <p>(Click to hide this window.)</p>
+</div>
 
 <div style="display:none;">
 <table cellspacing='0' cellpadding='0' style='padding-top: 1ex' id='bottomtable'>
