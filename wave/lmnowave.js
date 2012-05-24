@@ -182,8 +182,6 @@ function getMyColor() {
   if (!my_color || state["@" + my_color] != me) {
     // Either we haven't assigned ourselves a color yet or someone stolen this
     // color from us. In either case, assign ourselves a new one.
-    console.log('colors: ', Globals.user_colors);
-    console.log('my_color: ' + my_color);
     var claimed_colors = {};
     for (var x in Globals.user_colors) {
       claimed_colors[Globals.user_colors[x]] = true;
@@ -191,8 +189,9 @@ function getMyColor() {
     var count = 0;
     var color;
     while (1) {
-      color = RandomLightColor(count++);
+      color = RandomLightColor(count);
       if (!claimed_colors[color]) break;
+      count++;
     }
 
     var delta = {};
