@@ -1,7 +1,4 @@
 // A tiny chat server to test out comet/dangling gets in node.js.
-//
-// TODOs:
-// - Make up a name for each user.
 
 var express = require('express'),
     io      = require('socket.io');
