@@ -1,0 +1,75 @@
+<!doctype html>
+<HTML>
+<HEAD>
+<!-- this is a minimal client of gapi.hangout, useful for testing the API -->
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<script src="/hangout/static/xsocket.io.min.js"></script>
+<script src="fake-socket-api.js"></script>
+
+<TITLE>G+ API server test</TITLE>
+</HEAD>
+
+<body>
+
+<p>You are: <b id=you>&hellip;</b></p>
+
+<ul id=participants>
+</ul>
+
+<ul id=state>
+</ul>
+
+
+<script type="text/javascript">
+  gadgets.util.registerOnLoadHandler(function() {
+    gapi.hangout.onApiReady.add(
+      function(eventObj) {
+        if (eventObj.isApiReady) {
+          realInit();
+        }
+      }
+    );
+  });
+
+  function realInit() {
+    gapi.hangout.data.onStateChanged.add(stateUpdated);
+    gapi.hangout.onEnabledParticipantsChanged.add(usersChanged);
+    stateUpdated();  // initialize state
+    usersChanged();
+  }
+
+  function stateUpdated() {
+    var keys = gapi.hangout.data.getKeys();
+    keys.sort();
+    var state = gapi.hangout.data.getState();
+
+    var html = '';
+    for (var i = 0; i < keys.length; i++) {
+      html += '<li>' + keys[i] + ': ' + state[keys[i]] + '</li>\n';
+    }
+    document.getElementById('state').innerHTML = html;
+  }
+
+  function usersChanged() {
+    var users = gapi.hangout.getParticipants();
+    var html = '';
+    for (var i = 0; i < users.length; i++) {
+      var u = users[i];
+      var line = '';
+      line += '<img src="' + u.image.url + '" />';
+      line += ' ' + u.id + ': ' + u.displayName;
+      if (!users[i].hasAppEnabled) line = '<strike>' + line + '</strike>';
+
+      html += '<li>' + line + '</li>\n';
+    }
+
+    document.getElementById('participants').innerHTML = html;
+
+    var me = gapi.hangout.getParticipantById(gapi.hangout.getParticipantId());
+    document.getElementById('you').innerHTML = me.displayName;
+  }
+</script>
+
+</body>
+</html>

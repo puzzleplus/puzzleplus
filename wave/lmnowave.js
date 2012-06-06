@@ -197,14 +197,8 @@ function getMyColor() {
     var delta = {};
     delta["@" + color] = me;
     gapi.hangout.data.submitDelta(delta);
-    Globals.my_color = color;
+    updateMyColor(color);
     if (console) console.log("Assigning self color #" + count + ": " + color);
-
-    // Write a new CSS rule to color the highlighted answer in our color.
-    addHighlightCSS(darkenHexColor(color, 0.90));
-    // just leaving it blue for now.
-    // var dark_color = darkenHexColor(color, 0.5);
-    // Globals.focusbox.setColor(dark_color);
   }
   return Globals.my_color;
 }
@@ -228,6 +222,18 @@ function updateWave(x, y, let) {
     Globals.has_typed = true;
     // Globals.console.write("delta: {" + x + "," + y + ": " + let + "}");
   }
+}
+
+function updateMyColor(new_color) {
+  Globals.my_color = new_color;
+
+  // Write a new CSS rule to color the highlighted answer in our color.
+  var my_hex_color = makeHexColor(parseRGBColor(Globals.my_color));
+  addHighlightCSS(darkenHexColor(my_hex_color, 0.90));
+
+  // just leaving it blue for now.
+  // var dark_color = darkenHexColor(color, 0.5);
+  // Globals.focusbox.setColor(dark_color);
 }
 
 // Our cursor has moved to this position.
@@ -258,7 +264,7 @@ function stateUpdated() {
     var keys = gapi.hangout.data.getKeys();
 
     // Make two passes through the state: one for the colors, one for the cells.
-    Globals.my_color = null;
+    var my_color = null;
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
       if (k.substr(0, 1) != "@") continue;
@@ -267,8 +273,17 @@ function stateUpdated() {
       var user = state[k];
       Globals.user_colors[user] = color;
       if (user == me) {
-        Globals.my_color = color;
+        my_color = color;
       }
+    }
+
+    if (Globals.my_color == null || Globals.my_color != my_color) {
+      if (!my_color) {
+        // The was probably a race condition and someone stole our color.
+        // Assign ourselves a new one.
+        my_color = getMyColor();
+      }
+      updateMyColor(my_color);
     }
 
     // Pass two: cells on the grid.
@@ -308,11 +323,6 @@ function stateUpdated() {
       if (user == me) any_from_me = true;
     }
 
-    if (!(Globals.my_color)) {
-      // The was probably a race condition and someone stole our color.
-      // Assign ourselves a new one.
-      getMyColor();
-    }
     usersChanged();
 
     for (var id in cursors) {

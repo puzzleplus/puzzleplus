@@ -104,6 +104,16 @@ function lightenHexColor(str, pct) {
   return makeHexColor(rgb);
 }
 
+// converts 'rgb(178,255,178)' -> [178, 255, 178]
+function parseRGBColor(rgb) {
+  if (rgb.substr(0, 4) != 'rgb(') return null;
+  if (rgb.substr(-1, 1) != ')') return null;
+
+  var parts = rgb.substr(4, rgb.length - 5).split(',');
+  if (parts.length != 3) return null;
+  return [ parseInt(parts[0]), parseInt(parts[1]), parseInt(parts[2]) ];
+}
+
 // TODO: This is pretty cheesy.  We should instead use a more general
 // method, like that of String.prototype.unescapeHTML() in
 // http://dev.rubyonrails.org/browser/spinoffs/scriptaculous/lib/prototype.js
