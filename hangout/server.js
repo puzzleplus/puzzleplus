@@ -42,18 +42,24 @@ app.get('/', function(req, res) {
       assert.ifError(err);
 
       res.contentType('text/html');
-      res.send(readXml.createFakeHtml(hangout_data, true));
+      res.send(readXml.createFakeHtml(hangout_data, false));
     });
   });
 });
 
-app.get('/fake-api.js', function(req, res) {
-  fs.readFile('localtest/fake-api.js', function(e, data) {
-    assert.ifError(e);
-    res.contentType('text/javascript');
-    res.send(data);
+function addStaticJsFile(app, server_path, filename) {
+  app.get(server_path, function(req, res) {
+    fs.readFile(filename, function(e, data) {
+      assert.ifError(e);
+      res.contentType('text/javascript');
+      res.send(data);
+    });
   });
-});
+}
+
+addStaticJsFile(app, '/fake-api.js', 'localtest/fake-api.js');
+addStaticJsFile(app, '/fake-socket-api.js', 'localtest/fake-socket-api.js');
+addStaticJsFile(app, '/xsocket.io.min.js', __dirname + '/static/xsocket.io.min.js');
 
 app.listen(8080);
 

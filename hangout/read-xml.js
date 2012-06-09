@@ -109,9 +109,14 @@ readXml.createFakeHtml = function(hangoutData, is_local) {
 
   html = readXml.applyTransforms(html, hangoutData.lonelyOpts);
 
-  // Insert fake api script right after "<html>"
-  // TODO(danvk): set title?
+  // Insert fake api scripts right after "<html>"
   if (is_local) {
-    return html.replace(/<html>/i, '<html>\n<script src="/fake-api.js"></script>');
+    return html.replace(/<html>/i,
+        '<html>\n<script src="/fake-api.js"></script>');
+  } else {
+    return html.replace(/<html>/i,
+        '<html>\n' +
+        '<script src="/xsocket.io.min.js"></script>' +
+        '<script src="/fake-socket-api.js"></script>');
   }
 }
