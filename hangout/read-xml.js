@@ -45,10 +45,11 @@ readXml.parseHangoutXml = function(input, callback) {
     assert.ok(data.ModulePrefs['@'].title);
     assert.ok(data.Content['#']);
 
-    // xml2js is stripping blank lines from data.Content['#']
+    var content = StripProdCode(data.Content['#']);
+
     var result = {
       title: data.ModulePrefs['@'].title,
-      content: data.Content['#'],
+      content: content,
       lonelyOpts: opts
     };
 
@@ -67,17 +68,50 @@ readXml.applyTransforms = function(data, lonelyOpts) {
     assert.ok('from' in rewrite);
     assert.ok('to' in rewrite);
 
-    // TODO(danvk): look up options here, need to replace all.
-    data = data.replace(rewrite.from, rewrite.to);
+    // TODO(danvk): Do a plain-string (not RE) replace all.
+    data = data.replace(new RegExp(rewrite.from, 'g'), rewrite.to);
   }
 
   return data;
 }
 
+// Removes code inside
+//
+//   <!-- lonely <prodonly> -->
+//   ...
+//   <!-- lonely </prodonly> -->
+//
+// blocks
+//
+function StripProdCode(html) {
+  var start_mark = '<!-- lonely <prodonly> -->';
+  var end_mark = '<!-- lonely </prodonly> -->';
 
-// Converts a Hangout App's XML into HTML which uses the fake server.
+  while (1) {
+    var prod_start = html.indexOf(start_mark);
+    if (prod_start == -1) break;
+
+    var prod_end = html.indexOf(end_mark, prod_start + start_mark.length);
+    // TODO(danvk): this should trigger error callbacks, not assertions.
+    assert.notEqual(-1, prod_end, 'Must end <!-- lonely <prodonly> --> comment.');
+
+    html = html.substr(0, prod_start - 1) + html.substr(prod_end + end_mark.length);
+  }
+
+  return html;
+}
+
+
+// Converts a Hangout App's parsed data into HTML which uses the fake server.
 // This takes care of adding appropriate headers, etc.
-function createFakeHtml(lonelyOpts, is_local) {
-  // ... insert fake api script right after "<html>"
-  return xml;
+readXml.createFakeHtml = function(hangoutData, is_local) {
+  var html = hangoutData.content;
+
+  html = readXml.applyTransforms(html, hangoutData.lonelyOpts);
+
+  // Insert fake api script right after "<html>"
+  // TODO(danvk): set title?
+  if (is_local) {
+    return html.replace(/<html>/i, '<html>\n<script src="/fake-api.js"></script>');
+  }
 }

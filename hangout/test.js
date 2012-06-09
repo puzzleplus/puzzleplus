@@ -20,6 +20,6 @@ fs.readFile(filename, function(err, data) {
     console.log('Title: ' + hangout_data.title);
 
     console.log('Output:');
-    console.log(readXml.applyTransforms(hangout_data.content, hangout_data.lonelyOpts));
+    console.log(readXml.createFakeHtml(hangout_data, true));
   });
 });

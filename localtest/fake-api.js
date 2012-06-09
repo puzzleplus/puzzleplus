@@ -42,6 +42,7 @@ var gapi = (function() {
   var users = {
     '123ABC': {
       hasAppEnabled: true,
+      id: '123ABC',
       person: {
         id: '4567890123',
         displayName: 'John Doe',

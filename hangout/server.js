@@ -16,7 +16,16 @@ var EVENTS = {
 };
 
 var express = require('express'),
-    io      = require('socket.io');
+    io      = require('socket.io'),
+    assert  = require('assert'),
+    fs      = require('fs');
+
+var readXml = require('./read-xml.js');
+
+assert.equal(3, process.argv.length,
+    'Usage: node ' + process.argv[1] + ' path/to/hangout.xml');
+
+xml_file = process.argv[2];
 
 var app = express.createServer();
 var io = io.listen(app);
@@ -25,8 +34,31 @@ app.configure(function() {
   app.use(express.static(__dirname + '/..'));
 });
 
+app.get('/', function(req, res) {
+  fs.readFile(xml_file, function(err, data) {
+    assert.ifError(err);
+
+    readXml.parseHangoutXml(data, function(err, hangout_data) {
+      assert.ifError(err);
+
+      res.contentType('text/html');
+      res.send(readXml.createFakeHtml(hangout_data, true));
+    });
+  });
+});
+
+app.get('/fake-api.js', function(req, res) {
+  fs.readFile('localtest/fake-api.js', function(e, data) {
+    assert.ifError(e);
+    res.contentType('text/javascript');
+    res.send(data);
+  });
+});
+
 app.listen(8080);
 
+
+// Fake hangouts API.
 var DEFAULT_PHOTO = 'https://lh5.googleusercontent.com/-_om-59NoFH8/AAAAAAAAAAI/AAAAAAAAAAA/0fcwDv4LZ-M/s48-c-k/photo.jpg';
 var num_users = 0;
 var users = [
