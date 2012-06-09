@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!-- lonely
+{
+  rewrites: [
+    {
+      from: "https://raw.github.com/danvk/lmnowave/master/wave",
+      to: ""
+    },
+    {
+      from: "https://github.com/danvk/lmnowave/raw/master/icons/",
+      to: "../icons"
+    }
+  ]
+}
+-->
+
 <Module>
   <ModulePrefs
     title="puzzle+"
@@ -227,6 +242,7 @@
 
 
 </body>
+</html>
   ]]>
   </Content>
 </Module>
