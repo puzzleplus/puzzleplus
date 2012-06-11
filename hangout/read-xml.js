@@ -69,7 +69,7 @@ readXml.applyTransforms = function(data, lonelyOpts) {
     assert.ok('to' in rewrite);
 
     // TODO(danvk): Do a plain-string (not RE) replace all.
-    data = data.replace(new RegExp(rewrite.from, 'g'), rewrite.to);
+    data = data.split(rewrite.from).join(rewrite.to);
   }
 
   return data;
@@ -87,17 +87,12 @@ function StripProdCode(html) {
   var start_mark = '<!-- lonely <prodonly> -->';
   var end_mark = '<!-- lonely </prodonly> -->';
 
-  while (1) {
-    var prod_start = html.indexOf(start_mark);
-    if (prod_start == -1) break;
-
-    var prod_end = html.indexOf(end_mark, prod_start + start_mark.length);
-    // TODO(danvk): this should trigger error callbacks, not assertions.
-    assert.notEqual(-1, prod_end, 'Must end <!-- lonely <prodonly> --> comment.');
-
-    html = html.substr(0, prod_start - 1) + html.substr(prod_end + end_mark.length);
-  }
-
+  console.log(html.length);
+  html = html.replace(
+      // '.' does not match newlines but '[\s\S]' does.
+      new RegExp(start_mark + '[\\s\\S]*?' + end_mark, 'gi'),
+      '');
+  console.log(html.length);
   return html;
 }
 

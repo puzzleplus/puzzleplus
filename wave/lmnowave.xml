@@ -5,11 +5,11 @@
   rewrites: [
     {
       from: "https://raw.github.com/danvk/lmnowave/master/wave",
-      to: ""
+      to: "wave"
     },
     {
-      from: "https://github.com/danvk/lmnowave/raw/master/icons/",
-      to: "../icons"
+      from: "https://github.com/danvk/lmnowave/raw/master/icons",
+      to: "icons"
     }
   ]
 }
@@ -43,7 +43,9 @@
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/roster.js"></script>
 <script src="https://raw.github.com/danvk/lmnowave/master/wave/browser-detect.js"></script>
 
+<!-- lonely <prodonly> -->
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
+<!-- lonely </prodonly> -->
 
 <body>
 

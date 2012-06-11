@@ -24,6 +24,13 @@ function parsePuz(puz) {
   c.height = puz.charCodeAt(WIDTHOFFSET + 1);
   c.cluecount = puz.charCodeAt(WIDTHOFFSET + 2);
 
+  c.isSolutionScrambled = !(
+      puz.charCodeAt(0x32) == 0 && puz.charCodeAt(0x33) == 0);
+  if (c.isSolutionScrambled) {
+    // Can be used to verify the solution to a scrambled puzzle.
+    c.scrambledChecksum = 256 * puz.charCodeAt(0x1E) + puz.charCodeAt(0x1F);
+  }
+
   var ofs = HEADERLENGTH;
   var key = puz.substr(ofs, c.width * c.height);
   ofs += key.length;
@@ -188,4 +195,22 @@ function parsePuz(puz) {
   // delete c.squares;
 
   return c;
+}
+
+// c is a Crossword, as returned by parsePuz().
+// solution is a two-dimensional array of cells, solution[x][y]
+function isPuzzleCorrect(c, solution) {
+  if (!c.isSolutionScrambled) {
+    // check the solution explicitly.
+    for (var x = 0; x < solution.length; x++) {
+      for (var y = 0; y < solution[x].length; y++) {
+        var sq = c.squares[x][y];
+        if (sq && sq.char != solution[x][y]) return false;
+      }
+    }
+    return true;
+  }
+
+  // - if the puzzle is scrambled, checksum the solution and compare.
+  return false;
 }

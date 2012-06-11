@@ -8,6 +8,14 @@
 // Events which this server understands:
 // - submitDelta: { delta: { k1: v1, k2: v2, ... }, deleteKeys: [ ... ] }
 
+// Still to do:
+// - Figure out how to take command-line arguments (i.e. --local).
+// x Make sure I never cache anything.
+// x Figure out the right way to handle paths.
+// - Move support files (e.g. fake-api.js) into static/.
+// - Add a "reset" feature.
+// - Inline user PNGs
+
 var EVENTS = {
   WELCOME: 'welcome',
   PARTICIPANTS_CHANGED: 'participantsChanged',
@@ -18,7 +26,8 @@ var EVENTS = {
 var express = require('express'),
     io      = require('socket.io'),
     assert  = require('assert'),
-    fs      = require('fs');
+    fs      = require('fs'),
+    path    = require('path');
 
 var readXml = require('./read-xml.js');
 
@@ -34,6 +43,7 @@ app.configure(function() {
   app.use(express.static(__dirname + '/..'));
 });
 
+// Base XML file.
 app.get('/', function(req, res) {
   fs.readFile(xml_file, function(err, data) {
     assert.ifError(err);
@@ -51,15 +61,35 @@ function addStaticJsFile(app, server_path, filename) {
   app.get(server_path, function(req, res) {
     fs.readFile(filename, function(e, data) {
       assert.ifError(e);
-      res.contentType('text/javascript');
+      res.header('Cache-Control', 'no-cache');
+      res.contentType(filename);
       res.send(data);
     });
   });
 }
 
+// Server-defined static files.
 addStaticJsFile(app, '/fake-api.js', 'localtest/fake-api.js');
 addStaticJsFile(app, '/fake-socket-api.js', 'localtest/fake-socket-api.js');
 addStaticJsFile(app, '/xsocket.io.min.js', __dirname + '/static/xsocket.io.min.js');
+
+// User-defined static files.
+app.get(/(.*)/, function(req, res) {
+  var req_path = req.params[0];
+  assert.equal('/', req_path[0]);
+  var file_path = path.join(process.cwd(), req_path.substr(1));
+  console.log(req_path + ' -> ' + file_path);
+  fs.readFile(file_path, function(e, data) {
+    if (e) {
+     res.send(404);
+     return;
+    }
+
+    res.contentType(file_path);  // deduces mime type.
+    res.header('Cache-Control', 'no-cache');
+    res.send(data);
+  });
+});
 
 app.listen(8080);
 
