@@ -27,14 +27,20 @@ var express = require('express'),
     io      = require('socket.io'),
     assert  = require('assert'),
     fs      = require('fs'),
-    path    = require('path');
+    path    = require('path'),
+    program = require('commander');
 
 var readXml = require('./read-xml.js');
 
-assert.equal(3, process.argv.length,
+program
+  .version(0.1)
+  .option('-s, --single', 'Run in singleplayer mode (for easier testing).')
+  .parse(process.argv);
+
+assert.equal(1, program.args.length,
     'Usage: node ' + process.argv[1] + ' path/to/hangout.xml');
 
-xml_file = process.argv[2];
+xml_file = program.args[0];
 
 var app = express.createServer();
 var io = io.listen(app);
@@ -51,8 +57,9 @@ app.get('/', function(req, res) {
     readXml.parseHangoutXml(data, function(err, hangout_data) {
       assert.ifError(err);
 
+      res.header('Cache-Control', 'no-cache');
       res.contentType('text/html');
-      res.send(readXml.createFakeHtml(hangout_data, false));
+      res.send(readXml.createFakeHtml(hangout_data, program.single));
     });
   });
 });

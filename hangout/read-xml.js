@@ -87,12 +87,10 @@ function StripProdCode(html) {
   var start_mark = '<!-- lonely <prodonly> -->';
   var end_mark = '<!-- lonely </prodonly> -->';
 
-  console.log(html.length);
   html = html.replace(
       // '.' does not match newlines but '[\s\S]' does.
       new RegExp(start_mark + '[\\s\\S]*?' + end_mark, 'gi'),
       '');
-  console.log(html.length);
   return html;
 }
 
