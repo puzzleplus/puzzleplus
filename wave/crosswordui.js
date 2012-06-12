@@ -724,6 +724,25 @@ CrosswordWidget.prototype.isPuzzleCompleted = function() {
   return (numFilled > 0);
 };
 
+CrosswordWidget.prototype.isSolutionCorrect = function(c) {
+  var our_answer = [];
+  for (var x = 0; x < Globals.widget.crossword.width; x++) {
+    var row = [];
+    for (var y = 0; y < Globals.widget.crossword.height; y++) {
+      var square = this.square(x, y);
+      if (!square) {
+        row.push(null);
+        continue;
+      }
+      if (square.displayedLetter == '') return false;
+      row.push(square.displayedLetter);
+    }
+    our_answer.push(row);
+  }
+
+  return isPuzzleCorrect(c, our_answer);
+};
+
 // Constructor for our per-square data.
 Square = function(widget, x, y, squareData) {
   this.x = x;

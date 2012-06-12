@@ -344,9 +344,17 @@ function stateUpdated() {
     }
 
     if (Globals.widget.isPuzzleCompleted()) {
-      $('puzzle-done').style.display = 'block';
+      if (Globals.widget.isSolutionCorrect(Crossword)) {
+        $('puzzle-done').style.display = 'none';
+        $('puzzle-correct').style.display = 'block';
+        Globals.widget.setCorrect();  // makes puzzle immutable.
+      } else {
+        $('puzzle-done').style.display = 'block';
+        $('puzzle-correct').style.display = 'none';
+      }
     } else {
       $('puzzle-done').style.display = 'none';
+      $('puzzle-correct').style.display = 'none';
     }
   }
 }
@@ -401,7 +409,19 @@ function fillAll() {
   for (var x = 0; x < Globals.widget.crossword.width; x++) {
     for (var y = 0; y < Globals.widget.crossword.height; y++) {
       var square = Globals.widget.square(x, y);
-      if (square) square.fill('X', '#FF0000', false);
+      if (square) square.fill('X', 'rgb(255,0,0)', false);
+    }
+  }
+}
+
+function fillSolution(num_blank) {
+  if (!num_blank) num_blank = 0;
+  var c = Globals.widget.crossword;
+  for (var x = 0; x < c.width; x++) {
+    for (var y = 0; y < c.height; y++) {
+      if (x == c.width - 1 && y >= c.height - num_blank) continue;
+      var square = Globals.widget.square(x, y);
+      if (square) square.fill(square.answer, 'rgb(255,0,0)', false);
     }
   }
 }

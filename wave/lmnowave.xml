@@ -127,6 +127,7 @@
           <a href="#" onClick="newPuzzle()"><img src="https://github.com/danvk/lmnowave/raw/master/icons/176x109.png" width=176 height=109 border=0 /></a><br/>
           Want to <a href="#" onClick="newPuzzle()">do another</a>?
         </div>
+
         <div id="fullscreen-tip">
           Tip: Go full screen! Choose
           <span class="Chrome">View&rarr;Enter Presentation Mode</span>
@@ -147,6 +148,13 @@
     </td>
   </tr>
 </table>
+
+<div id="puzzle-correct">
+  <img src="https://raw.github.com/danvk/lmnowave/master/wave/happy_pencil.png" style="float:right;"/>
+  <b>Congratulations!</b>
+  <p>You've filled in the puzzle correctly.</p>
+  <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
+</div>
 
 </div>  <!-- #crossword_outer -->
 
