@@ -294,11 +294,13 @@ div.focusbox {
 .Firefox { display: none; }
 .Safari { display: none; }
 
-#puzzle-done {
+.endgame {
   display: none;
   text-align: center;
   padding-bottom: 20px;
-  line-height: 1.2ex;
+}
+.endgame img {
+  padding-bottom: 10px;
 }
 
 .circle {
@@ -352,25 +354,4 @@ div.focusbox {
 .focused {
   z-index: 10;
   -webkit-box-radius: 0 0 5px 2px blue;
-}
-
-#puzzle-correct {
-  display: none;
-  position: absolute;
-  z-index: 100;
-  left: 50%;
-  top: 50%;
-  width: 300px;
-  height: 200px;
-  margin-left: -150px;
-  margin-top: -100px;
-  background: white;
-  border: solid 1px black;
-  padding: 2em;
-  -moz-box-shadow: 0 0 10px 3px gray;
-  -webkit-box-shadow: 0 0 10px 3px gray;
-  box-shadow: 0 0 10px 3px gray;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  border-radius: 20px;
 }
