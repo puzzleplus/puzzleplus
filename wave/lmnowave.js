@@ -12,6 +12,14 @@ function supportsUpload() {
   }
 }
 
+// Remove any existing focus boxes from the DOM.
+function killFocusBoxes() {
+  var els = document.getElementsByClassName("focusbox");
+  for (var i = 0; i < els.length; i++) {
+    els[i].parentNode.removeChild(els[i]);
+  }
+}
+
 function makeCrossword() {
   var state = gapi.hangout.data.getState();
   if (!state) return;
@@ -27,6 +35,7 @@ function makeCrossword() {
     };
 
     // TODO(danvk): focus box's color should be same as player's color.
+    killFocusBoxes();
     Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */, $('scroll-wrapper') /* container */);
 
     Globals.widget = new CrosswordWidget;
@@ -81,6 +90,7 @@ function makeCrossword() {
     Crossword = undefined;
     $('upload').style.display = 'block';
     $('crossword_container').style.display = 'none';
+    killFocusBoxes();
     handleResize();
   }
 }
