@@ -166,6 +166,35 @@ function parsePuz(puz) {
     }
   }
 
+  // Parse out rebus answers.
+  if (extensions['GRBS'] && extensions['RTBL']) {
+    // e.g. " 0:HEART; 1:DIAMOND;17:CLUB;23:SPADE;"
+    var rtbl = extensions['RTBL'];
+    var parts = rtbl.split(";");
+    parts.pop();  // due to trailing ';'
+    var rebuses = [];
+    for (var i = 0; i < parts.length; i++) {
+      var ab = parts[i].split(":");
+      // assert ab.length == 2
+      rebuses[parseInt(ab[0])] = ab[1];
+    }
+
+    var grbs = extensions['GRBS'];
+    n = -1;
+    var gext = extensions['GEXT'];
+    for (var y = 0; y < c.height; y++) {
+      for (var x = 0; x < c.width; x++) {
+        n++;
+        var square = c.squares[x][y];
+        if (!square) continue;
+
+        var num = grbs.charCodeAt(n);
+        if (num == 0) continue;
+        square.rebus = rebuses[num - 1];
+      }
+    }
+  }
+
   // Construct c.answer
   c.answer = "";
   for (var y = 0; y < c.height; y++) {
