@@ -127,6 +127,7 @@
           <b>You're done!</b>
           <p>&hellip; but did you get everything right?</p>
           Want to <a href="#" onClick="newPuzzle()">do another</a>?
+          <div class="rex-url">(or <a target="_blank" href="#">check Rex</a>?)</div>
         </div>
 
         <div id="puzzle-correct" class="endgame">
@@ -134,6 +135,7 @@
           <b>Congratulations!</b>
           <p>You've filled in the puzzle correctly.</p>
           <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
+          <div class="rex-url">(or <a target="_blank" href="#">check Rex</a>?)</div>
         </div>
 
         <div id="fullscreen-tip">

@@ -307,6 +307,10 @@ div.focusbox {
 .endgame img {
   padding-bottom: 10px;
 }
+.rex-url {
+  visibility: hidden;
+  margin-top: -1ex;
+}
 
 .circle {
   position: absolute;

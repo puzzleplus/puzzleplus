@@ -362,9 +362,23 @@ function stateUpdated() {
         $('puzzle-done').style.display = 'block';
         $('puzzle-correct').style.display = 'none';
       }
+
+      var rexUrl = getRexUrl(Crossword);
+      if (rexUrl) {
+        var rexes = document.getElementsByClassName('rex-url');
+        for (var i = 0; i < rexes.length; i++) {
+          rexes[i].style.visibility = 'visible';
+          rexes[i].getElementsByTagName("a")[0].href = rexUrl;
+        }
+      }
     } else {
       $('puzzle-done').style.display = 'none';
       $('puzzle-correct').style.display = 'none';
+
+      var rexes = document.getElementsByClassName('rex-url');
+      for (var i = 0; i < rexes.length; i++) {
+        rexes[i].style.visibility = 'hidden';
+      }
     }
   }
 }
@@ -434,4 +448,12 @@ function fillSolution(num_blank) {
       if (square) square.fill(square.answer, 'rgb(255,0,0)', false);
     }
   }
+}
+
+function getRexUrl(puzzle) {
+  if (puzzle.copyright.indexOf('The New York Times') == -1) return null;
+
+  return 'http://google.com/search?q=' +
+      escape(puzzle.title) +
+      '%20site%3Arexwordpuzzle.blogspot.com&btnI';
 }
