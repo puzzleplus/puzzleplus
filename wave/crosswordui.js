@@ -32,6 +32,9 @@ function CrosswordWidget() {
 
   // Which squares are currently highlighted.
   this.highlighted = [];
+
+  // Are we editing a rebus square?
+  this.in_rebus = false;
 };
 
 CrosswordWidget.prototype.loadCrossword = function(crossword) {
@@ -375,6 +378,8 @@ CrosswordWidget.prototype.keyDown = function(e) {
   if (!e) e = window.event;
   if (e.altKey || e.ctrlKey || e.metaKey) return true;
 
+  if (this.in_rebus) return this.rebusKeyDown(e);
+
   // Safari and Chrome capture special keys by default. We need to
   // "preventDefault" on the event to stop this from happening.
   var keycode = e.keyCode;
@@ -385,6 +390,7 @@ CrosswordWidget.prototype.keyDown = function(e) {
       || keycode == 38 || keycode == 63232  // up
       || keycode == 39 || keycode == 63235  // right
       || keycode == 40 || keycode == 63233  // down
+      || keycode == 27  // escape
       || keycode == 8  // backspace
       || keycode == 46 || keycode == 63272) { // delete
     e.preventDefault();
@@ -499,6 +505,8 @@ CrosswordWidget.prototype.keyPress = function(e) {
           this.onChanged(square.x, square.y, ' ');
       }
     }
+  } else if (keycode == 27) {  // escape
+    if (!this.correct) this.showRebusForm();
   } else {
     return true;
   }
@@ -664,6 +672,8 @@ CrosswordWidget.prototype.setCorrect = function() {
 };
 
 CrosswordWidget.prototype.focus = function() {
+  if (this.in_rebus) this.hideRebusForm();
+
   this.hiddeninput.focus();
   if (this.focused) {
     this.moveFocusBoxToSquare(Globals.focusbox, this.focused);
@@ -708,6 +718,54 @@ CrosswordWidget.prototype.fadeSquareColors = function() {
     }
     window.setTimeout(Globals.widget.fadeSquareColors, cycle_sec * 1000);
   }
+};
+
+CrosswordWidget.prototype.showRebusForm = function() {
+  var square = this.focused;
+  if (!square) return;
+
+  var x = findPosX(square.td);
+  var y = findPosY(square.td);
+
+  var form = document.getElementById("rebus-form");
+  var textbox = document.getElementById('rebus-text');
+  form.style.left = (x + 1) + 'px';
+  form.style.top = (y + 1) + 'px';
+  textbox.value = square.displayedLetter;
+  form.style.visibility = 'visible';
+  textbox.select();
+  this.in_rebus = true;
+};
+
+CrosswordWidget.prototype.rebusKeyDown = function(e) {
+  var keycode = e.keyCode;
+  if (keycode == 13) {  // enter
+    var square = this.focused;
+    var answer = document.getElementById('rebus-text').value.toUpperCase();
+    var color = Globals && Globals.mp ? Globals.mp.getColor() : undefined;
+
+    square.fill(answer, color, false);
+    if (this.onChanged) {
+      this.onChanged(square.x, square.y, answer);
+    }
+
+    this.hideRebusForm();
+    e.preventDefault();
+    return false;
+  } else if (keycode == 27) {  // escape
+    this.hideRebusForm();
+    e.preventDefault();
+    return false;
+  } else {
+    return true;
+  }
+};
+
+CrosswordWidget.prototype.hideRebusForm = function() {
+  if (!this.in_rebus) return;
+  var form = document.getElementById("rebus-form");
+  form.style.visibility = 'hidden';
+  this.in_rebus = false;
 };
 
 CrosswordWidget.prototype.isPuzzleCompleted = function() {
@@ -788,6 +846,12 @@ Square.prototype.getLetter = function() {
   return this.letter.text ? this.letter.text.data : '';
 };
 
+Square.prototype.setClassName = function() {
+  this.letter.className = 'letter' +
+      (this.guess ? ' guess' : '') +
+      (this.displayedLetter.length > 1 ? ' rebus' : '');
+};
+
 // Fill a square with a given letter.  'color' is the background color for
 // the square, and can either be a hex color, '' (to clear the background),
 // or undefined (to leave the background unchanged).  If 'is_guess' is
@@ -804,7 +868,6 @@ Square.prototype.fill = function(letter, color, is_guess) {
     return;
   }
 
-  this.letter.className = 'letter' + (is_guess ? ' guess' : '');
   this.guess = is_guess;
 
   var changed = false;
@@ -828,6 +891,7 @@ Square.prototype.fill = function(letter, color, is_guess) {
     }
     this.base_color = color;
   }
+  this.setClassName();
 };
 
 // vim: set ts=2 sw=2 et ai :

@@ -234,7 +234,10 @@ function isPuzzleCorrect(c, solution) {
     for (var x = 0; x < solution.length; x++) {
       for (var y = 0; y < solution[x].length; y++) {
         var sq = c.squares[x][y];
-        if (sq && sq.char != solution[x][y]) return false;
+        if (!sq) continue;
+        var answer = sq.char;
+        if (sq.rebus) answer = sq.rebus;
+        if (answer != solution[x][y]) return false;
       }
     }
     return true;
