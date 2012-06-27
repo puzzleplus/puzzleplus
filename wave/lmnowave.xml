@@ -126,7 +126,7 @@
           <img src="https://github.com/danvk/lmnowave/raw/master/icons/176x109.png" width=160 height=99 border=0 />
           <b>You're done!</b>
           <p>&hellip; but did you get everything right?</p>
-          Want to <a href="#" onClick="newPuzzle()">do another</a>?
+          <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
           <div class="rex-url">(or <a target="_blank" href="#">check Rex</a>?)</div>
         </div>
 
