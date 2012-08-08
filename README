@@ -1,18 +1,29 @@
-lmnowave
+puzzle+
 By Dan Vanderkam
 Based on "lmnopuz", by Evan Martin and Dan Erat
 
-lmnowave is a crossword puzzle gadget for Google Wave. It allows collaborative
-solving of crosswords in Wave, as well as uploading of Across Lite format
-(".puz") files to the wave.
+puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
+collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
+videoconferencing to go along with the puzzle-solving.
 
-To test wave-related code, you'll need to copy everything in the "wave"
-directory to a server that can be accessed by Wave (i.e. not localhost) and
-create a gadget whose URL is your copy of the lmnowave.xml file.
+To run locally:
+1. Install node.js and Lonely Hangouts (https://github.com/danvk/lonely)
+2. Run:
 
-To test non-wave related code (i.e. the crossword UI), open localtest/test.html
-in your browser. This is much more convenient for debugging that going through
-Wave.
+   node (../path/to/lonely)/lonely.js --single wave/lmnowave.xml
+
+   Or:
+
+   node (../path/to/lonely)/lonely.js wave/lmnowave.xml
+
+3. Visit http://localhost:8080/
+
+
+At this point, you have a standard save-reload iteration cycle.
+If you didn't pass in "--single" on the command line, you can open
+http://localhost:8080/ in multiple tabs (or multiple browsers) to test
+multiplayer situations.
+
 
 A bit of lmnowave history:
 
@@ -30,3 +41,11 @@ After going on a hike with another developer, danvk learns that Firefox 3.6 has
 added support for the HTML5 File API. lmnowave is now possible! Hacking
 resumes!
 
+2011
+Wave is canceled, but the Wave Gadgets API (and hence "lmnowave") lives on as
+"Google Shared Spaces".
+
+2012 
+Google Shared Spaces is killed/morphed into the Google+ Hangouts API. lmnowave
+is rebranded as "puzzle+" and re-released. Lonely Hangouts is also developed
+and released to speed up iteration on multiplayer scenarios.
