@@ -4,12 +4,8 @@
 {
   rewrites: [
     {
-      from: "https://raw.github.com/danvk/lmnowave/master/wave",
+      from: "https://puzzle-plus.appspot.com",
       to: "wave"
-    },
-    {
-      from: "https://github.com/danvk/lmnowave/raw/master/icons",
-      to: "icons"
     }
   ]
 }
@@ -29,19 +25,19 @@
   <Content type="html">
   <![CDATA[
 <html>
-  <link rel="stylesheet" type="text/css" href="https://raw.github.com/danvk/lmnowave/master/wave/crossword.css"/>
+  <link rel="stylesheet" type="text/css" href="https://puzzle-plus.appspot.com/crossword.css"/>
 
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/common.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/console.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/crosswordui.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/cluesui.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/focusbox.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/color.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/puzparser.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/lmnowave.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/builtins.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/roster.js"></script>
-<script src="https://raw.github.com/danvk/lmnowave/master/wave/browser-detect.js"></script>
+<script src="https://puzzle-plus.appspot.com/common.js"></script>
+<script src="https://puzzle-plus.appspot.com/console.js"></script>
+<script src="https://puzzle-plus.appspot.com/crosswordui.js"></script>
+<script src="https://puzzle-plus.appspot.com/cluesui.js"></script>
+<script src="https://puzzle-plus.appspot.com/focusbox.js"></script>
+<script src="https://puzzle-plus.appspot.com/color.js"></script>
+<script src="https://puzzle-plus.appspot.com/puzparser.js"></script>
+<script src="https://puzzle-plus.appspot.com/lmnowave.js"></script>
+<script src="https://puzzle-plus.appspot.com/builtins.js"></script>
+<script src="https://puzzle-plus.appspot.com/roster.js"></script>
+<script src="https://puzzle-plus.appspot.com/browser-detect.js"></script>
 
 <!-- lonely <prodonly> -->
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
@@ -58,7 +54,7 @@
   <div id="upload_supported" style="display:none;">
     <div id="upload-interface">
       <div id="dropbox" class="dropbox" >
-        <img src="https://github.com/danvk/lmnowave/raw/master/icons/220x140.png" />
+        <img src="https://puzzle-plus.appspot.com/220x140.png" />
         <p><b>Drag a .puz file here to start playing.</b></p>
       </div>
       <p id="file-chooser">Or choose a file:
@@ -75,7 +71,7 @@
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
-      <img src="https://github.com/danvk/lmnowave/raw/master/icons/220x140.png" />
+      <img src="https://puzzle-plus.appspot.com/220x140.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
       <p>Try loading this wave in a browser that does, such as <a
@@ -123,7 +119,7 @@
       <div id='roster'></div>
       <div id='controls'>
         <div id="puzzle-done" class="endgame">
-          <img src="https://github.com/danvk/lmnowave/raw/master/icons/176x109.png" width=160 height=99 border=0 />
+          <img src="https://puzzle-plus.appspot.com/176x109.png" width=160 height=99 border=0 />
           <b>You're done!</b>
           <p>&hellip; but did you get everything right?</p>
           <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
@@ -131,7 +127,7 @@
         </div>
 
         <div id="puzzle-correct" class="endgame">
-          <img src="https://raw.github.com/danvk/lmnowave/master/wave/happy_pencil.png" />
+          <img src="https://puzzle-plus.appspot.com/happy_pencil.png" />
           <b>Congratulations!</b>
           <p>You've filled in the puzzle correctly.</p>
           <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
@@ -170,7 +166,7 @@
   <div class="centering-middle">
   <div class="centering-inner">
   <div id='help-inner'>
-    <img src="https://github.com/danvk/lmnowave/raw/master/icons/220x140.png" style="float:right;"/>
+    <img src="https://puzzle-plus.appspot.com/220x140.png" style="float:right;"/>
     <h2>Basics</h2>
     <ul>
       <li>Move the cursor using the mouse and arrow keys.</li>
