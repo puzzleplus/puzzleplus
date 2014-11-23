@@ -5,8 +5,6 @@
 
 - (danvk) Show other players' cursors (store in wave state).
 
-- (danvk) Add ESC+type for multiletter answers (e.g. for rebus puzzles).
-
 - (danvk) circled letters, e.g. in
   http://rexwordpuzzle.blogspot.com/2010/03/former-captial-of-crete-thu-3-11-10.html
 
@@ -18,27 +16,11 @@
   Notify when puzzle is complete
   Fill in answers when someone says "I give up"?
 
-- Switch to a standard library for event-handling code
-  There's lots of weirdness re: onkeypress vs. onkeydown, arrow keys, Safari, etc.
-  This code from closure is what we should be using:
-  http://doctype.googlecode.com/svn/trunk/goog/events/keyhandler.js
-  Or: get Julie or Ojan to fix this =)
-
-- (danvk) Replace the lmnopuz console
-  Should be able to use the firebug console in both FF and Chrome.
-
 - Add back keyboard shortcuts like "?". (if possible)
 
 - A way to check errors/reveal answers
 
-- End game
-  Announce when the puzzle is complete.
-  Make it immutable when completed correctly.
-  Show colors at the end.
-
 - Type a number to go to that clue.
-
-- Some way to automatically get a new wave w/ a new puzzle each day.
 
 - Deal w/ incorrect answer stealing
   imagine A has typed in CORRECT and B comes over and types in MYGUESS; then
