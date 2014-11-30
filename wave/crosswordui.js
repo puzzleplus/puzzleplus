@@ -30,9 +30,6 @@ function CrosswordWidget() {
   // Which square has the input focus.
   this.focused = undefined;
 
-  // Which squares are currently highlighted.
-  this.highlighted = [];
-
   // Are we editing a rebus square?
   this.in_rebus = false;
 };
@@ -96,6 +93,10 @@ CrosswordWidget.prototype.loadCrossword = function(crossword) {
   this.hiddeninput = document.createElement('input');
   this.hiddeninput.style.display = 'none';
   document.body.appendChild(this.hiddeninput);
+
+  this.highlightedWordDiv = document.createElement('div');
+  this.highlightedWordDiv.className = 'highlighted-word';
+  table.appendChild(this.highlightedWordDiv);
 
   // Start the fader.
   window.setTimeout(this.fadeSquareColors, 0);
@@ -223,14 +224,6 @@ CrosswordWidget.prototype.focusNext = function(square, dx, dy,
   }
 };
 
-CrosswordWidget.prototype.changeSquareHighlight = function(square, highlight) {
-  if (highlight) {
-    square.td.className = 'highlighted';
-  } else {
-    square.td.className = '';
-  }
-};
-
 // Get the square at the start or end of the passed-in square's word.
 CrosswordWidget.prototype.getStartSquare =
     function(square, direction_horiz, is_start) {
@@ -290,17 +283,23 @@ CrosswordWidget.prototype.getSquaresForAnswer = function(baseSquare, is_horiz) {
 // Starting at square, highlight all squares that are within the
 // current clue (as determined by the current input direction).
 CrosswordWidget.prototype.highlightRegion = function(square) {
-  // unhighlight existing highlights...
-  for (var i = 0; i < this.highlighted.length; ++i)
-    this.changeSquareHighlight(this.highlighted[i], false);
-  this.highlighted = [];
+  this.highlightedWordDiv.style.display = 'none';
 
   if (square) {
-    this.highlighted = this.getSquaresForAnswer(square, this.direction_horiz);
+    var h = this.getStartSquare(square, this.direction_horiz, true);
+    var end = this.getStartSquare(square, this.direction_horiz, false);
 
-    this.highlighted.forEach(function(h) {
-      this.changeSquareHighlight(h, true);
-    }.bind(this));
+    var x = findPosX(h.letter);
+    var y = findPosY(h.letter);
+    var w = findPosX(end.letter) + end.letter.offsetWidth - 1 - x;
+    var h = findPosY(end.letter) + end.letter.offsetHeight - 1 - y;
+
+    var d = this.highlightedWordDiv;
+    d.style.left = x + 'px';
+    d.style.top = y + 'px';
+    d.style.width = w + 'px';
+    d.style.height = h + 'px';
+    d.style.display = 'block';
   }
 };
 
