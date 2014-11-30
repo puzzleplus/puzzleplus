@@ -74,6 +74,8 @@ body {
 
 #crosswordui td.filled {
   background: #333;
+  width: 26px;
+  height: 26px;
 }
 #crosswordui td.highlighted {
   background: #ccf !important;
