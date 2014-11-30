@@ -7,14 +7,15 @@ collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
 videoconferencing to go along with the puzzle-solving.
 
 To run locally:
-1. Install node.js and Lonely Hangouts (https://github.com/danvk/lonely)
+1. Install node.js
 2. Run:
 
-   node (../path/to/lonely)/lonely.js --single wave/lmnowave.xml
+   npm install
+   ./node_modules/.bin/lonely.js --single wave/lmnowave.xml
 
    Or:
 
-   node (../path/to/lonely)/lonely.js wave/lmnowave.xml
+   ./node_modules/.bin/lonely.js wave/lmnowave.xml
 
 3. Visit http://localhost:8080/
 

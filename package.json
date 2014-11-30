@@ -1,0 +1,30 @@
+{
+  "name": "puzzleplus",
+  "version": "0.1.0",
+  "description": "Crosswords for Google+ Hangouts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/danvk/puzzleplus.git"
+  },
+  "keywords": [
+    "hangouts",
+    "crosswords",
+    "puzzles"
+  ],
+  "author": "Dan Vanderkam",
+  "license": "Apache2",
+  "bugs": {
+    "url": "https://github.com/danvk/puzzleplus/issues"
+  },
+  "homepage": "https://github.com/danvk/puzzleplus",
+  "devDependencies": {
+    "lonely": "^0.1.0"
+  },
+  "dependencies": {
+    "lonely": "^0.1.1"
+  }
+}
