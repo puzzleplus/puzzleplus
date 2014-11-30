@@ -325,6 +325,34 @@ div.focusbox {
   margin: -1px;
 }
 
+/* This creates a red 'dog-ear' in the top right of the cell. */
+.formerly-incorrect {
+  background:
+     linear-gradient(to top right,
+         rgba(255,0,0,0) 0%,
+         rgba(255,0,0,0) calc(80% - 1.8px),
+         rgba(255,0,0,0.75) 80%,
+         rgba(255,0,0,0) calc(80% + 1.8px),
+         rgba(255,0,0,0) 100%);
+}
+
+/* This draws a black "X" over the cell. */
+.incorrect {
+  background:
+   linear-gradient(to top left,
+       rgba(0,0,0,0) 0%,
+       rgba(0,0,0,0) calc(50% - 0.8px),
+       rgba(0,0,0,1) 50%,
+       rgba(0,0,0,0) calc(50% + 0.8px),
+       rgba(0,0,0,0) 100%),
+   linear-gradient(to top right,
+       rgba(0,0,0,0) 0%,
+       rgba(0,0,0,0) calc(50% - 0.8px),
+       rgba(0,0,0,1) 50%,
+       rgba(0,0,0,0) calc(50% + 0.8px),
+       rgba(0,0,0,0) 100%);
+}
+
 #help {
   z-index: 5;
   position: fixed;

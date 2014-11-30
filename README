@@ -28,9 +28,30 @@ multiplayer situations.
 
 To publish an update to "production", run:
 
-    cp wave/{*.css,*.js,*.xml} ../danvk.github.io/lmnowave/
+    appcfg update .
+    cp wave/*.xml ../danvk.github.io/lmnowave/
 
-And then push the changes to danvk.org.
+And then push the changes to danvk.org. The AppEngine app is used to get SSL.
+
+
+The state object looks like this:
+
+```javascript
+{
+  "crossword": "...",         // (bytes of the .puz file)
+  "@rgb(178,255,178)": 1234,  // @ + color -> player ID
+  "c1234": "4,2",             // c + player ID -> cursor position
+  "1,2":"O\t1234",            // (x, y) -> "Answer<tab>Player ID"
+  "2,2":"R\t1234",
+  "3,2":"T\t1234",
+  ...,
+  "g1,1,x": "",             // wrong guesses
+  "g3,4,y": "",
+  ...,
+  "v,check,(type),(player_id)": "",  // pending votes
+  ...
+}
+```
 
 
 A bit of lmnowave history:

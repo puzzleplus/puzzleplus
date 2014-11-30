@@ -39,8 +39,8 @@ function makeCrossword() {
     Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */, $('scroll-wrapper') /* container */);
 
     Globals.widget = new CrosswordWidget;
-    Globals.widget.onChanged = function(x,y,let) { updateWave(x, y, let); };
-    Globals.widget.onCursorMove = function(x,y) { updateCursor(x, y); }
+    Globals.widget.onChanged = updateWave;
+    Globals.widget.onCursorMove = updateCursor;
     $('crossword').innerHTML = '';
     $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
@@ -62,6 +62,10 @@ function makeCrossword() {
     // user -> FocusBox object (excluding our own FocusBox)
     Globals.cursors = {};
 
+    Globals.votes = new Votes();
+    Globals.votesui = new VotesUI(Globals.votes);
+    $('votes').appendChild(Globals.votesui.container);
+
     $('crossword_container').style.display = 'block';
     $('upload').style.display = 'none';
 
@@ -72,20 +76,6 @@ function makeCrossword() {
     // that the offset stuff works) and until the clues have been created (so
     // that the initial ones will be highlighted).  This kinda sucks.
     Globals.widget.setFocus(Globals.widget.getSquareForClue(1, true), false);
-  } else if (state['attachment_url'] !== undefined) {
-    // TODO(danvk): remove this, I can't imagine how it would work in G+.
-    // .puz file has been sent as an attachment. Do an XHR for it.
-    var url = gapi.hangout.data.getValue('attachment_url');
-    console.log("Doing XHR for " + url);
-    gadgets.io.makeRequest(url, function(obj) {
-      var puzData = obj.text;
-      var delta = {};
-      delta["crossword"] = escape(puzData);
-      gapi.hangout.data.submitDelta(delta);
-      console.log("XHR for " + url + " succeeded; return " +
-                  puzData.length + " bytes");
-    });
-
   } else {
     Crossword = undefined;
     $('upload').style.display = 'block';
@@ -256,9 +246,9 @@ function updateCursor(x, y) {
       return;
     }
 
-    var k = "c" + getMyId();
+    var k = 'c' + getMyId();
     var delta = {};
-    delta[k] = x + "," + y;
+    delta[k] = x + ',' + y;
     gapi.hangout.data.submitDelta(delta);
   }
 }
@@ -289,7 +279,7 @@ function stateUpdated() {
 
     if (Globals.my_color == null || Globals.my_color != my_color) {
       if (!my_color) {
-        // The was probably a race condition and someone stole our color.
+        // There was probably a race condition and someone stole our color.
         // Assign ourselves a new one.
         my_color = getMyColor();
       }
@@ -299,19 +289,25 @@ function stateUpdated() {
     // Pass two: cells on the grid.
     var any_from_me = false;
     var cursors = {};
+    var wrongGuesses = [];
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
-      if (k.substr(0, 1) == "@") continue;
-      if (k.substr(0, 1) == "c") {
+      if (k.substr(0, 1) == 'v') continue;  // pending vote
+      if (k.substr(0, 1) == "@") continue;  // color
+      if (k.substr(0, 1) == "c") {          // color
         cursors[k.substr(1)] = state[k];
         continue;
       }
+      if (k.substr(0, 1) == 'g') {          // wrong guess
+        wrongGuesses.push(k);
+      }
 
+      // TODO: this code belongs in crosswordui.js
       // must be a cell: "x,y" -> "letter,user@domain.com"
       var xy = k.split(",");
       if (xy.length != 2) continue;
-      var x = parseInt(xy[0]);
-      var y = parseInt(xy[1]);
+      var x = parseInt(xy[0], 0);
+      var y = parseInt(xy[1], 0);
       if (isNaN(x) || isNaN(y)) continue;
       var square = Globals.widget.square(x, y);
       if (!square) continue;
@@ -332,8 +328,10 @@ function stateUpdated() {
 
       if (user == me) any_from_me = true;
     }
+    Globals.widget.updateWrongGuesses(wrongGuesses);
 
     usersChanged();
+    Globals.votes.update(keys, state);
 
     for (var id in cursors) {
       if (id == getMyId()) continue;
@@ -383,7 +381,7 @@ function stateUpdated() {
   }
 }
 
-function usersChanged(gapi_users) {
+function usersChanged() {
   if (typeof(Globals) === 'undefined' || !Globals.roster) return;
 
   var all_users = gapi.hangout.getParticipants();
@@ -396,6 +394,7 @@ function usersChanged(gapi_users) {
     var p = user.person;
 
     var display_user = {
+      id: p.id,
       image_url: p.image.url,
       name: p.displayName,
       color: Globals.user_colors[p.id] || '#dddddd'
@@ -403,6 +402,7 @@ function usersChanged(gapi_users) {
     users.push(display_user);
   }
 
+  Globals.votes.updateUsers(users);
   Globals.roster.updateUsers(users);
 }
 
