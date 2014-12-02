@@ -26,6 +26,13 @@ http://localhost:8080/ in multiple tabs (or multiple browsers) to test
 multiplayer situations.
 
 
+To publish an update to "production", run:
+
+    cp wave/{*.css,*.js,*.xml} ../danvk.github.io/lmnowave/
+
+And then push the changes to danvk.org.
+
+
 A bit of lmnowave history:
 
 2007-2008
