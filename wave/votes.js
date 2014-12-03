@@ -115,6 +115,7 @@ function makeKey(voteKey, playerId) {
 // A vote has either succeeded or failed. Remove all keys relating to it from
 // the Hangout state.
 Votes.prototype.deleteVote = function(voteKey) {
+  if (!this.votes[voteKey]) return;
   var keysToDelete = this.votes[voteKey].yeas.map(function(playerId) {
     return makeKey(voteKey, playerId);
   });
@@ -137,11 +138,14 @@ function isLastVote(playerId, previousVotes, users) {
  */
 Votes.prototype.vote = function(voteKey, playerId) {
   // Check if we're the last vote.
+  // This could even happen if we're the first vote, if it's a solo hangout.
+  var yeas = [];
   if (this.votes[voteKey]) {
-    if (isLastVote(playerId, this.votes[voteKey].yeas, this.userIds)) {
-      this.voteSucceeded(voteKey);
-      return;
-    }
+    yeas = this.votes[voteKey].yeas;
+  }
+  if (isLastVote(playerId, yeas, this.userIds)) {
+    this.voteSucceeded(voteKey);
+    return;
   }
 
   var o = {};

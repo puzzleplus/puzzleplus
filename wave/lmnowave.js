@@ -64,6 +64,7 @@ function makeCrossword() {
 
     Globals.votes = new Votes();
     Globals.votesui = new VotesUI(Globals.votes);
+    $('votes').innerHTML = '';
     $('votes').appendChild(Globals.votesui.container);
 
     $('crossword_container').style.display = 'block';
