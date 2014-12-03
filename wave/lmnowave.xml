@@ -27,6 +27,7 @@
 <html>
   <link rel="stylesheet" type="text/css" href="https://puzzle-plus.appspot.com/crossword.css"/>
 
+<script src="https://puzzle-plus.appspot.com/underscore-min.js"></script>
 <script src="https://puzzle-plus.appspot.com/common.js"></script>
 <script src="https://puzzle-plus.appspot.com/console.js"></script>
 <script src="https://puzzle-plus.appspot.com/crosswordui.js"></script>
@@ -37,6 +38,8 @@
 <script src="https://puzzle-plus.appspot.com/lmnowave.js"></script>
 <script src="https://puzzle-plus.appspot.com/builtins.js"></script>
 <script src="https://puzzle-plus.appspot.com/roster.js"></script>
+<script src="https://puzzle-plus.appspot.com/votes.js"></script>
+<script src="https://puzzle-plus.appspot.com/votesui.js"></script>
 <script src="https://puzzle-plus.appspot.com/browser-detect.js"></script>
 
 <!-- lonely <prodonly> -->
@@ -117,6 +120,7 @@
   <tr valign='top'>
     <td id='left'>
       <div id='roster'></div>
+      <div id='votes'></div>
       <div id='controls'>
         <div id="puzzle-done" class="endgame">
           <img src="https://puzzle-plus.appspot.com/176x109.png" width=160 height=99 border=0 />

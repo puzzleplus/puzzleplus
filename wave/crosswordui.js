@@ -270,6 +270,23 @@ CrosswordWidget.prototype.getNumber = function(square, direction_horiz) {
   return this.getStartSquare(square, direction_horiz, true).number;
 };
 
+// Get a list of squares in the current answer, as determined by a square in
+// the answer and a direction.
+CrosswordWidget.prototype.getSquaresForAnswer = function(baseSquare, is_horiz) {
+  var squares = [];
+
+  var h = this.getStartSquare(baseSquare, is_horiz, true);
+  var end = this.getStartSquare(baseSquare, is_horiz, false);
+  var dx = is_horiz ? 1 : 0;
+  var dy = is_horiz ? 0 : 1;
+
+  do {
+    squares.push(h);
+  } while (h.x + dx <= end.x && h.y + dy <= end.y &&
+           (h = this.square(h.x + dx, h.y + dy)));
+  return squares;
+};
+
 // Starting at square, highlight all squares that are within the
 // current clue (as determined by the current input direction).
 CrosswordWidget.prototype.highlightRegion = function(square) {
@@ -279,18 +296,11 @@ CrosswordWidget.prototype.highlightRegion = function(square) {
   this.highlighted = [];
 
   if (square) {
-    this.highlighted = [];
+    this.highlighted = this.getSquaresForAnswer(square, this.direction_horiz);
 
-    var h = this.getStartSquare(square, this.direction_horiz, true);
-    var end = this.getStartSquare(square, this.direction_horiz, false);
-    var dx = this.direction_horiz ? 1 : 0;
-    var dy = this.direction_horiz ? 0 : 1;
-
-    do {
-      this.highlighted.push(h);
+    this.highlighted.forEach(function(h) {
       this.changeSquareHighlight(h, true);
-    } while (h.x + dx <= end.x && h.y + dy <= end.y &&
-             (h = this.square(h.x + dx, h.y + dy)));
+    }.bind(this));
   }
 };
 
@@ -801,6 +811,74 @@ CrosswordWidget.prototype.isSolutionCorrect = function(c) {
   return isPuzzleCorrect(c, our_answer);
 };
 
+/**
+ * Check something on the grid as it's currently filled out.
+ * checkType must be one of:
+ * - "all" -- for the entire grid
+ * - (num)[AD], e.g. "52A" or "1D" -- for a single word
+ * - (num),(num), e.g. "2,2" -- for a single letter
+ */
+CrosswordWidget.prototype.check = function(checkType) {
+  var squaresToCheck = [];
+  var m;
+  if (checkType == 'all') {
+    this.squares.forEach(function(row) {
+      row.forEach(function(square) {
+        squaresToCheck.push(square);
+      });
+    });
+  } else if (m = checkType.match(/^(\d+),(\d+)$/)) {
+    var x = parseInt(m[1], 0),
+        y = parseInt(m[2], 0);
+    squaresToCheck.push(this.square(x, y));
+  } else if (m = checkType.match(/^(\d+)(A|D)$/)) {
+    var num = parseInt(m[1], 0),
+        is_horiz = (m[2] == 'A');
+    squaresToCheck = this.getSquaresForAnswer(
+        this.getSquareForClue(num, is_horiz), is_horiz);
+  }
+
+  var wrongGuesses = {};  // ("gX,Y,guess": "")
+  squaresToCheck.forEach(function(square) {
+    if (square.isIncorrect()) {
+      wrongGuesses['g' + square.x + ',' + square.y + ',' + square.displayedLetter] = '1';
+    }
+  });
+  if (_.isEmpty(wrongGuesses)) {
+    console.log('Nothing wrong!');  // TODO: show a message
+  } else {
+    gapi.hangout.data.submitDelta(wrongGuesses);
+  }
+};
+
+
+// We've received a new set of wrong guesses from hangouts.
+// Update the UI to reflect this.
+CrosswordWidget.prototype.updateWrongGuesses = function(wrongGuesses) {
+  var parsedGuesses = wrongGuesses.map(function(k) {
+    var m = k.match(/^g(\d+),(\d+),(.*)$/);
+    if (!m) {
+      console.warn('Surprising guess', k);
+      return;  // ...?
+    } else {
+      return {
+        xy: m[1] + ',' + m[2],
+        x: parseInt(m[1], 0),
+        y: parseInt(m[2], 0),
+        letter: m[3]
+      };
+    }
+  });
+
+  var cellToGuesses = _.groupBy(parsedGuesses, 'xy');
+
+  _.each(cellToGuesses, function(guesses) {
+    var g = guesses[0],
+        sq = this.square(g.x, g.y);
+    sq.updateWrongGuesses(_.pluck(guesses, 'letter'));
+  }.bind(this));
+};
+
 // Constructor for our per-square data.
 Square = function(widget, x, y, squareData) {
   this.x = x;
@@ -810,6 +888,9 @@ Square = function(widget, x, y, squareData) {
   // TODO(danvk): move this into puzparser
   this.number = squareData.across || squareData.down || 0;
   this.displayedLetter = '';
+
+  // Previous guesses for this square which were shown to be wrong via a Check.
+  this.wrongGuesses = [];
 
   var square = this;
   this.td = document.createElement('td');
@@ -849,7 +930,9 @@ Square.prototype.getLetter = function() {
 Square.prototype.setClassName = function() {
   this.letter.className = 'letter' +
       (this.guess ? ' guess' : '') +
-      (this.displayedLetter.length > 1 ? ' rebus' : '');
+      (this.displayedLetter.length > 1 ? ' rebus' : '') +
+      (this.formerlyIncorrect ? ' formerly-incorrect' : '') +
+      (this.incorrect ? ' incorrect' : '');
 };
 
 // Fill a square with a given letter.  'color' is the background color for
@@ -891,6 +974,34 @@ Square.prototype.fill = function(letter, color, is_guess) {
     }
     this.base_color = color;
   }
+  this.updateIncorrect();
+  this.setClassName();
+};
+
+// Check if the square is correct.
+// If it's incorrect right now, set the 'incorrect' bit.
+// this flips the 'formerlyIncorrect' bit, which is irreversible.
+// You can't remove the badge of shame!
+Square.prototype.isIncorrect = function() {
+  return this.displayedLetter && (this.displayedLetter != this.answer);
+};
+
+Square.prototype.updateIncorrect = function() {
+  // is the current letter is known to be incorrect?
+  this.incorrect = _.contains(this.wrongGuesses, this.displayedLetter);
+  // There was previously an incorrect guess here.
+  // The badge of shame must remain visible!
+  this.formerlyIncorrect = !this.incorrect && (this.wrongGuesses.length > 0);
+};
+
+Square.prototype.updateWrongGuesses = function(wrongGuesses) {
+  var sortedWrongGuesses = _.sortBy(wrongGuesses),
+      sortedOldGuesses = _.sortBy(this.wrongGuesses),
+      changed = !_.isEqual(sortedWrongGuesses, sortedOldGuesses);
+  if (!changed) return;
+
+  this.wrongGuesses = wrongGuesses;
+  this.updateIncorrect();
   this.setClassName();
 };
 
