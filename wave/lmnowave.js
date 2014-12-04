@@ -204,15 +204,6 @@ function getMyColor() {
   return Globals.my_color;
 }
 
-function addHighlightCSS(color) {
-  var rule = '#crosswordui td.highlighted { ' +
-      'background: ' + color + ' !important; }'
-  var styleSheetElement = document.createElement("style");
-  styleSheetElement.type = "text/css";
-  styleSheetElement.innerHTML = rule;
-  document.getElementsByTagName("head")[0].appendChild(styleSheetElement);
-}
-
 function updateWave(x, y, let) {
   if (gapi.hangout.data) {
     var k = "" + x + "," + y;
@@ -230,7 +221,6 @@ function updateMyColor(new_color) {
 
   // Write a new CSS rule to color the highlighted answer in our color.
   var my_hex_color = makeHexColor(parseRGBColor(Globals.my_color));
-  addHighlightCSS(darkenHexColor(my_hex_color, 0.90));
 
   // just leaving it blue for now.
   // var dark_color = darkenHexColor(color, 0.5);
