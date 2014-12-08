@@ -1,8 +1,10 @@
-puzzle+
+# Puzzle+
 By Dan Vanderkam
 Based on "lmnopuz", by Evan Martin and Dan Erat
 
-puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
+<img src="wave/220x140.png" width=220 height=140>
+
+Puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
 collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
 videoconferencing to go along with the puzzle-solving.
 
@@ -10,12 +12,12 @@ To run locally:
 1. Install node.js
 2. Run:
 
-   npm install
-   ./node_modules/.bin/lonely.js --single wave/lmnowave.xml
+    npm install
+    ./node_modules/.bin/lonely --single wave/lmnowave.xml
 
    Or:
 
-   ./node_modules/.bin/lonely.js wave/lmnowave.xml
+    ./node_modules/.bin/lonely wave/lmnowave.xml
 
 3. Visit http://localhost:8080/
 
@@ -54,7 +56,7 @@ The state object looks like this:
 ```
 
 
-A bit of lmnowave history:
+## Puzzle+ history
 
 2007-2008
 derat and emartin create lmnopuz, with a JS frontend and a Ruby backend.
