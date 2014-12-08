@@ -18,9 +18,9 @@ npm install
 ./node_modules/.bin/lonely wave/lmnowave.xml
 ```
 
-And visit http://localhost:8080/ in your browser of choice. At this point, you have a standard save-reload iteration cycle.
+And visit localhost:8080 in your browser of choice. At this point, you have a standard save-reload iteration cycle.
 
-You can open http://localhost:8080/ in multiple tabs (or multiple browsers) to test multiplayer situations.
+You can open localhost:8080 in multiple tabs (or multiple browsers) to test multiplayer situations.
 
 This uses [lonely hangouts](https://github.com/danvk/lonely) to simulate the Google+ Hangouts API.
 
