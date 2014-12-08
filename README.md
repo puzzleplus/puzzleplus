@@ -47,7 +47,7 @@ All state in a Hangouts app is contained in the global, shared [state object](ht
 
 If some of the mapping seem a bit strange, it's because the state object is structured to take advantage of the Hangout API's conflict resolution system. For example, rather than mapping player ID→color, it maps color→player ID. This means that the Hangouts server will ensure that no two players ever have the same color.
 
-## Published the Hangouts App
+## Publishing the Hangouts App
 
 To publish an update to "production", run:
 
