@@ -1,6 +1,5 @@
 # Puzzle+
-By Dan Vanderkam
-Based on "lmnopuz", by Evan Martin and Dan Erat
+By Dan Vanderkam, based on [lmnopuz](https://github.com/martine/lmnopuz), by Evan Martin and Dan Erat
 
 <img src="wave/220x140.png" width=220 height=140>
 
@@ -8,35 +7,26 @@ Puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
 collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
 videoconferencing to go along with the puzzle-solving.
 
-To run locally:
-1. Install node.js
-2. Run:
+## Quickstart
 
-    npm install
-    ./node_modules/.bin/lonely --single wave/lmnowave.xml
+To run locally, you'll need to install [node.js](http://nodejs.org/). Then run:
 
-   Or:
+```bash
+git clone https://github.com/puzzleplus/puzzleplus.git
+cd puzzleplus
+npm install
+./node_modules/.bin/lonely wave/lmnowave.xml
+```
 
-    ./node_modules/.bin/lonely wave/lmnowave.xml
+And visit http://localhost:8080/ in your browser of choice. At this point, you have a standard save-reload iteration cycle.
 
-3. Visit http://localhost:8080/
+You can open http://localhost:8080/ in multiple tabs (or multiple browsers) to test multiplayer situations.
 
+This uses [lonely hangouts](https://github.com/danvk/lonely) to simulate the Google+ Hangouts API.
 
-At this point, you have a standard save-reload iteration cycle.
-If you didn't pass in "--single" on the command line, you can open
-http://localhost:8080/ in multiple tabs (or multiple browsers) to test
-multiplayer situations.
+## Development tips
 
-
-To publish an update to "production", run:
-
-    appcfg update .
-    cp wave/*.xml ../danvk.github.io/lmnowave/
-
-And then push the changes to danvk.org. The AppEngine app is used to get SSL.
-
-
-The state object looks like this:
+All state in a Hangouts app is contained in the global, shared [state object](https://developers.google.com/+/hangouts/writing#state). For Puzzle+, the state object looks like this:
 
 ```javascript
 {
@@ -47,7 +37,7 @@ The state object looks like this:
   "2,2":"R\t1234",
   "3,2":"T\t1234",
   ...,
-  "g1,1,x": "",             // wrong guesses
+  "g1,1,x": "",  // wrong guesses
   "g3,4,y": "",
   ...,
   "v,check,(type),(player_id)": "",  // pending votes
@@ -55,28 +45,43 @@ The state object looks like this:
 }
 ```
 
+If some of the mapping seem a bit strange, it's because the state object is structured to take advantage of the Hangout API's conflict resolution system. For example, rather than mapping player ID→color, it maps color→player ID. This means that the Hangouts server will ensure that no two players ever have the same color.
+
+## Published the Hangouts App
+
+To publish an update to "production", run:
+
+    appcfg update .
+    cp wave/*.xml ../danvk.github.io/lmnowave/
+
+And then push the changes to danvk.org. The AppEngine app is used to get SSL.
 
 ## Puzzle+ history
 
-2007-2008
+**2007-2008**
+
 derat and emartin create lmnopuz, with a JS frontend and a Ruby backend.
 The service works, but there's no good place to host it.
 
-2009
+**2009**
+
 After learning about Wave, danvk remembers lmnopuz and writes the code to store
 crossword state in a wave. Work is abandoned after the realization that there's
 no way to access uploaded files via JavaScript, a crucial feature of lmnowave.
 
-2010
+**2010**
+
 After going on a hike with another developer, danvk learns that Firefox 3.6 has
 added support for the HTML5 File API. lmnowave is now possible! Hacking
 resumes!
 
-2011
+**2011**
+
 Wave is canceled, but the Wave Gadgets API (and hence "lmnowave") lives on as
 "Google Shared Spaces".
 
-2012 
+**2012**
+
 Google Shared Spaces is killed/morphed into the Google+ Hangouts API. lmnowave
 is rebranded as "puzzle+" and re-released. Lonely Hangouts is also developed
 and released to speed up iteration on multiplayer scenarios.
