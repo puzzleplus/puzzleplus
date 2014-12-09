@@ -4,7 +4,7 @@
 {
   rewrites: [
     {
-      from: "https://puzzle-plus.appspot.com",
+      from: "https://puzzleplus.github.io/app",
       to: "app"
     }
   ]
@@ -13,11 +13,11 @@
 
 <Module>
   <ModulePrefs
-    title="puzzle+"
-    title_url="http://www.danvk.org/wp/2012-05-17/puzzle-crosswords-for-google/"
+    title="Puzzle+"
+    title_url="https://puzzleplus.github.io/"
     author="Dan Vanderkam"
     author_email="danvdk@gmail.com"
-    description="Solve crossword puzzles with friends in Google+"
+    description="Solve Crossword Puzzles with friends in Google+"
     >
    <Require feature="rpc"/>
   </ModulePrefs>
@@ -25,22 +25,22 @@
   <Content type="html">
   <![CDATA[
 <html>
-  <link rel="stylesheet" type="text/css" href="https://puzzle-plus.appspot.com/crossword.css"/>
+  <link rel="stylesheet" type="text/css" href="https://puzzleplus.github.io/app/crossword.css"/>
 
-<script src="https://puzzle-plus.appspot.com/underscore-min.js"></script>
-<script src="https://puzzle-plus.appspot.com/common.js"></script>
-<script src="https://puzzle-plus.appspot.com/console.js"></script>
-<script src="https://puzzle-plus.appspot.com/crosswordui.js"></script>
-<script src="https://puzzle-plus.appspot.com/cluesui.js"></script>
-<script src="https://puzzle-plus.appspot.com/focusbox.js"></script>
-<script src="https://puzzle-plus.appspot.com/color.js"></script>
-<script src="https://puzzle-plus.appspot.com/puzparser.js"></script>
-<script src="https://puzzle-plus.appspot.com/puzzleplus.js"></script>
-<script src="https://puzzle-plus.appspot.com/builtins.js"></script>
-<script src="https://puzzle-plus.appspot.com/roster.js"></script>
-<script src="https://puzzle-plus.appspot.com/votes.js"></script>
-<script src="https://puzzle-plus.appspot.com/votesui.js"></script>
-<script src="https://puzzle-plus.appspot.com/browser-detect.js"></script>
+<script src="https://puzzleplus.github.io/app/underscore-min.js"></script>
+<script src="https://puzzleplus.github.io/app/common.js"></script>
+<script src="https://puzzleplus.github.io/app/console.js"></script>
+<script src="https://puzzleplus.github.io/app/crosswordui.js"></script>
+<script src="https://puzzleplus.github.io/app/cluesui.js"></script>
+<script src="https://puzzleplus.github.io/app/focusbox.js"></script>
+<script src="https://puzzleplus.github.io/app/color.js"></script>
+<script src="https://puzzleplus.github.io/app/puzparser.js"></script>
+<script src="https://puzzleplus.github.io/app/puzzleplus.js"></script>
+<script src="https://puzzleplus.github.io/app/builtins.js"></script>
+<script src="https://puzzleplus.github.io/app/roster.js"></script>
+<script src="https://puzzleplus.github.io/app/votes.js"></script>
+<script src="https://puzzleplus.github.io/app/votesui.js"></script>
+<script src="https://puzzleplus.github.io/app/browser-detect.js"></script>
 
 <!-- lonely <prodonly> -->
 <script src="https://hangoutsapi.talkgadget.google.com/hangouts/api/hangout.js?v=1.0" ></script>
@@ -57,7 +57,7 @@
   <div id="upload_supported" style="display:none;">
     <div id="upload-interface">
       <div id="dropbox" class="dropbox" >
-        <img src="https://puzzle-plus.appspot.com/220x140.png" />
+        <img src="https://puzzleplus.github.io/app/220x140.png" />
         <p><b>Drag a .puz file here to start playing.</b></p>
       </div>
       <p id="file-chooser">Or choose a file:
@@ -74,7 +74,7 @@
   <div id="upload_unsupported" style="display:none;">
     <table><tr>
     <td valign="top">
-      <img src="https://puzzle-plus.appspot.com/220x140.png" />
+      <img src="https://puzzleplus.github.io/app/220x140.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
       <p>Try loading this Hangouts App in a browser that does, such as <a
@@ -123,7 +123,7 @@
       <div id='votes'></div>
       <div id='controls'>
         <div id="puzzle-done" class="endgame">
-          <img src="https://puzzle-plus.appspot.com/176x109.png" width=160 height=99 border=0 />
+          <img src="https://puzzleplus.github.io/app/176x109.png" width=160 height=99 border=0 />
           <b>You're done!</b>
           <p>&hellip; but did you get everything right?</p>
           <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
@@ -131,7 +131,7 @@
         </div>
 
         <div id="puzzle-correct" class="endgame">
-          <img src="https://puzzle-plus.appspot.com/happy_pencil.png" />
+          <img src="https://puzzleplus.github.io/app/happy_pencil.png" />
           <b>Congratulations!</b>
           <p>You've filled in the puzzle correctly.</p>
           <p>Want to <a href="#" onClick="newPuzzle()">do another</a>?</p>
@@ -170,7 +170,7 @@
   <div class="centering-middle">
   <div class="centering-inner">
   <div id='help-inner'>
-    <img src="https://puzzle-plus.appspot.com/220x140.png" style="float:right;"/>
+    <img src="https://puzzleplus.github.io/app/220x140.png" style="float:right;"/>
     <h2>Basics</h2>
     <ul>
       <li>Move the cursor using the mouse and arrow keys.</li>
