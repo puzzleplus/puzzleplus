@@ -1,7 +1,7 @@
 # Puzzle+
 By Dan Vanderkam, based on [lmnopuz](https://github.com/martine/lmnopuz), by Evan Martin and Dan Erat
 
-<img src="wave/220x140.png" width=220 height=140>
+<img src="app/220x140.png" width=220 height=140>
 
 Puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
 collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
@@ -15,7 +15,7 @@ To run locally, you'll need to install [node.js](http://nodejs.org/). Then run:
 git clone https://github.com/puzzleplus/puzzleplus.git
 cd puzzleplus
 npm install
-./node_modules/.bin/lonely wave/lmnowave.xml
+./node_modules/.bin/lonely app/puzzleplus.xml
 ```
 
 And visit localhost:8080 in your browser of choice. At this point, you have a standard save-reload iteration cycle.
@@ -51,12 +51,13 @@ If some of the mapping seem a bit strange, it's because the state object is stru
 
 To publish an update to "production", run:
 
-    appcfg update .
-    cp wave/*.xml ../danvk.github.io/lmnowave/
+    cp app/* ../puzzleplus.github.io/app/
 
-And then push the changes to danvk.org. The AppEngine app is used to get SSL.
+And then push the changes to puzzleplus.github.io.
 
-The [Google API project](https://console.developers.google.com/project/816682636912/apiui/apiview/plusHangouts?tabId=hangout) is called "puzzle+".
+The [Google API project](https://console.developers.google.com/project/816682636912/apiui/apiview/plusHangouts?tabId=hangout),
+which contains branding information and a pointer to the XML file, is called
+"puzzle+".
 
 ## Puzzle+ history
 

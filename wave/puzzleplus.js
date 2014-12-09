@@ -136,8 +136,8 @@ function addPuzToWave(files) {
       return;
     }
 
-    // Wave can only store string -> string maps, so it's easiest to submit the
-    // binary .puz file to the wave.
+    // Hangouts can only store string -> string maps, so it's easiest to submit
+    // the binary .puz file to the state.
     gapi.hangout.data.submitDelta( { crossword: escape(e.target.result) } );
   };
 
@@ -163,8 +163,8 @@ function getMyId() {
 }
 
 // Returns a color for the current user. If the user does not have a color, one
-// will be assigned and sent along to the other participants in the wave. It is
-// posible that this color will change later, if there is a conflict with
+// will be assigned and sent along to the other participants in the Hangout. It
+// is posible that this color will change later, if there is a conflict with
 // another user.
 function getMyColor() {
   if (!gapi.hangout.data) return '#dddddd';

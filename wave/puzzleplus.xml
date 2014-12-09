@@ -5,7 +5,7 @@
   rewrites: [
     {
       from: "https://puzzle-plus.appspot.com",
-      to: "wave"
+      to: "app"
     }
   ]
 }
@@ -35,7 +35,7 @@
 <script src="https://puzzle-plus.appspot.com/focusbox.js"></script>
 <script src="https://puzzle-plus.appspot.com/color.js"></script>
 <script src="https://puzzle-plus.appspot.com/puzparser.js"></script>
-<script src="https://puzzle-plus.appspot.com/lmnowave.js"></script>
+<script src="https://puzzle-plus.appspot.com/puzzleplus.js"></script>
 <script src="https://puzzle-plus.appspot.com/builtins.js"></script>
 <script src="https://puzzle-plus.appspot.com/roster.js"></script>
 <script src="https://puzzle-plus.appspot.com/votes.js"></script>
@@ -77,7 +77,7 @@
       <img src="https://puzzle-plus.appspot.com/220x140.png" />
     </td><td valign="middle">
       <p><b>Your browser does not support puzzle upload.</b></p>
-      <p>Try loading this wave in a browser that does, such as <a
+      <p>Try loading this Hangouts App in a browser that does, such as <a
       href="http://www.mozilla.com/firefox/" target="_blank">Firefox</a> or
       <a href="https://www.google.com/chrome">Chrome</a>.<br/>
       Or, try one of these puzzles from the <a
@@ -92,7 +92,7 @@
   <script type="text/javascript">
   for (var i = 0; i < Builtins.length; i++) {
     var p = Builtins[i];
-    var str = '<div class=builtin><a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://github.com/danvk/lmnowave/raw/master/wave/puzzle_16.png" />' + p['title'] + '</a> (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)</div>';
+    var str = '<div class=builtin><a href="javascript:setBuiltInPuz(' + i + ')"><img src="https://puzzleplus.github.io/app/puzzle_16.png" />' + p['title'] + '</a> (by ' + p['author'] + '; <a href="' + p['link'] + '">original</a>)</div>';
     document.getElementById("builtins").innerHTML += str;
   }
 
