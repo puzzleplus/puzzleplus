@@ -59,6 +59,7 @@ body {
   -webkit-border-radius: 8px;
   background: white;
   padding: 10px;
+  padding-bottom: 0;
 }
 
 #crosswordui {
@@ -152,7 +153,6 @@ div.focusbox {
 
 #current_clue {
   font-size: 140%;
-  /* border: solid 1px black; */
   margin-bottom: 3px;
   padding-left: 2px;
   padding-top: 1px;
@@ -160,7 +160,6 @@ div.focusbox {
   height: 1.1em;
   white-space: nowrap;
   position: relative;
-  /* color: rgb(162,0,0); */
 }
 
 #current_clue div {
@@ -269,23 +268,9 @@ div.focusbox {
   box-sizing: border-box;
 }
 
-#puzzle-info {
-  margin-bottom: 5px;
-  font-size: 100%;
-  border-collapse: collapse;
-}
-#puzzle-info tr:first-child td {
-  border-bottom: 1px solid black;
-  padding: 2px 5px;
-}
-#comment {
-  padding: 5px 0;
+#comment, #copyright {
   font-size: small;
-  color: #777;
-}
-
-#title, #author {
-  border-right: 1px solid black;
+  padding-top: 0.5em;
 }
 
 #builtins a {
@@ -372,11 +357,6 @@ div.focusbox {
   display: block;
   max-width: 32em;
   border: solid 1px black;
-  /*
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  */
   background: #ffc;
   padding: 2em;
   overflow: auto;
@@ -411,4 +391,26 @@ div.focusbox {
   font-weight: bold;
   font-size: small;
   text-transform: uppercase;
+}
+
+
+h1#title {
+    font-size: 1.4em;
+    margin-bottom: 0.5em;
+}
+
+#author {
+    font-size: small;
+    color: #777;
+}
+
+.credits {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+
+#copyright {
+    text-align: right;
 }

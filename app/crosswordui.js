@@ -76,18 +76,21 @@ CrosswordWidget.prototype.loadCrossword = function(crossword) {
   table.appendChild(tbody);
   this.tbody = tbody;
 
-  if (document.getElementById("puzzle-info")) {
-    var el = document.getElementById("title");
-    if (el) el.innerHTML = crossword["title"];
-    el = document.getElementById("author");
-    if (el) el.innerHTML = crossword["author"];
-    el = document.getElementById("copyright");
-    if (el) el.innerHTML = crossword["copyright"];
-
-    if (crossword.comment) {
-      document.getElementById('comment').textContent = crossword.comment;
-      document.getElementById('comment-row').style.display = '';
+  var tryToSetById = function(id, value) {
+    var el = document.getElementById(id);
+    if (el && value) {
+      el.textContent = value;
     }
+  };
+
+  tryToSetById('title', crossword.title);
+  tryToSetById('author', crossword.author);
+  tryToSetById('copyright', crossword.copyright);
+  if (crossword.comment) {
+    tryToSetById('comment', crossword.comment);
+    document.getElementById('comment').style.display = '';
+  } else {
+    document.getElementById('comment').style.display = 'none';
   }
 
   // Hack -- we need something to focus when we want to take the focus away

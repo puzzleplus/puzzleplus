@@ -109,16 +109,11 @@
   <tr valign="top">
   <td>&nbsp;</td>
   <td colspan=2>
-    <table id="puzzle-info" width="100%">
-      <tr>
-        <td id="title"></td>
-        <td id="author"></td>
-        <td id="copyright"></td>
-      </tr>
-      <tr id="comment-row" style="display: none">
-        <td id="comment" colspan="3"></td>
-      </tr>
-    </table>
+    <div class="credits">
+      <h1 id="title"></h1>
+      <div id="author"></div>
+      <div id="comment"></div>
+    </div>
   </td>
   </tr>
 
@@ -150,7 +145,6 @@
           <span class="Safari">View&rarr;Enter Full Screen</span>
         </div>
         <div>
-          <a href='#' onClick="$('help').style.visibility = 'visible';">Help</a>
         </div>
       </div>
     </td>
@@ -160,6 +154,14 @@
     </td>
     <td id='right'>
       <div id='clues'></div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <a href='#' onClick="$('help').style.visibility = 'visible';">Help</a>
+    </td>
+    <td colspan="2">
+      <div id="copyright"</div>
     </td>
   </tr>
 </table>
