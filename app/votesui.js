@@ -9,33 +9,20 @@ function VotesUI(votes) {
   this.votes = votes;
   this.container = document.createElement('div');
 
-  var makeBtn = function(text) {
-    var btn = document.createElement('button');
-    btn.innerHTML = text;
-    return btn;
-  };
-  var checkAllButton = makeBtn('Check All'),
-      checkWordButton = makeBtn('Check Word'),
-      checkLetterButton = makeBtn('Check Letter');
-
-  checkAllButton.onclick = function() {
+  el('check-all').onclick = function() {
     Globals.votes.vote('check,all', getMyId());
   };
-  checkWordButton.onclick = function() {
+  el('check-word').onclick = function() {
     var w = Globals.widget,
         num = w.getNumber(w.focused, w.direction_horiz),
         clue = num + (w.direction_horiz ? 'A' : 'D');
     Globals.votes.vote('check,' + clue, getMyId());
   };
-  checkLetterButton.onclick = function() {
+  el('check-square').onclick = function() {
     var sq = Globals.widget.focused;
     var pos = sq.x + ',' + sq.y;
     Globals.votes.vote('check,' + pos, getMyId());
   };
-
-  [checkAllButton, checkWordButton, checkLetterButton].forEach(function(btn) {
-    this.container.appendChild(btn);
-  }.bind(this));
 
   this.pendingVotes = document.createElement('div');
   this.pendingVotes.addEventListener('click', this.handleClick.bind(this));

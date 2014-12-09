@@ -26,8 +26,10 @@
   <![CDATA[
 <html>
   <link rel="stylesheet" type="text/css" href="https://puzzleplus.github.io/app/crossword.css"/>
+  <link rel="stylesheet" type="text/css" href="https://puzzleplus.github.io/app/lib/bootstrap-dropdown.css"/>
 
-<script src="https://puzzleplus.github.io/app/underscore-min.js"></script>
+<script src="https://puzzleplus.github.io/app/lib/underscore-min.js"></script>
+
 <script src="https://puzzleplus.github.io/app/common.js"></script>
 <script src="https://puzzleplus.github.io/app/console.js"></script>
 <script src="https://puzzleplus.github.io/app/crosswordui.js"></script>
@@ -109,6 +111,17 @@
   <tr valign="top">
   <td>&nbsp;</td>
   <td colspan=2>
+    <div class="btn-group buttons">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+        Check<!-- <span class="caret"></span> -->
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a id="check-square" href="#">Square</a></li>
+        <li><a id="check-word" href="#">Word</a></li>
+        <li><a id="check-all" href="#">Entire Puzzle</a></li>
+      </ul>
+    </div>
+
     <div class="credits">
       <h1 id="title"></h1>
       <div id="author"></div>
@@ -250,6 +263,9 @@
   window.onresize = handleLiveResize;
 
 </script>
+
+<script src="https://puzzleplus.github.io/app/lib/jquery.js"></script>
+<script src="https://puzzleplus.github.io/app/lib/bootstrap-dropdown.js"></script>
 
 <!-- lonely <prodonly> -->
 <!-- Google Analytics -->

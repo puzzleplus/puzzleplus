@@ -124,8 +124,9 @@ div.focusbox {
 }
 
 #clues {
-  width: 100%;
+  /* width: 100%; */
   text-align: left;
+  max-width: 300px;
 }
 #clues div.scroller {
   overflow: auto;
@@ -237,6 +238,8 @@ div.focusbox {
 
 #left {
   position: relative;
+  max-width: 200px;
+  width: 200px;
 }
 #controls {
   position: absolute;
@@ -413,4 +416,8 @@ h1#title {
 
 #copyright {
     text-align: right;
+}
+
+.buttons {
+  float: right;
 }
