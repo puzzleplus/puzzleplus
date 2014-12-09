@@ -22,9 +22,6 @@
   },
   "homepage": "https://github.com/danvk/puzzleplus",
   "devDependencies": {
-    "lonely": "^0.1.0"
-  },
-  "dependencies": {
-    "lonely": "^0.1.1"
+    "lonely": "^0.1.3"
   }
 }
