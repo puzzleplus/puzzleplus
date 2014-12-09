@@ -265,6 +265,9 @@ div.focusbox {
   display: table;
   margin: 1ex auto;
 }
+#upload-interface * {
+  box-sizing: border-box;
+}
 
 #puzzle_info {
   border-bottom: 1px solid black;
