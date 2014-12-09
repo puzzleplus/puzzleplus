@@ -1,11 +1,12 @@
 # Puzzle+
+<a href="https://puzzleplus.github.io"><img src="app/220x140.png" border=0 width=220 height=140 style="float:right"></a>
 By Dan Vanderkam, based on [lmnopuz](https://github.com/martine/lmnopuz), by Evan Martin and Dan Erat
-
-<img src="app/220x140.png" width=220 height=140>
 
 Puzzle+ is a crossword puzzle application for Google+ Hangouts. It allows
 collaborative solving of crosswords (i.e. puz files) in G+. The hangout provides
 videoconferencing to go along with the puzzle-solving.
+
+Visit its [home page](https://puzzleplus.github.io) to start a Hangout with Puzzle+ enabled.
 
 ## Quickstart
 
