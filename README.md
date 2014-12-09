@@ -1,4 +1,4 @@
-# Puzzle+
+# Puzzle+: Crosswords for Hangouts
 <a href="https://puzzleplus.github.io"><img src="app/220x140.png" border=0 width=220 height=140></a>
 
 By Dan Vanderkam, based on [lmnopuz](https://github.com/martine/lmnopuz), by Evan Martin and Dan Erat
