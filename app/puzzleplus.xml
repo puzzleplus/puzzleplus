@@ -158,7 +158,7 @@
   </tr>
   <tr>
     <td>
-      <a href='#' onClick="$('help').style.visibility = 'visible';">Help</a>
+      <a href='#' onClick="el('help').style.visibility = 'visible';">Help</a>
     </td>
     <td colspan="2">
       <div id="copyright"</div>
@@ -172,7 +172,7 @@
 
 </div>  <!-- #crossword_outer -->
 
-<div id='help' onmousedown="$('help').style.visibility='hidden'">
+<div id='help' onmousedown="el('help').style.visibility='hidden'">
   <div class="centering-outer">
   <div class="centering-middle">
   <div class="centering-inner">
@@ -237,9 +237,9 @@
       stop(e);
       addPuzToWave(e.dataTransfer.files);
     }, false);
-    $('upload_supported').style.display = 'block';
+    el('upload_supported').style.display = 'block';
   } else {
-    $('upload_unsupported').style.display = 'block';
+    el('upload_unsupported').style.display = 'block';
   }
 
   var els = document.getElementsByClassName(BrowserDetect.browser);

@@ -1,6 +1,6 @@
 // Functions for binding the lmnopuz JS to Wave.
 
-function $(id) { return document.getElementById(id); }
+function el(id) { return document.getElementById(id); }
 
 // Detect whether the browser supports the HTML5 File API.
 function supportsUpload() {
@@ -36,24 +36,24 @@ function makeCrossword() {
 
     // TODO(danvk): focus box's color should be same as player's color.
     killFocusBoxes();
-    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */, $('scroll-wrapper') /* container */);
+    Globals.focusbox = new FocusBox('blue', 3 /* width */ , 4 /* z-index */, el('scroll-wrapper') /* container */);
 
     Globals.widget = new CrosswordWidget;
     Globals.widget.onChanged = updateWave;
     Globals.widget.onCursorMove = updateCursor;
-    $('crossword').innerHTML = '';
-    $('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
+    el('crossword').innerHTML = '';
+    el('crossword').appendChild(Globals.widget.loadCrossword(Crossword));
 
     Globals.console = new Console(3, false);
-    Globals.cluebox = $('current_clue');
+    Globals.cluebox = el('current_clue');
 
     Globals.clues = new CluesUI(Crossword);
-    $('clues').innerHTML = '';
-    $('clues').appendChild(Globals.clues.container);
+    el('clues').innerHTML = '';
+    el('clues').appendChild(Globals.clues.container);
 
     Globals.roster = new Roster();
-    $('roster').innerHTML = '';
-    $('roster').appendChild(Globals.roster.container);
+    el('roster').innerHTML = '';
+    el('roster').appendChild(Globals.roster.container);
 
     // user -> color
     Globals.user_colors = {};
@@ -64,11 +64,11 @@ function makeCrossword() {
 
     Globals.votes = new Votes();
     Globals.votesui = new VotesUI(Globals.votes);
-    $('votes').innerHTML = '';
-    $('votes').appendChild(Globals.votesui.container);
+    el('votes').innerHTML = '';
+    el('votes').appendChild(Globals.votesui.container);
 
-    $('crossword_container').style.display = 'block';
-    $('upload').style.display = 'none';
+    el('crossword_container').style.display = 'block';
+    el('upload').style.display = 'none';
 
     handleResize();
     usersChanged();
@@ -79,8 +79,8 @@ function makeCrossword() {
     Globals.widget.setFocus(Globals.widget.getSquareForClue(1, true), false);
   } else {
     Crossword = undefined;
-    $('upload').style.display = 'block';
-    $('crossword_container').style.display = 'none';
+    el('upload').style.display = 'block';
+    el('crossword_container').style.display = 'none';
     killFocusBoxes();
     handleResize();
   }
@@ -88,16 +88,16 @@ function makeCrossword() {
 
 function handleResize() {
   if (typeof(Globals) == 'undefined' || !Globals.clues) return;
-  var clue_height = $('crossword').childNodes[0].clientHeight +
-                    $('current_clue').offsetHeight;
+  var clue_height = el('crossword').childNodes[0].clientHeight +
+                    el('current_clue').offsetHeight;
   Globals.clues.setHeight(clue_height);
 
   // Make the width of the console/roster table match that of the
   // crossword/clues table.
-  $('bottomtable').style.width = $('toptable').clientWidth;
+  el('bottomtable').style.width = el('toptable').clientWidth;
 
   if (Globals.cluebox) {
-    Globals.cluebox.style.width = $('crossword').childNodes[0].clientWidth + "px";
+    Globals.cluebox.style.width = el('crossword').childNodes[0].clientWidth + "px";
   }
 
   Globals.console.scrollToBottom();
@@ -111,8 +111,8 @@ function handleLiveResize() {
     Globals.widget.focus();
   }
 
-  var too_big = ($('crossword_container').offsetHeight > window.innerHeight);
-  $('fullscreen-tip').style.display = too_big ? 'block' : 'none';
+  var too_big = (el('crossword_container').offsetHeight > window.innerHeight);
+  el('fullscreen-tip').style.display = too_big ? 'block' : 'none';
 }
 
 function addPuzToWave(files) {
@@ -329,7 +329,7 @@ function stateUpdated() {
       if (!Globals.cursors[id]) {
         if (!Globals.user_colors[id]) continue;
         Globals.cursors[id] =
-            new FocusBox(Globals.user_colors[id], 2, 3, $('scroll-wrapper'));
+            new FocusBox(Globals.user_colors[id], 2, 3, el('scroll-wrapper'));
       }
 
       var xy = cursors[id].split(",");
@@ -344,12 +344,12 @@ function stateUpdated() {
 
     if (Globals.widget.isPuzzleCompleted()) {
       if (Globals.widget.isSolutionCorrect(Crossword)) {
-        $('puzzle-done').style.display = 'none';
-        $('puzzle-correct').style.display = 'block';
+        el('puzzle-done').style.display = 'none';
+        el('puzzle-correct').style.display = 'block';
         Globals.widget.setCorrect();  // makes puzzle immutable.
       } else {
-        $('puzzle-done').style.display = 'block';
-        $('puzzle-correct').style.display = 'none';
+        el('puzzle-done').style.display = 'block';
+        el('puzzle-correct').style.display = 'none';
       }
 
       var rexUrl = getRexUrl(Crossword);
@@ -361,8 +361,8 @@ function stateUpdated() {
         }
       }
     } else {
-      $('puzzle-done').style.display = 'none';
-      $('puzzle-correct').style.display = 'none';
+      el('puzzle-done').style.display = 'none';
+      el('puzzle-correct').style.display = 'none';
 
       var rexes = document.getElementsByClassName('rex-url');
       for (var i = 0; i < rexes.length; i++) {
