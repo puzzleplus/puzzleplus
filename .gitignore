@@ -2,3 +2,4 @@
 node_modules
 # This directory contains copyrighted material
 testpuzzles
+*.states.json
