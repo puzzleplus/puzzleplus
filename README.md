@@ -56,6 +56,8 @@ To publish an update to "production", run:
 
 And then push the changes to danvk.org. The AppEngine app is used to get SSL.
 
+The [Google API project](https://console.developers.google.com/project/816682636912/apiui/apiview/plusHangouts?tabId=hangout) is called "puzzle+".
+
 ## Puzzle+ history
 
 **2007-2008**
