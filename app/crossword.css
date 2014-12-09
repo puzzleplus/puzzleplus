@@ -269,24 +269,23 @@ div.focusbox {
   box-sizing: border-box;
 }
 
-#puzzle_info {
-  border-bottom: 1px solid black;
+#puzzle-info {
   margin-bottom: 5px;
   font-size: 100%;
+  border-collapse: collapse;
+}
+#puzzle-info tr:first-child td {
+  border-bottom: 1px solid black;
+  padding: 2px 5px;
+}
+#comment {
+  padding: 5px 0;
+  font-size: small;
+  color: #777;
 }
 
-#title {
+#title, #author {
   border-right: 1px solid black;
-  padding-right: 5px;
-}
-#author {
-  border-right: 1px solid black;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-#copyright {
-  padding-left: 5px;
-  padding-right: 5px;
 }
 
 #builtins a {

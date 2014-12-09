@@ -76,13 +76,18 @@ CrosswordWidget.prototype.loadCrossword = function(crossword) {
   table.appendChild(tbody);
   this.tbody = tbody;
 
-  if (document.getElementById("puzzle_info")) {
+  if (document.getElementById("puzzle-info")) {
     var el = document.getElementById("title");
     if (el) el.innerHTML = crossword["title"];
     el = document.getElementById("author");
     if (el) el.innerHTML = crossword["author"];
     el = document.getElementById("copyright");
     if (el) el.innerHTML = crossword["copyright"];
+
+    if (crossword.comment) {
+      document.getElementById('comment').textContent = crossword.comment;
+      document.getElementById('comment-row').style.display = '';
+    }
   }
 
   // Hack -- we need something to focus when we want to take the focus away

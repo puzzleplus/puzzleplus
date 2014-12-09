@@ -109,11 +109,16 @@
   <tr valign="top">
   <td>&nbsp;</td>
   <td colspan=2>
-    <table id="puzzle_info" width="100%"><tr>
-      <td id="title"></td>
-      <td id="author"></td>
-      <td id="copyright"></td>
-    </tr></table>
+    <table id="puzzle-info" width="100%">
+      <tr>
+        <td id="title"></td>
+        <td id="author"></td>
+        <td id="copyright"></td>
+      </tr>
+      <tr id="comment-row" style="display: none">
+        <td id="comment" colspan="3"></td>
+      </tr>
+    </table>
   </td>
   </tr>
 
