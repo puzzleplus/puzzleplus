@@ -308,6 +308,10 @@ CrosswordWidget.prototype.highlightRegion = function(square) {
     d.style.width = w + 'px';
     d.style.height = h + 'px';
     d.style.display = 'block';
+
+    var clueNum = this.getNumber(square, this.direction_horiz);
+    var clue = getClue(this.crossword, clueNum, this.direction_horiz);
+    this.updateRelatedClassNames(clue.related);
   }
 };
 
@@ -388,6 +392,27 @@ CrosswordWidget.prototype.getLetters = function(number, across) {
     word += (letter != '') ? letter : '.';
   }
   return word;
+};
+
+CrosswordWidget.prototype.updateRelatedClassNames = function(relatedClues) {
+  console.log(relatedClues);
+  var tds = this.tbody.querySelectorAll('td');
+  _.forEach(tds, function(td) {
+    td.classList.remove('related');
+  });
+
+  if (!relatedClues) return;
+
+  var relatedSquares = [];
+  relatedClues.forEach(function(clue) {
+    var h = clue.is_horiz;
+    var answerSquares = this.getSquaresForAnswer(this.getSquareForClue(clue.num, h), h);
+    relatedSquares = relatedSquares.concat(answerSquares);
+  }.bind(this));
+
+  relatedSquares.forEach(function(square) {
+    square.td.classList.add('related');
+  });
 };
 
 CrosswordWidget.prototype.keyDown = function(e) {
@@ -712,8 +737,8 @@ CrosswordWidget.prototype.fadeSquareColors = function() {
     // changed recently.
     if (Globals.widget.last_change_time &&
         now - Globals.widget.last_change_time < fade_sec + cycle_sec) {
-      for (var x = 0; x < Globals.widget.crossword.width; x++) {
-        for (var y = 0; y < Globals.widget.crossword.height; y++) {
+      for (var x = 0; x < this.crossword.width; x++) {
+        for (var y = 0; y < this.crossword.height; y++) {
           var s = Globals.widget.square(x, y);
           if (!s) continue;
           if (s.base_color != undefined &&
@@ -787,8 +812,8 @@ CrosswordWidget.prototype.hideRebusForm = function() {
 
 CrosswordWidget.prototype.isPuzzleCompleted = function() {
   var numFilled = 0;
-  for (var x = 0; x < Globals.widget.crossword.width; x++) {
-    for (var y = 0; y < Globals.widget.crossword.height; y++) {
+  for (var x = 0; x < this.crossword.width; x++) {
+    for (var y = 0; y < this.crossword.height; y++) {
       var square = this.square(x, y);
       if (!square) continue;
       if (square.displayedLetter == '') return false;
@@ -801,9 +826,9 @@ CrosswordWidget.prototype.isPuzzleCompleted = function() {
 
 CrosswordWidget.prototype.isSolutionCorrect = function(c) {
   var our_answer = [];
-  for (var x = 0; x < Globals.widget.crossword.width; x++) {
+  for (var x = 0; x < this.crossword.width; x++) {
     var row = [];
-    for (var y = 0; y < Globals.widget.crossword.height; y++) {
+    for (var y = 0; y < this.crossword.height; y++) {
       var square = this.square(x, y);
       if (!square) {
         row.push(null);

@@ -250,6 +250,15 @@ function isPuzzleCorrect(c, solution) {
   return false;
 }
 
+// Helper to look up a clue by its number & across/down.
+function getClue(c, num, is_horiz) {
+  var clueSet = is_horiz ? c.across : c.down;
+  for (var i = 0; i < clueSet.length; i++) {
+    if (clueSet[i][0] == num) return clueSet[i];
+  }
+  return null;
+}
+
 // Look for clues like "See 59-Across" and link them.
 // This populates the 'related' field of the clues, e.g. c.down[2].related.
 // .related is a list of {num, is_horiz}
@@ -267,15 +276,6 @@ function indexRelatedClues(c) {
     return related;
   };
 
-  // Helper to look up a clue by its number & across/down.
-  var getClue = function(num, is_horiz) {
-    var clueSet = is_horiz ? c.across : c.down;
-    for (var i = 0; i < clueSet.length; i++) {
-      if (clueSet[i][0] == num) return clueSet[i];
-    }
-    console.warn('Reference to missing clue: ' + num + (is_horiz ? 'A' : 'D'));
-  };
-
   // attach "related" list to clues.
   var indexClue = function(is_horiz, clue) {
     var num = clue[0],
@@ -284,8 +284,11 @@ function indexRelatedClues(c) {
     related.forEach(function(other) {
       var otherNum = other[0],
           otherIsHoriz = (other[1] == 'A'),
-          otherClue = getClue(otherNum, otherIsHoriz);
-      if (!otherClue) return;
+          otherClue = getClue(c, otherNum, otherIsHoriz);
+      if (!otherClue) {
+        console.warn('Reference to missing clue: ' + clueStr);
+        return;
+      }
       if (!('related' in clue)) clue.related = [];
       if (!('related' in otherClue)) otherClue.related = [];
       clue.related.push({num: otherNum, is_horiz: otherIsHoriz});
