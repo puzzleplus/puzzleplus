@@ -223,6 +223,9 @@ function parsePuz(puz) {
   }
   // delete c.squares;
 
+  // Find related clues.
+  indexRelatedClues(c);
+
   return c;
 }
 
@@ -245,4 +248,73 @@ function isPuzzleCorrect(c, solution) {
 
   // - if the puzzle is scrambled, checksum the solution and compare.
   return false;
+}
+
+// Helper to look up a clue by its number & across/down.
+function getClue(c, num, is_horiz) {
+  var clueSet = is_horiz ? c.across : c.down;
+  for (var i = 0; i < clueSet.length; i++) {
+    if (clueSet[i][0] == num) return clueSet[i];
+  }
+  return null;
+}
+
+// Look for clues like "See 59-Across" and link them.
+// This populates the 'related' field of the clues, e.g. c.down[2].related.
+// .related is a list of {num, is_horiz}
+function indexRelatedClues(c) {
+  // Find "related clue" text, e.g. "See 15-down".
+  // Returns list of [num, "A|D"].
+  var relatedClues = function(clueStr) {
+    var related = [];
+    [/(\d+)-(d)own/i, /(\d+)-(a)cross/i].forEach(function(re) {
+      var m = re.exec(clueStr);
+      if (m) {
+        related.push([parseInt(m[1], 0), m[2].toUpperCase()]);
+      }
+    });
+    return related;
+  };
+
+  // attach "related" list to clues.
+  var indexClue = function(is_horiz, clue) {
+    var num = clue[0],
+        clueStr = clue[1],
+        related = relatedClues(clueStr);
+    related.forEach(function(other) {
+      var otherNum = other[0],
+          otherIsHoriz = (other[1] == 'A'),
+          otherClue = getClue(c, otherNum, otherIsHoriz);
+      if (!otherClue) {
+        console.warn('Reference to missing clue: ' + clueStr);
+        return;
+      }
+      if (!('related' in clue)) clue.related = [];
+      if (!('related' in otherClue)) otherClue.related = [];
+      clue.related.push({num: otherNum, is_horiz: otherIsHoriz});
+      otherClue.related.push({num: num, is_horiz: is_horiz});
+    });
+  };
+
+  c.down.forEach(indexClue.bind(null, false));
+  c.across.forEach(indexClue.bind(null, true));
+
+  // unique-ify a list. no promises about ordering.
+  var uniq = function(list) {
+    var seen = {};
+    var out = [];
+    list.forEach(function(item) {
+      var str = JSON.stringify(item);
+      if (str in seen) return;
+      seen[str] = true;
+      out.push(item);
+    });
+    return out;
+  };
+
+  [].concat(c.down, c.across).forEach(function(clue) {
+    if ('related' in clue) {
+      clue.related = uniq(clue.related);
+    }
+  });
 }

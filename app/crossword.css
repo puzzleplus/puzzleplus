@@ -421,3 +421,7 @@ h1#title {
 .buttons {
   float: right;
 }
+
+.related {
+  background: #ffeca0;
+}
